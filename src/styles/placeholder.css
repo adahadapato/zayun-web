@@ -1,0 +1,21 @@
+/* ========================================
+   PLACEHOLDER PAGES
+======================================== */
+
+.placeholder-page {
+    min-height: 75vh;
+    padding: 180px 0 100px;
+    background: #f5f7fa;
+    color: #0b1726;
+}
+
+    .placeholder-page h1 {
+        margin: 0;
+        font-family: var(--heading-font);
+        font-size: clamp( 3rem, 7vw, 6rem );
+        letter-spacing: -0.055em;
+    }
+
+    .placeholder-page p {
+        color: #657181;
+    }
