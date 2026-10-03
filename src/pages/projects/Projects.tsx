@@ -1,11 +1,24 @@
-﻿import biometricSystemImage from '../../assets/projects/biometric-system.png';
+﻿
+import {
+    FaExternalLinkAlt,
+    FaGithub,
+    FaLock,
+} from 'react-icons/fa';
+
+import biometricSystemImage from '../../assets/projects/biometric-system.png';
 import cdxDevelopmentToolImage from '../../assets/projects/cdx-development-tool.png';
 import medCtxInputImage from '../../assets/research/med-ctx-input.png';
 import medCtxOutputImage from '../../assets/research/med-ctx-output.png';
 import necoOmrSystemImage from '../../assets/projects/neco-omr-system.png';
 import nvrSystemImage from '../../assets/projects/nvr-system.png';
 import rccgHopeHouseImage from '../../assets/projects/rccg-hope-house.png';
+import rccgHopeHouseAdminImage from '../../assets/projects/rccg-hope-house-admin.png';
 import timeAttendanceSystemImage from '../../assets/projects/time-attendance-system.png';
+import phloemMarketplaceImage from '../../assets/projects/phloem-marketplace.png';
+import phloemPlatformOverviewImage from '../../assets/projects/phloem-platform-overview.png';
+import phloemCrossBorderDeliveryImage from '../../assets/projects/phloem-cross-border-delivery.png';
+import phloemSellerDashboardImage from '../../assets/projects/phloem-seller-dashboard.png';
+import phloemAdminDashboardImage from '../../assets/projects/phloem-admin-dashboard.png';
 
 type Project = {
     number: string;
@@ -18,6 +31,17 @@ type Project = {
     imageAlt?: string;
     secondaryImage?: string;
     secondaryImageAlt?: string;
+    imageLabel?: string;
+    secondaryImageLabel?: string;
+    visualLabel?: string;
+    githubUrl: string;
+    liveUrl?: string;
+    isPrivateRepo: boolean;
+    gallery?: {
+        image: string;
+        alt: string;
+        label: string;
+    }[];
 };
 
 const featuredProjects: Project[] = [
@@ -33,6 +57,8 @@ const featuredProjects: Project[] = [
             'Healthcare AI',
             'Clinical Decision Support',
         ],
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'AI Innovation',
     },
     {
@@ -52,6 +78,8 @@ const featuredProjects: Project[] = [
         image: cdxDevelopmentToolImage,
         imageAlt:
             'CDx Development Tool showing scientific modelling and data visualisations',
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Brunel University London',
     },
     {
@@ -59,24 +87,65 @@ const featuredProjects: Project[] = [
         title: 'RCCG Hope House',
         subtitle: 'Full-Stack Digital Platform',
         description:
-            'A production digital platform combining a public-facing website with administrative content management, service administration, live-service access, contact and prayer workflows, and automated deployment.',
+            'A production full-stack digital platform comprising a public-facing React website, a dedicated administrative application and an ASP.NET Core REST API backend. The platform supports ministries, events, devotionals, sermons, galleries, annual content, prayer and contact workflows, with CQRS/MediatR architecture, EF Core persistence and automated CI/CD deployment.',
         tags: [
             'React',
             'TypeScript',
             'ASP.NET Core',
             'C#',
+            'REST API',
             'CQRS',
             'MediatR',
             'EF Core',
+            'Admin Portal',
             'CI/CD',
         ],
         image: rccgHopeHouseImage,
         imageAlt:
-            'RCCG Hope House production digital platform homepage',
+            'RCCG Hope House public-facing website',
+        secondaryImage: rccgHopeHouseAdminImage,
+        secondaryImageAlt:
+            'RCCG Hope House administration dashboard for managing website content and services',
+        imageLabel: 'Public Website',
+        secondaryImageLabel: 'Admin Platform',
+        visualLabel: 'Full-Stack Platform',
+        githubUrl: 'https://github.com/adahadapato/rccg-hope-house-web-api/',
+        liveUrl: 'https://rccghopehouse.org.uk/',
+        isPrivateRepo: false,
         label: 'Full-Stack Engineering',
     },
     {
         number: '04',
+        title: 'Phloem',
+        subtitle: 'Full-Stack Cross-Platform Mobile Platform',
+        description:
+            'A full-stack cross-platform marketplace developed for a client, connecting African food sellers with local and diaspora customers. Built with .NET MAUI and C#, with an ASP.NET Core REST API powering the backend, the platform integrates food discovery, seller onboarding and commerce, cross-border delivery, order management and administrative operations within a unified system.',
+        tags: [
+            '.NET MAUI',
+            'C#',
+            'ASP.NET Core',
+            'REST API',
+            'Full-Stack Development',
+            'Marketplace',
+            'Seller Management',
+            'Logistics',
+        ],
+        image: phloemMarketplaceImage,
+        imageAlt:
+            'Phloem mobile marketplace home screen showing food discovery and popular dishes',
+        gallery: [
+            { image: phloemMarketplaceImage, alt: 'Phloem mobile marketplace home screen showing food discovery and popular dishes', label: 'Marketplace' },
+            { image: phloemPlatformOverviewImage, alt: 'Phloem platform overview describing its African food marketplace and diaspora delivery mission', label: 'Platform' },
+            { image: phloemCrossBorderDeliveryImage, alt: 'Phloem cross-border delivery workflow for sending African food to the United Kingdom', label: 'Delivery' },
+            { image: phloemSellerDashboardImage, alt: 'Phloem seller dashboard showing orders, balance and product sales management', label: 'Seller' },
+            { image: phloemAdminDashboardImage, alt: 'Phloem admin dashboard showing seller approval and management controls', label: 'Admin' },
+        ],
+        githubUrl: '',
+        isPrivateRepo: true,
+        label: 'Client Mobile Application',
+    },
+    {
+        number: '05',
         title: 'Med-CTX',
         subtitle: 'Explainable Multimodal Medical AI',
         description:
@@ -94,37 +163,46 @@ const featuredProjects: Project[] = [
         secondaryImage: medCtxOutputImage,
         secondaryImageAlt:
             'Med-CTX AI-generated clinical explanation showing assessment confidence and decision guidance',
+        visualLabel: 'Research Output',
+        githubUrl: 'https://github.com/adahadapato/med-ctx',
+        isPrivateRepo: false,
         label: 'AI Research',
     },
 ];
 
 const engineeringProjects: Project[] = [
     {
-        number: '05',
+        number: '06',
         title: 'NECO Examination Data Processing',
         subtitle: 'OMR Scanning & Monitoring',
         description:
-            'A real-time examination data capture and monitoring solution supporting OMR scanning workflows, operator access, examination filtering, progress monitoring and identification of missing records.',
+            'A real-time examination data capture and monitoring solution supporting OMR data capture workflows, operator access, examination filtering, ' +
+            'progress monitoring and identification of missing records.',
         tags: [
             'C#',
             '.NET',
             'OMR',
             'Data Processing',
             'Real-Time Monitoring',
-            'Examination Systems',
+            'Examination Management Systems',
         ],
         image: necoOmrSystemImage,
         imageAlt:
-            'Examination OMR scanning and monitoring application',
+            'Examination OMR data capture and monitoring application',
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Enterprise Systems',
     },
     {
-        number: '06',
+        number: '07',
         title: 'Multimodal Biometric Identity System',
         subtitle: 'Fingerprint & Facial Identity Verification',
         description:
-            'A multimodal biometric data capture and identity-management system combining fingerprint and facial features for identity verification. The application supports candidate enrolment, biometric capture, verification, operator administration and integration with biometric capture devices.',
+            'A multimodal biometric data capture and identity-management system combining fingerprint and facial features for identity verification. ' +
+            'The application supports data enrolment, biometric capture, verification, operator administration and integration with biometric capture devices.',
         tags: [
+            'C#',
+            'Windows Forms',
             'Multimodal Biometrics',
             'Fingerprint Recognition',
             'Facial Recognition',
@@ -135,15 +213,19 @@ const engineeringProjects: Project[] = [
         image: biometricSystemImage,
         imageAlt:
             'Multimodal biometric identity capture and verification application',
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Identity Technology',
     },
     {
-        number: '07',
+        number: '08',
         title: 'Network Video Surveillance',
         subtitle: 'Multi-Camera Monitoring System',
         description:
             'A network video surveillance solution supporting multiple camera sources and configurable monitoring views within a central desktop environment.',
         tags: [
+            'C#',
+            '.NET',
             'NVR',
             'Network Cameras',
             'Video Monitoring',
@@ -153,10 +235,12 @@ const engineeringProjects: Project[] = [
         image: nvrSystemImage,
         imageAlt:
             'Network video surveillance application with multi-camera monitoring grid',
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Security Technology',
     },
     {
-        number: '08',
+        number: '09',
         title: 'Automated Operations System',
         subtitle: 'Enterprise API & Process Automation',
         description:
@@ -167,11 +251,14 @@ const engineeringProjects: Project[] = [
             'REST API',
             'Enterprise Systems',
             'Process Automation',
+            'MS SQL',
         ],
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Enterprise Software',
     },
     {
-        number: '09',
+        number: '10',
         title: 'Digital Archiving System',
         subtitle: 'Document & Script Tracking',
         description:
@@ -183,16 +270,20 @@ const engineeringProjects: Project[] = [
             'Document Management',
             'Digital Transformation',
         ],
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Enterprise Software',
     },
     {
-        number: '10',
+        number: '11',
         title: 'Biometric Time, Attendance & Access Control',
         subtitle: 'Real-Time Workforce & Security Management',
         description:
-            'An integrated biometric time, attendance and access-control system using iClock 7, with real-time remote device monitoring and communication through HTTP sockets. The system supports personnel enrolment, attendance management, access control, device-status monitoring and remote operational oversight.',
+            'An integrated biometric time, attendance and access-control system using iClock 700, with real-time remote device monitoring and communication through HTTP sockets. The system supports personnel enrolment, attendance management, access control, device-status monitoring and remote operational oversight.',
         tags: [
-            'iClock 7',
+            'C#',
+            'WPF',
+            'iClock 700',
             'Biometrics',
             'Time & Attendance',
             'Access Control',
@@ -203,6 +294,8 @@ const engineeringProjects: Project[] = [
         image: timeAttendanceSystemImage,
         imageAlt:
             'Biometric time attendance and access control management dashboard',
+        githubUrl: '',
+        isPrivateRepo: true,
         label: 'Biometric Systems',
     },
 ];
@@ -212,6 +305,25 @@ function ProjectVisual({
 }: {
     project: Project;
 }) {
+    if (project.gallery?.length) {
+        return (
+            <div className="project-image project-mobile-gallery">
+                <div className="project-mobile-gallery-track">
+                    {project.gallery.map(item => (
+                        <figure className="project-mobile-shot" key={item.label}>
+                            <div className="project-mobile-shot-frame">
+                                <img src={item.image} alt={item.alt} loading="lazy" />
+                            </div>
+                            <figcaption>{item.label}</figcaption>
+                        </figure>
+                    ))}
+                </div>
+                <div className="project-image-overlay" aria-hidden="true" />
+                <span className="project-image-label">Mobile application</span>
+            </div>
+        );
+    }
+
     if (
         project.image &&
         project.secondaryImage
@@ -220,7 +332,7 @@ function ProjectVisual({
             <div className="project-image project-image-pair">
                 <div className="project-pair-item">
                     <span className="project-pair-label">
-                        Clinical Context
+                        {project.imageLabel ?? 'Clinical Context'}
                     </span>
 
                     <img
@@ -241,7 +353,7 @@ function ProjectVisual({
 
                 <div className="project-pair-item">
                     <span className="project-pair-label">
-                        AI Explanation
+                        {project.secondaryImageLabel ?? 'AI Explanation'}
                     </span>
 
                     <img
@@ -260,7 +372,7 @@ function ProjectVisual({
                 />
 
                 <span className="project-image-label">
-                    Research output
+                    {project.visualLabel ?? 'Project Interface'}
                 </span>
             </div>
         );
@@ -335,6 +447,76 @@ function ProjectTags({
     );
 }
 
+function ProjectActions({
+    project,
+}: {
+    project: Project;
+}) {
+    return (
+        <div className="project-actions">
+            <span
+                className={`project-repository-status ${project.isPrivateRepo
+                        ? 'project-repository-status-private'
+                        : 'project-repository-status-public'
+                    }`}
+            >
+                {project.isPrivateRepo && (
+                    <FaLock
+                        size={11}
+                        aria-hidden="true"
+                    />
+                )}
+
+                {project.isPrivateRepo
+                    ? 'Private Repository'
+                    : 'Public Repository'}
+            </span>
+
+            <div className="project-action-links">
+                {project.liveUrl && (
+                    <a
+                        href={project.liveUrl}
+                        className="project-action-link project-action-link-live"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${project.title} live`}
+                    >
+                        <FaExternalLinkAlt
+                            size={13}
+                            aria-hidden="true"
+                        />
+
+                        <span>
+                            View Live
+                        </span>
+                    </a>
+                )}
+
+                {!project.isPrivateRepo &&
+                    project.githubUrl && (
+                        <a
+                            href={project.githubUrl}
+                            className="project-action-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View ${project.title} source code on GitHub`}
+                        >
+                            <FaGithub
+                                size={16}
+                                aria-hidden="true"
+                            />
+
+                            <span>
+                                View Code
+                            </span>
+                        </a>
+                    )}
+            </div>
+        </div>
+    );
+}
+
+
 function FeaturedProjectCard({
     project,
 }: {
@@ -373,6 +555,10 @@ function FeaturedProjectCard({
 
                 <ProjectTags
                     tags={project.tags}
+                />
+
+                <ProjectActions
+                    project={project}
                 />
             </div>
         </article>
@@ -416,6 +602,10 @@ function EngineeringProjectCard({
                 <ProjectTags
                     tags={project.tags}
                 />
+
+                <ProjectActions
+                    project={project}
+                />
             </div>
         </article>
     );
@@ -442,11 +632,12 @@ function Projects() {
 
                     <p className="projects-intro">
                         A selection of AI research,
-                        scientific software, full-stack
+                        scientific software, cross-platform
+                        mobile applications, full-stack
                         platforms and enterprise systems
                         developed across healthcare,
-                        research, identity, security and
-                        organisational technology.
+                        commerce, research, identity,
+                        security and organisational technology.
                     </p>
                 </div>
             </section>
@@ -468,6 +659,7 @@ function Projects() {
                         <p>
                             Selected work spanning clinical
                             AI, multimodal research,
+                            cross-platform mobile development,
                             scientific software modernisation
                             and production full-stack
                             engineering.

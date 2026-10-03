@@ -29,6 +29,10 @@ const navigation = [
         path: '/research',
     },
     {
+        label: 'Skills',
+        path: '/skills',
+    },
+    {
         label: 'Contact',
         path: '/contact',
     },

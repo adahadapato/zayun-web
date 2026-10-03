@@ -78,6 +78,46 @@
 
 
 /* ========================================
+   ABOUT SOCIAL LINKS
+======================================== */
+
+.about-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.about-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 17px;
+    color: #b9c7d5;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+    .about-social-link:hover {
+        color: #ffffff;
+        background: rgba(16, 223, 244, 0.07);
+        border-color: rgba(16, 223, 244, 0.42);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(16, 223, 244, 0.08);
+    }
+
+    .about-social-link svg {
+        flex: 0 0 auto;
+        color: var(--cyan);
+    }
+
+/* ========================================
    MAIN ABOUT CONTENT
 ======================================== */
 

@@ -104,6 +104,10 @@
     line-height: 1.72;
 }
 
+    .hero-introduction + .hero-introduction {
+        margin-top: 14px;
+    }
+
     .hero-introduction strong {
         color: #ffffff;
     }

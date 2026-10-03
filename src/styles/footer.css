@@ -9,17 +9,70 @@
 }
 
 .footer-content {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: end;
+    gap: 40px;
 }
 
-    .footer-content > div:first-child p {
-        margin: 14px 0 0;
-        color: var(--text-muted);
-        font-size: 0.88rem;
+
+/* ========================================
+   BRAND
+======================================== */
+
+.footer-introduction p {
+    max-width: 330px;
+    margin: 14px 0 0;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+
+/* ========================================
+   SOCIAL LINKS
+======================================== */
+
+.footer-socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 0 16px;
+    color: #aebbc8;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+    .footer-social-link:hover {
+        color: #ffffff;
+        background: rgba(16, 223, 244, 0.07);
+        border-color: rgba(16, 223, 244, 0.42);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(16, 223, 244, 0.08);
     }
+
+    .footer-social-link svg {
+        flex: 0 0 auto;
+        color: var(--cyan);
+    }
+
+
+/* ========================================
+   COPYRIGHT
+======================================== */
 
 .footer-right {
     color: #718095;
@@ -31,13 +84,63 @@
         margin: 4px 0;
     }
 
-@media ( max-width: 700px ) {
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 900px) {
     .footer-content {
-            flex-direction: column;
-            align-items: flex-start;
-        }
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+
+    .footer-socials {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+    }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+    .footer {
+        padding: 45px 0;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+    }
+
+    .footer-socials {
+        justify-content: flex-start;
+    }
 
     .footer-right {
-            text-align: left;
-        }
+        padding-top: 4px;
+        text-align: left;
+    }
+}
+
+
+/* ========================================
+   SMALL MOBILE
+======================================== */
+
+@media (max-width: 420px) {
+    .footer-socials {
+        width: 100%;
+    }
+
+    .footer-social-link {
+        flex: 1;
+        justify-content: center;
+    }
 }

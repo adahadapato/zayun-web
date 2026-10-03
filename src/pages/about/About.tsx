@@ -1,4 +1,9 @@
-﻿function About() {
+﻿import {
+    FaGithub,
+    FaLinkedinIn,
+} from 'react-icons/fa';
+
+function About() {
     return (
         <main className="about-page">
             <section className="about-hero">
@@ -20,6 +25,38 @@
                         development, digital transformation
                         and intelligent systems.
                     </p>
+
+                    <div className="about-social-links">
+                        <a
+                            href="https://github.com/adahadapato/"
+                            className="about-social-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visit Enobong Adahada on GitHub"
+                        >
+                            <FaGithub
+                                size={20}
+                                aria-hidden="true"
+                            />
+
+                            <span>GitHub</span>
+                        </a>
+
+                        <a
+                            href="https://www.linkedin.com/in/enobong-adahada-2831b53ab"
+                            className="about-social-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visit Enobong Adahada on LinkedIn"
+                        >
+                            <FaLinkedinIn
+                                size={19}
+                                aria-hidden="true"
+                            />
+
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -176,18 +213,40 @@
                             </span>
 
                             <div className="about-tags">
-                                <span>Artificial Intelligence</span>
-                                <span>Multimodal AI</span>
-                                <span>Explainable AI</span>
-                                <span>Medical Imaging</span>
-                                <span>Computer Vision</span>
-                                <span>Clinical Decision Support</span>
-                                <span>Software Engineering</span>
+                                <span>
+                                    Artificial Intelligence
+                                </span>
+
+                                <span>
+                                    Multimodal AI
+                                </span>
+
+                                <span>
+                                    Explainable AI
+                                </span>
+
+                                <span>
+                                    Medical Imaging
+                                </span>
+
+                                <span>
+                                    Computer Vision
+                                </span>
+
+                                <span>
+                                    Clinical Decision Support
+                                </span>
+
+                                <span>
+                                    Software Engineering
+                                </span>
                             </div>
                         </div>
 
                         <div className="about-highlight">
-                            <span>Recognition</span>
+                            <span>
+                                Recognition
+                            </span>
 
                             <strong>
                                 Best Paper Award
@@ -199,7 +258,9 @@
                         </div>
 
                         <div className="about-highlight">
-                            <span>Current Project</span>
+                            <span>
+                                Current Project
+                            </span>
 
                             <strong>
                                 GuidelineIQ™

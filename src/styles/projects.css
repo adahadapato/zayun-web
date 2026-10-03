@@ -234,6 +234,80 @@
 
 
 /* ========================================
+   PHLOEM MOBILE GALLERY
+======================================== */
+
+.project-mobile-gallery {
+    display: flex;
+    align-items: center;
+    min-height: 500px;
+    padding: 34px 26px 54px;
+    background: radial-gradient(circle at 20% 25%, rgba(16, 223, 244, 0.08), transparent 34%), radial-gradient(circle at 80% 70%, rgba(116, 77, 255, 0.12), transparent 38%), #061421;
+}
+
+.project-mobile-gallery-track {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    gap: 18px;
+    align-items: center;
+    overflow-x: auto;
+    padding: 8px 4px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(16, 223, 244, 0.45) rgba(255, 255, 255, 0.05);
+    scroll-snap-type: x mandatory;
+}
+
+    .project-mobile-gallery-track::-webkit-scrollbar {
+        height: 7px;
+    }
+
+    .project-mobile-gallery-track::-webkit-scrollbar-track {
+        background: rgba(255,255,255,.05);
+        border-radius: 999px;
+    }
+
+    .project-mobile-gallery-track::-webkit-scrollbar-thumb {
+        background: rgba(16,223,244,.45);
+        border-radius: 999px;
+    }
+
+.project-mobile-shot {
+    flex: 0 0 185px;
+    margin: 0;
+    scroll-snap-align: start;
+}
+
+.project-mobile-shot-frame {
+    overflow: hidden;
+    aspect-ratio: 9 / 20;
+    background: #f8efd8;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(0,0,0,.28);
+}
+
+    .project-mobile-shot-frame img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+    }
+
+.project-mobile-shot figcaption {
+    margin-top: 11px;
+    color: #aebbc8;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+/* ========================================
    MED-CTX DUAL VISUAL
 ======================================== */
 
@@ -845,5 +919,157 @@
     .project-tags span {
         padding: 6px 9px;
         font-size: 0.65rem;
+    }
+}
+
+
+/* Phloem gallery responsive refinements */
+@media (max-width: 1050px) {
+    .project-mobile-gallery {
+        min-height: 430px;
+    }
+
+    .project-mobile-shot {
+        flex-basis: 170px;
+    }
+}
+
+@media (max-width: 700px) {
+    .project-mobile-gallery {
+        min-height: 430px !important;
+        height: auto !important;
+        padding: 24px 18px 50px;
+    }
+
+    .project-mobile-gallery-track {
+        gap: 14px;
+    }
+
+    .project-mobile-shot {
+        flex-basis: 155px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-mobile-gallery {
+        min-height: 390px !important;
+        height: auto !important;
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .project-mobile-shot {
+        flex-basis: 140px;
+    }
+}
+
+/* ========================================
+   PROJECT REPOSITORY STATUS & ACTIONS
+======================================== */
+
+.project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-repository-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 30px;
+    padding: 0 11px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.project-repository-status-public {
+    color: var(--cyan);
+    background: rgba(16, 223, 244, 0.06);
+    border: 1px solid rgba(16, 223, 244, 0.24);
+}
+
+.project-repository-status-private {
+    color: #aebbc8;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-action-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+}
+
+.project-action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 0 13px;
+    color: #d7e2ec;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+    .project-action-link:hover {
+        color: #ffffff;
+        background: rgba(16, 223, 244, 0.07);
+        border-color: rgba(16, 223, 244, 0.4);
+        transform: translateY(-2px);
+    }
+
+.project-action-link-live {
+    color: #04121d;
+    background: var(--cyan);
+    border-color: var(--cyan);
+}
+
+    .project-action-link-live:hover {
+        color: #04121d;
+        background: var(--cyan);
+        border-color: var(--cyan);
+        box-shadow: 0 9px 24px rgba(16, 223, 244, 0.14);
+    }
+
+
+/* ========================================
+   PROJECT ACTIONS RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+    .project-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .project-action-links {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-action-links {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .project-action-link {
+        width: 100%;
     }
 }
