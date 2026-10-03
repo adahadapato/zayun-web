@@ -1,9 +1,8 @@
 ﻿import { Link } from 'react-router-dom';
 
-function Footer() {
-    const currentYear =
-        new Date().getFullYear();
+const currentYear = new Date().getFullYear();
 
+function Footer() {
     return (
         <footer className="footer">
             <div className="container footer-content">

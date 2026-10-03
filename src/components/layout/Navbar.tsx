@@ -1,17 +1,11 @@
-import {
-    useEffect,
-    useState,
-} from 'react';
+import { useState } from 'react';
 
 import {
     Menu,
     X,
 } from 'lucide-react';
 
-import {
-    NavLink,
-    useLocation,
-} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const navigation = [
     {
@@ -44,11 +38,9 @@ function Navbar() {
     const [menuOpen, setMenuOpen] =
         useState(false);
 
-    const location = useLocation();
-
-    useEffect(() => {
+    const closeMenu = () => {
         setMenuOpen(false);
-    }, [location.pathname]);
+    };
 
     return (
         <header className="navbar">
@@ -57,9 +49,13 @@ function Navbar() {
                     to="/"
                     className="brand"
                     aria-label="Zayun home"
+                    onClick={closeMenu}
                 >
-                    ZAYUN
-                    <span>.</span>
+                    <img
+                        src="/ZAYUN-logo.png"
+                        alt="Zayun"
+                        className="brand-logo"
+                    />
                 </NavLink>
 
                 <nav
@@ -78,6 +74,7 @@ function Navbar() {
                                     ? 'nav-link active'
                                     : 'nav-link'
                             }
+                            onClick={closeMenu}
                         >
                             {item.label}
                         </NavLink>
@@ -87,6 +84,7 @@ function Navbar() {
                 <NavLink
                     to="/contact"
                     className="nav-contact"
+                    onClick={closeMenu}
                 >
                     Let's talk
                 </NavLink>

@@ -19,7 +19,22 @@
     height: 92px;
 }
 
-.brand,
+/* Zayun navbar logo */
+.brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.brand-logo {
+    display: block;
+    width: auto;
+    height: 64px;
+    object-fit: contain;
+}
+
+/* Footer text logo */
 .footer-brand {
     font-family: var(--heading-font);
     font-size: 1.55rem;
@@ -27,7 +42,6 @@
     letter-spacing: 0.2em;
 }
 
-    .brand span,
     .footer-brand span {
         color: var(--cyan);
     }
@@ -94,54 +108,54 @@
    NAVIGATION - TABLET
 ======================================== */
 
-@media ( max-width: 1100px ) {
+@media (max-width: 1100px) {
     .nav-links,
-        .nav-contact {
-            display: none;
-        }
+    .nav-contact {
+        display: none;
+    }
 
     .mobile-menu-button {
-            display: block;
-        }
+        display: block;
+    }
 
     .nav-links-open {
-            position: absolute;
-            top: 92px;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            width: 100%;
-            gap: 0;
-            padding: 12px 24px 24px;
-            background: rgba(2, 12, 24, 0.99);
-            border-bottom: 1px solid var(--border);
-        }
+        position: absolute;
+        top: 92px;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 0;
+        padding: 12px 24px 24px;
+        background: rgba(2, 12, 24, 0.99);
+        border-bottom: 1px solid var(--border);
+    }
 
     .nav-link.active::after {
-            display: none;
-        }
+        display: none;
+    }
 
     .nav-links-open .nav-link {
-                padding: 17px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            }
+        padding: 17px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
 }
 
 /* ========================================
    NAVIGATION - MOBILE
 ======================================== */
 
-@media ( max-width: 700px ) {
+@media (max-width: 700px) {
     .navbar-inner {
-            height: 72px;
-        }
+        height: 72px;
+    }
 
     .nav-links-open {
-            top: 72px;
-        }
+        top: 72px;
+    }
 
-    .brand {
-            font-size: 1.25rem;
-        }
+    .brand-logo {
+        height: 50px;
+    }
 }
