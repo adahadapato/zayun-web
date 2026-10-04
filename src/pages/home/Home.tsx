@@ -3,6 +3,11 @@
     Network,
 } from 'lucide-react';
 
+import {
+    FaGithub,
+    FaLinkedinIn,
+} from 'react-icons/fa';
+
 import { Link } from 'react-router-dom';
 
 function SoftwareEngineeringIcon() {
@@ -192,34 +197,30 @@ function Home() {
                             <span>Intelligent Systems</span>
                         </div>
 
+                        <p className="hero-personal-intro">
+                            Hi, I'm Enobong Adahada.
+                        </p>
+
                         <h1>
-                            Building
-                            <span> technology </span>
+                            I build
+                            <span> intelligent technology </span>
                             with purpose
                             <strong>.</strong>
                         </h1>
 
                         <p className="hero-introduction">
-                            <strong>
-                                Zayun is the technology
-                                portfolio of Enobong Adahada
-                            </strong>
-                            , bringing together my work in
-                            software engineering, artificial
-                            intelligence research and
-                            intelligent systems.
+                            I'm an Artificial Intelligence
+                            researcher and software engineering
+                            leader working across full-stack
+                            software, intelligent systems,
+                            multimodal AI and explainable AI.
                         </p>
 
                         <p className="hero-introduction">
-                            I build full-stack platforms,
-                            cross-platform mobile applications
-                            and intelligent AI systems, with
-                            research focused on{' '}
-                            <em>
-                                multimodal, trustworthy and explainable AI
-                            </em>{' '}
-                            for healthcare and real-world
-                            applications.
+                            <strong>Zayun</strong> is my technology
+                            portfolio - the home of the software,
+                            research and intelligent systems I
+                            design, develop and explore.
                         </p>
 
                         <div className="hero-actions">
@@ -238,6 +239,36 @@ function Home() {
                             >
                                 About me
                             </Link>
+                        </div>
+
+                        <div className="hero-social-links">
+                            <a
+                                href="https://github.com/adahadapato/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Visit Enobong Adahada on GitHub"
+                            >
+                                <FaGithub
+                                    size={19}
+                                    aria-hidden="true"
+                                />
+
+                                <span>GitHub</span>
+                            </a>
+
+                            <a
+                                href="https://www.linkedin.com/in/enobong-adahada-2831b53ab"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Visit Enobong Adahada on LinkedIn"
+                            >
+                                <FaLinkedinIn
+                                    size={18}
+                                    aria-hidden="true"
+                                />
+
+                                <span>LinkedIn</span>
+                            </a>
                         </div>
 
                         <div className="hero-expertise">
@@ -270,48 +301,46 @@ function Home() {
                         </span>
 
                         <h2>
-                            Research.
+                            My work.
                             <br />
-                            Engineering.
+                            My research.
                             <br />
-                            Intelligence.
-                            <br />
-                            Impact.
+                            My technology.
                         </h2>
                     </div>
 
                     <div className="intro-copy">
                         <p>
-                            Zayun brings together my work
-                            across software engineering,
-                            artificial intelligence and
-                            applied research.
+                            Zayun is the technology portfolio of
+                            Enobong Adahada. It brings together
+                            my work across software engineering,
+                            Artificial Intelligence and applied
+                            research.
                         </p>
 
                         <p>
-                            It showcases technology I have
+                            Here I showcase technology I have
                             designed, researched and built -
                             from full-stack platforms,
-                            cross-platform mobile
-                            applications and enterprise
-                            systems to multimodal medical AI
-                            and explainable clinical decision
-                            support.
+                            cross-platform mobile applications
+                            and enterprise systems to multimodal
+                            medical AI and explainable clinical
+                            decision support.
                         </p>
 
                         <p>
-                            The focus is consistent: using
-                            technology to solve meaningful
-                            problems and building systems
-                            that are practical, intelligent
-                            and designed with purpose.
+                            My focus is on using technology to
+                            solve meaningful problems and
+                            building systems that are practical,
+                            intelligent and designed with
+                            purpose.
                         </p>
 
                         <Link
                             to="/about"
                             className="text-link"
                         >
-                            Discover my journey
+                            More about me
 
                             <ArrowRight size={17} />
                         </Link>
