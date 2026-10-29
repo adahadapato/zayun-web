@@ -25,7 +25,7 @@ function About() {
 
                     <h1>
                         Building intelligent systems
-                        with <span>real-world purpose.</span>
+                        with <span><span className="nowrap">real-world</span> purpose.</span>
                     </h1>
 
                     <p className="about-intro">

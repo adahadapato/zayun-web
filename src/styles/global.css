@@ -79,3 +79,23 @@ img {
             width: min( calc(100% - 32px), var(--container) );
         }
 }
+
+
+/* ========================================
+   HEADINGS: even line breaks
+   Big headings split their words evenly over the lines (no lonely last word), and a hyphenated phrase in
+   .nowrap ("real-world") is never broken across two lines.
+======================================== */
+
+h1,
+h2 {
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
