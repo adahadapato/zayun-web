@@ -1073,3 +1073,63 @@
         width: 100%;
     }
 }
+
+
+/* ========================================
+   PICTURE PAIR: FILL THE PANELS
+   The two pictures (e.g. public site + admin) fill their panels instead of sitting small in the middle.
+   They are cropped from the top, so a page's header and main content stay in view; the label sits on a
+   dark pill over the picture.
+======================================== */
+
+.project-pair-item {
+    display: block;
+    padding: 0;
+}
+
+    .project-pair-item img,
+    .project-pair-item [role='img'] {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        object-fit: cover;
+        object-position: top center;
+        border-radius: 12px;
+        transition: transform 500ms ease;
+    }
+
+.featured-project-card:hover .project-pair-item img,
+.engineering-project-card:hover .project-pair-item img {
+    transform: scale(1.03);
+}
+
+.project-pair-label {
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background: rgba(2, 12, 24, 0.82);
+    border: 1px solid rgba(16, 223, 244, 0.25);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featured-project-card:hover .project-pair-item img,
+    .engineering-project-card:hover .project-pair-item img {
+        transform: none;
+    }
+}
+
+/* On a phone the two pictures sit one above the other, so give the pair more height */
+@media (max-width: 640px) {
+    .featured-project-card .project-image-pair,
+    .engineering-project-card .project-image-pair {
+        height: 460px;
+        min-height: 460px;
+    }
+
+    .project-pair-label {
+        font-size: 0.52rem;
+    }
+}
