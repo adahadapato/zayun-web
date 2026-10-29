@@ -5,12 +5,12 @@
 import { withQuery } from '../apiQuery'
 import { del, get, post, put, upload } from '../client'
 import type {
-  ContactStatusCommand, CreateAwardCommand, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
-  CreateTextGroupCommand, DocumentFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
+  ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
+  CreateTextGroupCommand, DocumentFields, ProfileFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, ProfileDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
@@ -107,6 +107,12 @@ export const updateAward = (id: string, command: UpdateAwardCommand) =>
 export const setAwardImage = (id: string, file: File, altText: string) =>
   upload<AwardDto>('PUT', `api/admin/awards/${id}/image`, 'file', file, { altText })
 export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/image`)
+
+// ───────────────────────────── Profiles ─────────────────────────────
+
+export const getAdminProfiles = (signal?: AbortSignal) => get<ProfileDto[]>('api/admin/profiles', signal)
+export const createProfile = (command: CreateProfileCommand) => post<ProfileDto>('api/admin/profiles', command)
+export const updateProfile = (id: string, fields: ProfileFields) => put<ProfileDto>(`api/admin/profiles/${id}`, fields)
 
 // ───────────────────────────── Tags ─────────────────────────────
 

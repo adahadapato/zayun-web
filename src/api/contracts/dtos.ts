@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  PublicationType, TagCheckStatus,
+  ProfilePlatform, PublicationType, TagCheckStatus,
 } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
@@ -169,6 +169,23 @@ export interface AwardDto {
   url: string | null
   isFeatured: boolean
   image: AwardImageDto | null
+  displayOrder: number
+  isPublished: boolean
+}
+
+// ───────────────────────────── Profiles ─────────────────────────────
+
+/** An online profile (ORCID, ResearchGate, LinkedIn…) and where it's shown. */
+export interface ProfileDto {
+  id: string
+  platform: ProfilePlatform
+  name: string
+  url: string
+  /** A short line, e.g. the ORCID iD. */
+  label: string | null
+  showInFooter: boolean
+  showOnContact: boolean
+  showOnResearch: boolean
   displayOrder: number
   isPublished: boolean
 }

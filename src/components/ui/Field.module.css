@@ -1,5 +1,6 @@
 .field {
   display: grid;
+  align-content: start;   /* in a row with a taller field, keep the box under its label */
   gap: 7px;
   min-width: 0;
 }

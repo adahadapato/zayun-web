@@ -6,7 +6,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { unwrap } from '../api/apiError'
 import {
-  getAwards, getExperience, getProjects, getPublications, getPresentations, getSkills,
+  getAwards, getExperience, getProfiles, getProjects, getPublications, getPresentations, getSkills,
 } from '../api/services/contentService'
 
 const FIVE_MINUTES = 5 * 60_000
@@ -44,5 +44,11 @@ export const useSkills = () => useQuery({
 export const useAwards = () => useQuery({
   queryKey: ['content', 'awards'],
   queryFn: async ({ signal }) => unwrap(await getAwards(signal)),
+  staleTime: FIVE_MINUTES,
+})
+
+export const useProfiles = () => useQuery({
+  queryKey: ['content', 'profiles'],
+  queryFn: async ({ signal }) => unwrap(await getProfiles(signal)),
   staleTime: FIVE_MINUTES,
 })

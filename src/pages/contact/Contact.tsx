@@ -238,9 +238,24 @@ import {
     FaPhone,
 } from 'react-icons/fa';
 
+import type { ProfileDto } from '../../api/contracts/dtos';
+import { ProfileIcon } from '../../components/ui/ProfileIcon';
+import { useProfiles } from '../../state/contentQueries';
 import { ContactForm } from './ContactForm';
 
+/** Shown until the profiles load from the API, or if they can't be loaded. */
+const fallbackProfiles: ProfileDto[] = [
+    { id: 'linkedin', platform: 'LinkedIn', name: 'LinkedIn', url: 'https://www.linkedin.com/in/enobong-adahada-2831b53ab',
+      label: 'Enobong Adahada', showInFooter: true, showOnContact: true, showOnResearch: false, displayOrder: 0, isPublished: true },
+    { id: 'github', platform: 'GitHub', name: 'GitHub', url: 'https://github.com/adahadapato/',
+      label: 'adahadapato', showInFooter: true, showOnContact: true, showOnResearch: false, displayOrder: 1, isPublished: true },
+];
+
 function Contact() {
+    // Profiles ticked "Contact" in Admin → Profiles
+    const profiles = useProfiles();
+    const contactProfiles = (profiles.data ?? fallbackProfiles).filter(profile => profile.showOnContact);
+
     return (
         <main className="contact-page">
             <section className="contact-hero">
@@ -460,73 +475,47 @@ function Contact() {
                             </a>
                         </div>
 
-                        <div className="contact-card">
-                            <span className="contact-card-label">
-                                Professional profiles
-                            </span>
-
-                            <a
-                                href="https://www.linkedin.com/in/enobong-adahada-2831b53ab"
-                                className="contact-social-item"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span className="contact-social-icon">
-                                    <FaLinkedinIn
-                                        size={20}
-                                        aria-hidden="true"
-                                    />
+                        {contactProfiles.length > 0 && (
+                            <div className="contact-card">
+                                <span className="contact-card-label">
+                                    Professional profiles
                                 </span>
 
-                                <span className="contact-social-copy">
-                                    <small>
-                                        LinkedIn
-                                    </small>
+                                {contactProfiles.map(profile => (
+                                    <a
+                                        key={profile.id}
+                                        href={profile.url}
+                                        className="contact-social-item"
+                                        target="_blank"
+                                        rel="noopener noreferrer me"
+                                    >
+                                        <span className="contact-social-icon">
+                                            <ProfileIcon
+                                                platform={profile.platform}
+                                                size={19}
+                                            />
+                                        </span>
 
-                                    <strong>
-                                        Enobong Adahada
-                                    </strong>
-                                </span>
+                                        <span className="contact-social-copy">
+                                            <small>
+                                                {profile.name}
+                                            </small>
 
-                                <span
-                                    className="contact-social-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-                            </a>
+                                            <strong>
+                                                {profile.label ?? 'Enobong Adahada'}
+                                            </strong>
+                                        </span>
 
-                            <a
-                                href="https://github.com/adahadapato/"
-                                className="contact-social-item"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span className="contact-social-icon">
-                                    <FaGithub
-                                        size={21}
-                                        aria-hidden="true"
-                                    />
-                                </span>
-
-                                <span className="contact-social-copy">
-                                    <small>
-                                        GitHub
-                                    </small>
-
-                                    <strong>
-                                        Enobong Adahada
-                                    </strong>
-                                </span>
-
-                                <span
-                                    className="contact-social-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-                            </a>
-                        </div>
+                                        <span
+                                            className="contact-social-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+                                    </a>
+                                ))}
+                            </div>
+                        )}
 
                         <div className="contact-card contact-focus-card">
                             <span className="contact-card-label">

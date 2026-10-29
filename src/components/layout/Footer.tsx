@@ -1,29 +1,26 @@
-﻿import {
-    FaGithub,
-    FaLinkedinIn,
-} from 'react-icons/fa';
+﻿import { Link } from 'react-router';
 
-import { Link } from 'react-router';
+import type { ProfileDto } from '../../api/contracts/dtos';
+import { ProfileIcon } from '../ui/ProfileIcon';
+import { useProfiles } from '../../state/contentQueries';
 
 import { useSession } from '../../state/SessionContext';
 
 const currentYear = new Date().getFullYear();
 
-const socialLinks = [
-    {
-        name: 'GitHub',
-        href: 'https://github.com/adahadapato/',
-        icon: FaGithub,
-    },
-    {
-        name: 'LinkedIn',
-        href: 'https://www.linkedin.com/in/enobong-adahada-2831b53ab',
-        icon: FaLinkedinIn,
-    },
+/** Shown until the profiles load from the API, or if they can't be loaded. */
+const fallbackProfiles: Pick<ProfileDto, 'id' | 'platform' | 'name' | 'url'>[] = [
+    { id: 'github', platform: 'GitHub', name: 'GitHub', url: 'https://github.com/adahadapato/' },
+    { id: 'linkedin', platform: 'LinkedIn', name: 'LinkedIn', url: 'https://www.linkedin.com/in/enobong-adahada-2831b53ab' },
 ];
 
 function Footer() {
     const { isAdmin } = useSession();
+    const profiles = useProfiles();
+    // Profiles ticked "Footer" in Admin → Profiles
+    const footerProfiles = profiles.data
+        ? profiles.data.filter(profile => profile.showInFooter)
+        : fallbackProfiles;
 
     return (
         <footer className="footer">
@@ -44,29 +41,25 @@ function Footer() {
                 </div>
 
                 <div className="footer-socials">
-                    {socialLinks.map(item => {
-                        const Icon = item.icon;
+                    {footerProfiles.map(profile => (
+                        <a
+                            key={profile.id}
+                            href={profile.url}
+                            className="footer-social-link"
+                            target="_blank"
+                            rel="noopener noreferrer me"
+                            aria-label={`Visit Enobong Adahada on ${profile.name}`}
+                        >
+                            <ProfileIcon
+                                platform={profile.platform}
+                                size={17}
+                            />
 
-                        return (
-                            <a
-                                key={item.name}
-                                href={item.href}
-                                className="footer-social-link"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={`Visit Enobong Adahada on ${item.name}`}
-                            >
-                                <Icon
-                                    size={19}
-                                    aria-hidden="true"
-                                />
-
-                                <span>
-                                    {item.name}
-                                </span>
-                            </a>
-                        );
-                    })}
+                            <span>
+                                {profile.name}
+                            </span>
+                        </a>
+                    ))}
                 </div>
 
                 <div className="footer-right">

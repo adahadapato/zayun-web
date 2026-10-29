@@ -1,7 +1,7 @@
 /** Names people see for the API's values. Kept in one place so every page says the same. */
 import type {
-  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  PublicationType,
+  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProfilePlatform, ProjectCategory,
+  ProjectImageKind, PublicationType,
 } from '../../api/contracts/enums'
 
 type Option<T extends string> = { value: T; label: string }
@@ -55,6 +55,30 @@ export const documentCategories: Option<DocumentCategory>[] = [
   { value: 'Identity', label: 'Identity' },
   { value: 'Contract', label: 'Contract' },
   { value: 'Other', label: 'Other' },
+]
+
+/** The sites a profile can be on, grouped, with the name to suggest. */
+export const profilePlatforms: Option<ProfilePlatform>[] = [
+  { value: 'Orcid', label: 'ORCID' },
+  { value: 'ResearchGate', label: 'ResearchGate' },
+  { value: 'GoogleScholar', label: 'Google Scholar' },
+  { value: 'Arxiv', label: 'arXiv' },
+  { value: 'Ieee', label: 'IEEE Xplore' },
+  { value: 'Scopus', label: 'Scopus' },
+  { value: 'SemanticScholar', label: 'Semantic Scholar' },
+  { value: 'Dblp', label: 'DBLP' },
+  { value: 'Zenodo', label: 'Zenodo' },
+  { value: 'Academia', label: 'Academia.edu' },
+  { value: 'LinkedIn', label: 'LinkedIn' },
+  { value: 'GitHub', label: 'GitHub' },
+  { value: 'HuggingFace', label: 'Hugging Face' },
+  { value: 'Kaggle', label: 'Kaggle' },
+  { value: 'StackOverflow', label: 'Stack Overflow' },
+  { value: 'X', label: 'X (Twitter)' },
+  { value: 'YouTube', label: 'YouTube' },
+  { value: 'Medium', label: 'Medium' },
+  { value: 'Website', label: 'Website' },
+  { value: 'Other', label: 'Other site' },
 ]
 
 /** The label for a value from one of the lists above. */

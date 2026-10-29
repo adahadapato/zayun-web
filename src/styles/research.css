@@ -1030,3 +1030,50 @@
         font-size: clamp(2.7rem,11vw,4.2rem)
     }
 }
+
+
+/* ========================================
+   FIND MY RESEARCH (profiles ticked "Research" in Admin → Profiles)
+======================================== */
+
+.research-profiles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: -10px 0 40px;
+}
+
+.research-profiles-label {
+    margin-right: 6px;
+    color: #657181;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.research-profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 0 14px;
+    color: #0b1726;
+    background: #ffffff;
+    border: 1px solid #d9e1ea;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 160ms ease, transform 160ms ease;
+}
+
+    .research-profile-link svg {
+        color: #0a8fa3;
+    }
+
+    .research-profile-link:hover {
+        border-color: #0a8fa3;
+        transform: translateY(-1px);
+    }

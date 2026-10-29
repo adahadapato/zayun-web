@@ -14,7 +14,8 @@ import imedCtxResearchDirection from '../../assets/research/imed-ctx-research-di
 import type { PresentationType, PublicationType } from '../../api/contracts/enums';
 import { ApiImage } from '../../components/ui/ApiImage';
 import { ContentStatus } from '../../components/ui/ContentStatus';
-import { usePresentations, usePublications } from '../../state/contentQueries';
+import { ProfileIcon } from '../../components/ui/ProfileIcon';
+import { usePresentations, useProfiles, usePublications } from '../../state/contentQueries';
 
 /** How each kind of publication is labelled on its badge. */
 const publicationTypeText: Record<PublicationType, string> = {
@@ -78,6 +79,8 @@ const currentResearchSteps = [
 function Research() {
     const publications = usePublications();
     const presentations = usePresentations();
+    // Profiles ticked "Research" in Admin → Profiles
+    const researchProfiles = (useProfiles().data ?? []).filter(profile => profile.showOnResearch);
 
     return (
         <main className="research-page">
@@ -220,6 +223,18 @@ function Research() {
                         <div><span className="section-kicker">Publications</span><h2>Research outputs.</h2></div>
                         <p>Peer-reviewed work spanning multimodal medical AI and computer vision.</p>
                     </div>
+                    {researchProfiles.length > 0 && (
+                        <div className="research-profiles" aria-label="Find my research">
+                            <span className="research-profiles-label">Find my research on</span>
+                            {researchProfiles.map(profile => (
+                                <a key={profile.id} href={profile.url} target="_blank" rel="noopener noreferrer me"
+                                   className="research-profile-link">
+                                    <ProfileIcon platform={profile.platform} size={16} />
+                                    {profile.name}
+                                </a>
+                            ))}
+                        </div>
+                    )}
                     <ContentStatus
                         isLoading={publications.isLoading}
                         error={publications.error}

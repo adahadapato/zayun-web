@@ -21,6 +21,13 @@ export type ContactTopic = 'Project' | 'Research' | 'Opportunity' | 'Speaking' |
 /** What a typed tag turned out to be: already a tag, a new one, or doubtful (the AI doesn't think it's a skill). */
 export type TagCheckStatus = 'Existing' | 'New' | 'Doubtful'
 
+/** Which site an online profile is on (picks the icon). */
+export type ProfilePlatform =
+  | 'Orcid' | 'ResearchGate' | 'GoogleScholar' | 'Arxiv' | 'Ieee' | 'Scopus' | 'SemanticScholar' | 'Dblp' | 'Zenodo'
+  | 'Academia'
+  | 'LinkedIn' | 'GitHub' | 'HuggingFace' | 'Kaggle' | 'StackOverflow' | 'X' | 'YouTube' | 'Medium'
+  | 'Website' | 'Other'
+
 /** Which tags Admin → Tags shows. */
 export type TagFilter = 'All' | 'Used' | 'Unused'
 

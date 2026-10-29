@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -31,3 +31,6 @@ export const getSkills = (signal?: AbortSignal) => get<SkillsPageDto>('api/skill
 
 /** Published awards in order (the featured ones are also shown on About and Experience). */
 export const getAwards = (signal?: AbortSignal) => get<AwardDto[]>('api/awards', signal)
+
+/** Published online profiles in order (footer, Contact, Research, and the data for search engines). */
+export const getProfiles = (signal?: AbortSignal) => get<ProfileDto[]>('api/profiles', signal)

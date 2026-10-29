@@ -690,3 +690,24 @@
   font-size: 0.72rem;
   font-weight: 800;
 }
+
+/* ── Profiles ── */
+
+.profileIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--z-cyan);
+  background: rgba(16, 223, 244, 0.08);
+  border: 1px solid rgba(16, 223, 244, 0.25);
+  border-radius: 12px;
+}
+
+.profileLink {
+  color: var(--z-text-faint);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.profileLink:hover { color: var(--z-cyan); }

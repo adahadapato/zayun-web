@@ -3,8 +3,8 @@
  * Keep in step with Zayun.Application/Features/<Area>/Commands and Zayun.Presentation/Endpoints.
  */
 import type {
-  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  PublicationType,
+  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProfilePlatform, ProjectCategory,
+  ProjectImageKind, PublicationType,
 } from './enums'
 import type { PublicationLinkDto } from './dtos'
 
@@ -116,6 +116,23 @@ export interface CreateAwardCommand extends AwardFields {
 export interface UpdateAwardCommand extends AwardFields {
   /** New alt text for the picture; null leaves it as it is. */
   imageAlt: string | null
+}
+
+// ───────────────────────────── Profiles ─────────────────────────────
+
+/** An online profile's editable fields. */
+export interface ProfileFields {
+  platform: ProfilePlatform
+  name: string
+  url: string
+  label: string | null
+  showInFooter: boolean
+  showOnContact: boolean
+  showOnResearch: boolean
+}
+
+export interface CreateProfileCommand extends ProfileFields {
+  isPublished: boolean
 }
 
 // ───────────────────────────── Contact ─────────────────────────────
