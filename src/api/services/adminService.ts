@@ -5,12 +5,12 @@
 import { withQuery } from '../apiQuery'
 import { del, get, post, put, upload } from '../client'
 import type {
-  ContactStatusCommand, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
+  ContactStatusCommand, CreateAwardCommand, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
   CreateTextGroupCommand, DocumentFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
-  UpdatePresentationCommand,
+  UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ContactMessageStatus, DocumentCategory } from '../contracts/enums'
@@ -92,6 +92,16 @@ export const createCoreExpertise = (name: string, isPublished: boolean) =>
   post<CoreExpertiseDto>('api/admin/skills/expertise', { name, isPublished })
 export const renameCoreExpertise = (id: string, name: string) =>
   put<CoreExpertiseDto>(`api/admin/skills/expertise/${id}`, { name })
+
+// ───────────────────────────── Awards ─────────────────────────────
+
+export const getAdminAwards = (signal?: AbortSignal) => get<AwardDto[]>('api/admin/awards', signal)
+export const createAward = (command: CreateAwardCommand) => post<AwardDto>('api/admin/awards', command)
+export const updateAward = (id: string, command: UpdateAwardCommand) =>
+  put<AwardDto>(`api/admin/awards/${id}`, command)
+export const setAwardImage = (id: string, file: File, altText: string) =>
+  upload<AwardDto>('PUT', `api/admin/awards/${id}/image`, 'file', file, { altText })
+export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/image`)
 
 // ───────────────────────────── Inbox ─────────────────────────────
 

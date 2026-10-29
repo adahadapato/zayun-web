@@ -1,8 +1,13 @@
+import { Link } from 'react-router';
+
 import { ContentStatus } from '../../components/ui/ContentStatus';
-import { useExperience } from '../../state/contentQueries';
+import { useAwards, useExperience } from '../../state/contentQueries';
 
 function Experience() {
     const experience = useExperience();
+    // Featured awards fill "Recognition & Innovation"; GuidelineIQ stays as the last card
+    const awards = useAwards();
+    const featuredAwards = (awards.data ?? []).filter(award => award.isFeatured);
     const experienceHighlights = (experience.data ?? []).map((area, i) => ({
         ...area,
         number: String(i + 1).padStart(2, '0'),
@@ -108,42 +113,34 @@ function Experience() {
                             Recognition for
                             impact and innovation.
                         </h2>
+
+                        <Link
+                            to="/awards"
+                            className="experience-awards-link"
+                        >
+                            See all awards ›
+                        </Link>
                     </div>
 
                     <div className="experience-research-cards">
-                        <article className="experience-feature-card">
-                            <span>
-                                2022
-                            </span>
+                        {featuredAwards.map(award => (
+                            <article
+                                key={award.id}
+                                className="experience-feature-card"
+                            >
+                                <span>
+                                    {award.year}
+                                </span>
 
-                            <h3>
-                                NECO Staff Productivity Award
-                            </h3>
+                                <h3>
+                                    {award.title}
+                                </h3>
 
-                            <p>
-                                Most Hardworking, Dedicated and
-                                Committed Staff of the Year -
-                                ICT Department, National
-                                Examinations Council (NECO).
-                            </p>
-                        </article>
-
-                        <article className="experience-feature-card">
-                            <span>
-                                2025
-                            </span>
-
-                            <h3>
-                                Best Paper Award
-                            </h3>
-
-                            <p>
-                                ICCVDM 2025 recognition for
-                                research into transformer-based
-                                multimodal AI for explainable
-                                breast cancer image segmentation.
-                            </p>
-                        </article>
+                                <p>
+                                    {award.description}
+                                </p>
+                            </article>
+                        ))}
 
                         <article className="experience-feature-card">
                             <span>

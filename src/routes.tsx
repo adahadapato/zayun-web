@@ -49,6 +49,7 @@ export const router = createBrowserRouter([
           { path: 'presentations', ...page(() => import('./pages/admin/research/AdminPresentationsPage')) },
           { path: 'experience', ...page(() => import('./pages/admin/experience/AdminExperiencePage')) },
           { path: 'skills', ...page(() => import('./pages/admin/skills/AdminSkillsPage')) },
+          { path: 'awards', ...page(() => import('./pages/admin/awards/AdminAwardsPage')) },
           { path: 'inbox', ...page(() => import('./pages/admin/inbox/AdminInboxPage')) },
           { path: 'documents', ...page(() => import('./pages/admin/documents/AdminDocumentsPage')) },
           { path: 'account', ...page(() => import('./pages/admin/account/AdminAccountPage')) },

@@ -97,6 +97,27 @@ export interface CreateTextGroupCommand extends TextGroupFields {
   isPublished: boolean
 }
 
+// ───────────────────────────── Awards ─────────────────────────────
+
+/** An award's editable fields. */
+export interface AwardFields {
+  title: string
+  awardedBy: string
+  year: number
+  description: string
+  url: string | null
+  isFeatured: boolean
+}
+
+export interface CreateAwardCommand extends AwardFields {
+  isPublished: boolean
+}
+
+export interface UpdateAwardCommand extends AwardFields {
+  /** New alt text for the picture; null leaves it as it is. */
+  imageAlt: string | null
+}
+
 // ───────────────────────────── Contact ─────────────────────────────
 
 /** POST /api/contact/messages. */

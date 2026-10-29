@@ -453,3 +453,10 @@
             line-height: 1.75;
         }
 }
+
+/* The "Recognition" highlight links to the Awards page */
+.about-highlight-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}

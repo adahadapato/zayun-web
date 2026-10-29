@@ -1,11 +1,11 @@
 /**
- * What the public website shows: projects, research, experience and skills. No sign-in; the API caches these, and
+ * What the public website shows: projects, research, experience, skills and awards. No sign-in; the API caches these, and
  * only returns published items.
  */
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  ExperienceAreaDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -28,3 +28,6 @@ export const getExperience = (signal?: AbortSignal) => get<ExperienceAreaDto[]>(
 
 /** Published skill groups and core expertise. */
 export const getSkills = (signal?: AbortSignal) => get<SkillsPageDto>('api/skills', signal)
+
+/** Published awards in order (the featured ones are also shown on About and Experience). */
+export const getAwards = (signal?: AbortSignal) => get<AwardDto[]>('api/awards', signal)

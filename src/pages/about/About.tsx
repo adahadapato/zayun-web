@@ -2,8 +2,15 @@
     FaGithub,
     FaLinkedinIn,
 } from 'react-icons/fa';
+import { Link } from 'react-router';
+
+import { useAwards } from '../../state/contentQueries';
 
 function About() {
+    // The first featured award is the "Recognition" highlight (none: the highlight is left out)
+    const awards = useAwards();
+    const recognition = awards.data?.find(award => award.isFeatured);
+
     return (
         <main className="about-page">
             <section className="about-hero">
@@ -243,19 +250,24 @@ function About() {
                             </div>
                         </div>
 
-                        <div className="about-highlight">
-                            <span>
-                                Recognition
-                            </span>
+                        {recognition && (
+                            <Link
+                                to="/awards"
+                                className="about-highlight about-highlight-link"
+                            >
+                                <span>
+                                    Recognition
+                                </span>
 
-                            <strong>
-                                Best Paper Award
-                            </strong>
+                                <strong>
+                                    {recognition.title}
+                                </strong>
 
-                            <p>
-                                ICCVDM 2025
-                            </p>
-                        </div>
+                                <p>
+                                    {recognition.awardedBy}
+                                </p>
+                            </Link>
+                        )}
 
                         <div className="about-highlight">
                             <span>

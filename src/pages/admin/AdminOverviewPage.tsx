@@ -49,6 +49,7 @@ export default function AdminOverviewPage() {
                       note={shownNote(data.skillGroups)} />
             <StatTile label="Core expertise" value={data.coreExpertise.total} to="/admin/skills"
                       note={shownNote(data.coreExpertise)} />
+            <StatTile label="Awards" value={data.awards.total} to="/admin/awards" note={shownNote(data.awards)} />
             <StatTile label="Private documents" value={data.documents} to="/admin/documents" note="Only you can open them" />
           </div>
 

@@ -148,6 +148,31 @@ export interface SkillsPageDto {
   coreExpertise: CoreExpertiseDto[]
 }
 
+// ───────────────────────────── Awards ─────────────────────────────
+
+/** An award's certificate or photo. */
+export interface AwardImageDto {
+  url: string
+  thumbnailUrl: string | null
+  width: number
+  height: number
+  altText: string
+}
+
+/** An award. `isFeatured` ones are also shown on About and Experience. */
+export interface AwardDto {
+  id: string
+  title: string
+  awardedBy: string
+  year: number
+  description: string
+  url: string | null
+  isFeatured: boolean
+  image: AwardImageDto | null
+  displayOrder: number
+  isPublished: boolean
+}
+
 // ───────────────────────────── Inbox ─────────────────────────────
 
 /** A Contact message. */
@@ -209,6 +234,7 @@ export interface AdminOverviewDto {
   experienceAreas: ContentCountDto
   skillGroups: ContentCountDto
   coreExpertise: ContentCountDto
+  awards: ContentCountDto
   newMessages: number
   documents: number
 }
