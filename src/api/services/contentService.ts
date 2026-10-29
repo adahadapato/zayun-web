@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, ProfileDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -37,3 +37,7 @@ export const getProfiles = (signal?: AbortSignal) => get<ProfileDto[]>('api/prof
 
 /** Named pictures, e.g. the owner's photo on About (empty slots are left out). */
 export const getSiteImages = (signal?: AbortSignal) => get<SiteImageDto[]>('api/site-images', signal)
+
+/** Name, headline, public email and the phone numbers / towns switched on for the website. */
+export const getPublicPersonalDetails = (signal?: AbortSignal) =>
+  get<PublicPersonalDetailsDto>('api/personal-details', signal)

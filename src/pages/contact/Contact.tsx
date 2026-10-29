@@ -235,13 +235,21 @@ import {
     FaEnvelope,
     FaGithub,
     FaLinkedinIn,
+    FaMapMarkerAlt,
     FaPhone,
 } from 'react-icons/fa';
 
-import type { ProfileDto } from '../../api/contracts/dtos';
+import type { ProfileDto, PublicPersonalDetailsDto } from '../../api/contracts/dtos';
 import { ProfileIcon } from '../../components/ui/ProfileIcon';
-import { useProfiles } from '../../state/contentQueries';
+import { usePersonalDetails, useProfiles } from '../../state/contentQueries';
 import { ContactForm } from './ContactForm';
+
+/** Shown until the personal details load from the API, or if they can't be loaded. */
+const fallbackEmail = 'enobong.adahada@gmail.com';
+const fallbackPhones: PublicPersonalDetailsDto['phones'] = [
+    { label: 'UK', number: '+44 7881 186690', link: '+447881186690' },
+    { label: 'Nigeria', number: '+234 802 317 6049', link: '+2348023176049' },
+];
 
 /** Shown until the profiles load from the API, or if they can't be loaded. */
 const fallbackProfiles: ProfileDto[] = [
@@ -255,6 +263,12 @@ function Contact() {
     // Profiles ticked "Contact" in Admin → Profiles
     const profiles = useProfiles();
     const contactProfiles = (profiles.data ?? fallbackProfiles).filter(profile => profile.showOnContact);
+
+    // Email, phone numbers and towns switched on in Admin → Account
+    const personal = usePersonalDetails();
+    const email = personal.data ? personal.data.email : fallbackEmail;
+    const phones = personal.data ? personal.data.phones : fallbackPhones;
+    const locations = personal.data?.locations ?? [];
 
     return (
         <main className="contact-page">
@@ -309,7 +323,7 @@ function Contact() {
 
                         <div className="contact-actions">
                             <a
-                                href="mailto:enobong.adahada@gmail.com"
+                                href={`mailto:${email ?? fallbackEmail}`}
                                 className="contact-primary-action"
                                 aria-label="Email Enobong Adahada"
                             >
@@ -382,98 +396,100 @@ function Contact() {
                     </div>
 
                     <aside className="contact-sidebar">
-                        <div className="contact-card">
-                            <span className="contact-card-label">
-                                Contact details
-                            </span>
-
-                            <a
-                                href="mailto:enobong.adahada@gmail.com"
-                                className="contact-social-item"
-                            >
-                                <span className="contact-social-icon">
-                                    <FaEnvelope
-                                        size={18}
-                                        aria-hidden="true"
-                                    />
+                        {(email || phones.length > 0) && (
+                            <div className="contact-card">
+                                <span className="contact-card-label">
+                                    Contact details
                                 </span>
 
-                                <span className="contact-social-copy">
-                                    <small>
-                                        Email
-                                    </small>
+                                {email && (
+                                    <a
+                                        href={`mailto:${email}`}
+                                        className="contact-social-item"
+                                    >
+                                        <span className="contact-social-icon">
+                                            <FaEnvelope
+                                                size={18}
+                                                aria-hidden="true"
+                                            />
+                                        </span>
 
-                                    <strong>
-                                        enobong.adahada@gmail.com
-                                    </strong>
-                                </span>
+                                        <span className="contact-social-copy">
+                                            <small>
+                                                Email
+                                            </small>
 
-                                <span
-                                    className="contact-social-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-                            </a>
+                                            <strong>
+                                                {email}
+                                            </strong>
+                                        </span>
 
-                            <a
-                                href="tel:+447881186690"
-                                className="contact-social-item"
-                            >
-                                <span className="contact-social-icon">
-                                    <FaPhone
-                                        size={17}
-                                        aria-hidden="true"
-                                    />
-                                </span>
+                                        <span
+                                            className="contact-social-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+                                    </a>
+                                )}
 
-                                <span className="contact-social-copy">
-                                    <small>
-                                        UK
-                                    </small>
+                                {phones.map(phone => (
+                                    <a
+                                        key={phone.link}
+                                        href={`tel:${phone.link}`}
+                                        className="contact-social-item"
+                                    >
+                                        <span className="contact-social-icon">
+                                            <FaPhone
+                                                size={17}
+                                                aria-hidden="true"
+                                            />
+                                        </span>
 
-                                    <strong>
-                                        +44 7881 186690
-                                    </strong>
-                                </span>
+                                        <span className="contact-social-copy">
+                                            <small>
+                                                {phone.label}
+                                            </small>
 
-                                <span
-                                    className="contact-social-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-                            </a>
+                                            <strong>
+                                                {phone.number}
+                                            </strong>
+                                        </span>
 
-                            <a
-                                href="tel:+2348023176049"
-                                className="contact-social-item"
-                            >
-                                <span className="contact-social-icon">
-                                    <FaPhone
-                                        size={17}
-                                        aria-hidden="true"
-                                    />
-                                </span>
+                                        <span
+                                            className="contact-social-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+                                    </a>
+                                ))}
 
-                                <span className="contact-social-copy">
-                                    <small>
-                                        Nigeria
-                                    </small>
+                                {locations.map(location => (
+                                    <div
+                                        key={location}
+                                        className="contact-social-item"
+                                    >
+                                        <span className="contact-social-icon">
+                                            <FaMapMarkerAlt
+                                                size={17}
+                                                aria-hidden="true"
+                                            />
+                                        </span>
 
-                                    <strong>
-                                        +234 802 317 6049
-                                    </strong>
-                                </span>
+                                        <span className="contact-social-copy">
+                                            <small>
+                                                Based in
+                                            </small>
 
-                                <span
-                                    className="contact-social-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-                            </a>
-                        </div>
+                                            <strong>
+                                                {location}
+                                            </strong>
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         {contactProfiles.length > 0 && (
                             <div className="contact-card">

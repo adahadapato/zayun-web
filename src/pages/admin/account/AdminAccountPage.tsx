@@ -8,9 +8,11 @@ import { StatusBanner } from '../../../components/ui/StatusBanner'
 import { useSession } from '../../../state/SessionContext'
 import styles from '../Admin.module.css'
 import { AdminHead } from '../AdminParts'
+import { PersonalDetailsSection } from './PersonalDetailsSection'
+import { PhotoSection } from './PhotoSection'
 
 /**
- * The admin account: who is signed in, and Change password. After a change the API signs out every device, so this
+ * The admin account: your photo, personal details (phones, addresses…), who is signed in, and Change password. After a change the API signs out every device, so this
  * one goes to Sign in with a note.
  */
 export default function AdminAccountPage() {
@@ -42,7 +44,11 @@ export default function AdminAccountPage() {
 
   return (
     <>
-      <AdminHead eyebrow="Private" title="Account" />
+      <AdminHead eyebrow="Private" title="Account"
+                 sub="You: your photo and details for the website, your sign-in, and your password." />
+
+      <PhotoSection />
+      <PersonalDetailsSection />
 
       {account && (
         <section className={styles.panel} aria-labelledby="who">

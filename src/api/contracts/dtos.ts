@@ -173,6 +173,46 @@ export interface AwardDto {
   isPublished: boolean
 }
 
+// ───────────────────────────── Personal details ─────────────────────────────
+
+/** A phone number (admin). */
+export interface PhoneDto {
+  label: string
+  number: string
+  showOnWebsite: boolean
+}
+
+/** An address (admin). When shown on the website, only town and country are. */
+export interface AddressDto {
+  label: string
+  line1: string
+  line2: string | null
+  city: string
+  region: string | null
+  postcode: string | null
+  country: string
+  showOnWebsite: boolean
+}
+
+/** Everything in Admin → Account → Personal details (private). */
+export interface PersonalDetailsDto {
+  fullName: string
+  headline: string | null
+  publicEmail: string | null
+  phones: PhoneDto[]
+  addresses: AddressDto[]
+}
+
+/** What the website may show: only the parts switched on. */
+export interface PublicPersonalDetailsDto {
+  fullName: string
+  headline: string | null
+  email: string | null
+  phones: { label: string; number: string; link: string }[]
+  /** "London, United Kingdom" for each address switched on. */
+  locations: string[]
+}
+
 // ───────────────────────────── Site pictures ─────────────────────────────
 
 /** A named picture on the website, e.g. the owner's photo. */

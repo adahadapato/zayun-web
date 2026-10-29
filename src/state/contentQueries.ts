@@ -6,7 +6,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { unwrap } from '../api/apiError'
 import {
-  getAwards, getExperience, getProfiles, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
+  getAwards, getExperience, getProfiles, getPublicPersonalDetails, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
 } from '../api/services/contentService'
 
 const FIVE_MINUTES = 5 * 60_000
@@ -57,5 +57,12 @@ export const useProfiles = () => useQuery({
 export const useSiteImages = () => useQuery({
   queryKey: ['content', 'site-images'],
   queryFn: async ({ signal }) => unwrap(await getSiteImages(signal)),
+  staleTime: FIVE_MINUTES,
+})
+
+/** Name, headline, public email and phone numbers for the website (only what's switched on in Admin → Account). */
+export const usePersonalDetails = () => useQuery({
+  queryKey: ['content', 'personal-details'],
+  queryFn: async ({ signal }) => unwrap(await getPublicPersonalDetails(signal)),
   staleTime: FIVE_MINUTES,
 })

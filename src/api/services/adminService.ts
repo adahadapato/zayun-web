@@ -10,7 +10,7 @@ import type {
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, ProfileDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
@@ -107,6 +107,16 @@ export const updateAward = (id: string, command: UpdateAwardCommand) =>
 export const setAwardImage = (id: string, file: File, altText: string) =>
   upload<AwardDto>('PUT', `api/admin/awards/${id}/image`, 'file', file, { altText })
 export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/image`)
+
+// ───────────────────────────── Personal details ─────────────────────────────
+
+/** Everything, private parts included. */
+export const getPersonalDetails = (signal?: AbortSignal) =>
+  get<PersonalDetailsDto>('api/admin/personal-details', signal)
+
+/** Replaces everything with what was typed in. */
+export const savePersonalDetails = (details: PersonalDetailsDto) =>
+  put<PersonalDetailsDto>('api/admin/personal-details', details)
 
 // ───────────────────────────── Site pictures (the photo) ─────────────────────────────
 
