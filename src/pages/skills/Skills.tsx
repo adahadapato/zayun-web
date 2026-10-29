@@ -1,111 +1,14 @@
-const skillGroups = [
-    {
-        number: '01',
-        title: 'Software Engineering',
-        description:
-            'Designing and developing production software, APIs, full-stack platforms and cross-platform applications using modern engineering practices.',
-        skills: [
-            'C#',
-            '.NET',
-            'ASP.NET Core',
-            'REST APIs',
-            'React',
-            'TypeScript',
-            '.NET MAUI',
-            'Python',
-            'Django',
-            'SQL Server',
-            'Entity Framework Core',
-            'CQRS',
-            'MediatR',
-            'Clean Architecture',
-            'CI/CD',
-        ],
-    },
-    {
-        number: '02',
-        title: 'Artificial Intelligence & Machine Learning',
-        description:
-            'Researching and developing intelligent systems with particular focus on multimodal learning, computer vision and trustworthy AI.',
-        skills: [
-            'Python',
-            'PyTorch',
-            'Machine Learning',
-            'Deep Learning',
-            'Transformers',
-            'Vision Transformers',
-            'Swin Transformer',
-            'Computer Vision',
-            'Medical Imaging',
-            'Multimodal AI',
-            'Explainable AI',
-            'Uncertainty Quantification',
-        ],
-    },
-    {
-        number: '03',
-        title: 'Data & Intelligent Systems',
-        description:
-            'Building systems that transform complex data into useful operational, analytical and decision-support capabilities.',
-        skills: [
-            'Semantic Retrieval',
-            'Clinical Decision Support',
-            'Data Processing',
-            'OMR Processing',
-            'Biometric Systems',
-            'Identity Verification',
-            'Real-Time Monitoring',
-            'Process Automation',
-            'Enterprise Systems',
-            'Device Integration',
-        ],
-    },
-    {
-        number: '04',
-        title: 'Research & Technical Practice',
-        description:
-            'Applying rigorous research and evaluation methods to the development and communication of scientific and intelligent systems.',
-        skills: [
-            'Experimental Design',
-            'Model Evaluation',
-            'Scientific Software',
-            'Research Methodology',
-            'Academic Writing',
-            'Technical Communication',
-            'Peer-Reviewed Research',
-            'Research Presentation',
-        ],
-    },
-    {
-        number: '05',
-        title: 'Architecture & Technical Leadership',
-        description:
-            'Translating organisational and technical requirements into maintainable systems while supporting modernisation and digital transformation.',
-        skills: [
-            'Software Architecture',
-            'System Design',
-            'API Architecture',
-            'Requirements Analysis',
-            'Legacy Modernisation',
-            'Digital Transformation',
-            'Technical Delivery',
-            'System Integration',
-        ],
-    },
-];
-
-const coreExpertise = [
-    'Software Engineering',
-    'Full-Stack Development',
-    'Artificial Intelligence',
-    'Multimodal AI',
-    'Explainable AI',
-    'Computer Vision',
-    'Intelligent Systems',
-    'AI for Healthcare',
-];
+import { ContentStatus } from '../../components/ui/ContentStatus';
+import { useSkills } from '../../state/contentQueries';
 
 function Skills() {
+    const skills = useSkills();
+    const coreExpertise = skills.data?.coreExpertise ?? [];
+    const skillGroups = (skills.data?.groups ?? []).map((group, i) => ({
+        ...group,
+        number: String(i + 1).padStart(2, '0'),
+    }));
+
     return (
         <main className="skills-page">
             <section className="skills-hero">
@@ -160,8 +63,8 @@ function Skills() {
 
                     <div className="skills-core-list">
                         {coreExpertise.map(skill => (
-                            <span key={skill}>
-                                {skill}
+                            <span key={skill.id}>
+                                {skill.name}
                             </span>
                         ))}
                     </div>
@@ -190,11 +93,19 @@ function Skills() {
                         </p>
                     </div>
 
+                    <ContentStatus
+                        isLoading={skills.isLoading}
+                        error={skills.error}
+                        onRetry={() => skills.refetch()}
+                        placeholders={2}
+                        height={240}
+                    />
+
                     <div className="skills-groups">
                         {skillGroups.map(group => (
                             <article
                                 className="skill-group-card"
-                                key={group.number}
+                                key={group.id}
                             >
                                 <div className="skill-group-top">
                                     <span className="skill-group-number">

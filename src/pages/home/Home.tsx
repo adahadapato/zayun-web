@@ -8,7 +8,7 @@ import {
     FaLinkedinIn,
 } from 'react-icons/fa';
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 function SoftwareEngineeringIcon() {
     return (

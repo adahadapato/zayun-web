@@ -1,0 +1,27 @@
+.placeholders { display: grid; gap: 12px; }
+
+.placeholder {
+  height: 74px;
+  background: linear-gradient(90deg, var(--z-bg-soft), var(--z-bg-raised), var(--z-bg-soft));
+  background-size: 200% 100%;
+  border: 1px solid var(--z-border);
+  border-radius: var(--z-radius-card);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.problem { display: grid; gap: 12px; justify-items: start; }
+
+.empty {
+  margin: 0;
+  padding: 36px 16px;
+  color: var(--z-text-muted);
+  text-align: center;
+  border: 1px dashed var(--z-border-strong);
+  border-radius: var(--z-radius-card);
+}
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .placeholder { animation: none; }
+}

@@ -17,10 +17,13 @@ dist-ssr/
 # Local files
 *.local
 
-# Environment files
+# Environment files: .env.development and .env.production ARE committed (they only hold the API address, which is
+# public anyway); local overrides such as .env.development.local are not
 .env
 .env.*
 !.env.example
+!.env.development
+!.env.production
 
 # Visual Studio
 .vs/

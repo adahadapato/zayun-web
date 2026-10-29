@@ -1,0 +1,46 @@
+.placeholders { display: grid; gap: 22px; }
+
+.placeholder {
+  background: linear-gradient(90deg, var(--z-bg-soft), var(--z-bg-raised), var(--z-bg-soft));
+  background-size: 200% 100%;
+  border: 1px solid var(--z-border);
+  border-radius: 24px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.problem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  color: var(--z-text);
+  background: var(--z-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-radius: 18px;
+}
+
+.problem p { margin: 0; }
+
+.problem button {
+  min-height: 42px;
+  padding: 0 20px;
+  color: var(--z-cyan);
+  background: transparent;
+  border: 1px solid var(--z-cyan);
+  border-radius: var(--z-radius-pill);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.problem button:hover { background: rgba(16, 223, 244, 0.1); }
+
+.empty { margin: 0; padding: 32px 0; color: var(--z-text-muted); text-align: center; }
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .placeholder { animation: none; }
+}

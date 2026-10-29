@@ -1,0 +1,15 @@
+These pictures are no longer used by the website: the API now serves them (they are in the API's starter data).
+Delete them from your zayun-web folder before you commit. In PowerShell, from the zayun-web folder:
+
+Remove-Item -Recurse src\assets\projects
+Remove-Item src\assets\research\brunel-bioinformatics-symposium-2025.png
+Remove-Item src\assets\research\cedps-symposium-2025.png
+Remove-Item src\assets\research\ited-2022-certificate.jpg
+
+Then delete this file too.
+
+Optional, already unused before this change (nothing imports them):
+src\App.css, src\index.css, src\styles\global_old.css, src\assets\hero.png, src\assets\react.svg, src\assets\vite.svg,
+src\assets\images\zayun-hero1.png, src\assets\research\brunel-bioinformatics-symposium-20251.png,
+src\assets\research\cedps-symposium-2025-dark.png, src\assets\research\cedps-symposium-20251.png,
+src\assets\research\med-ctx-output1.png, src\assets\research\med-ctx-results1.png

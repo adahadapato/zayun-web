@@ -3,9 +3,6 @@
     ScanSearch, ShieldCheck, Stethoscope, Target,
 } from 'lucide-react';
 
-import brunelBioinformatics from '../../assets/research/brunel-bioinformatics-symposium-2025.png';
-import cedpsSymposium from '../../assets/research/cedps-symposium-2025.png';
-import itedCertificate from '../../assets/research/ited-2022-certificate.jpg';
 import medCtxDualBranch from '../../assets/research/med-ctx-dual-branch.png';
 import medCtxFutureWork from '../../assets/research/med-ctx-future-work.png';
 import medCtxInput from '../../assets/research/med-ctx-input.png';
@@ -13,6 +10,29 @@ import medCtxModelOverview from '../../assets/research/med-ctx-model-overview.pn
 import medCtxOutput from '../../assets/research/med-ctx-output.png';
 import medCtxResults from '../../assets/research/med-ctx-results.png';
 import imedCtxResearchDirection from '../../assets/research/imed-ctx-research-direction.png';
+
+import type { PresentationType, PublicationType } from '../../api/contracts/enums';
+import { ApiImage } from '../../components/ui/ApiImage';
+import { ContentStatus } from '../../components/ui/ContentStatus';
+import { usePresentations, usePublications } from '../../state/contentQueries';
+
+/** How each kind of publication is labelled on its badge. */
+const publicationTypeText: Record<PublicationType, string> = {
+    ConferencePaper: 'Conference Paper',
+    JournalArticle: 'Journal Article',
+    BookChapter: 'Book Chapter',
+    Preprint: 'Preprint',
+    Thesis: 'Thesis',
+};
+
+/** "Poster Presentation - 2025". */
+const presentationTypeText: Record<PresentationType, string> = {
+    Poster: 'Poster Presentation',
+    Oral: 'Oral Presentation',
+    Conference: 'Conference Presentation',
+    InvitedTalk: 'Invited Talk',
+    Workshop: 'Workshop',
+};
 
 const researchAreas = [
     { icon: BrainCircuit, title: 'Multimodal AI', description: 'Combining medical images, structured clinical descriptors and free-text clinical information within unified AI systems.' },
@@ -56,6 +76,9 @@ const currentResearchSteps = [
 ];
 
 function Research() {
+    const publications = usePublications();
+    const presentations = usePresentations();
+
     return (
         <main className="research-page">
             <section className="research-hero">
@@ -197,33 +220,39 @@ function Research() {
                         <div><span className="section-kicker">Publications</span><h2>Research outputs.</h2></div>
                         <p>Peer-reviewed work spanning multimodal medical AI and computer vision.</p>
                     </div>
+                    <ContentStatus
+                        isLoading={publications.isLoading}
+                        error={publications.error}
+                        isEmpty={publications.data?.length === 0}
+                        emptyText="Publications will appear here soon."
+                        onRetry={() => publications.refetch()}
+                        height={180}
+                    />
                     <div className="publication-list">
-                        <article className="publication-item">
-                            <div className="publication-year">2025</div>
-                            <div className="publication-content">
-                                <div className="publication-badges"><span>Conference Paper</span><span className="award-badge">Best Paper Award</span></div>
-                                <h3>A Fully Transformer-Based Multimodal Framework for Explainable Breast Cancer Image Segmentation Using Radiology Reports</h3>
-                                <p className="publication-authors">Enobong Adahada, Isabel Sassoon, Kate Hone and Yongmin Li</p>
-                                <p>ICCVDM 2025</p>
-                                <div className="publication-links">
-                                    <a href="https://ieeexplore.ieee.org/document/11290557" target="_blank" rel="noreferrer" className="publication-link publication-link-primary">View on IEEE Xplore <ArrowRight size={16} /></a>
-                                    <a href="https://www.researchgate.net/publication/398847954_A_Fully_Transformer-Based_Multimodal_Framework_for_Explainable_Breast_Cancer_Image_Segmentation_Using_Radiology_Reports" target="_blank" rel="noreferrer" className="publication-link">ResearchGate <ArrowRight size={16} /></a>
+                        {publications.data?.map(publication => (
+                            <article className="publication-item" key={publication.id}>
+                                <div className="publication-year">{publication.year}</div>
+                                <div className="publication-content">
+                                    <div className="publication-badges">
+                                        <span>{publicationTypeText[publication.type]}</span>
+                                        {publication.award && <span className="award-badge">{publication.award}</span>}
+                                    </div>
+                                    <h3>{publication.title}</h3>
+                                    <p className="publication-authors">{publication.authors}</p>
+                                    <p>{publication.venue}</p>
+                                    {publication.links.length > 0 && (
+                                        <div className="publication-links">
+                                            {publication.links.map(link => (
+                                                <a key={link.url} href={link.url} target="_blank" rel="noreferrer"
+                                                   className={`publication-link${link.isPrimary ? ' publication-link-primary' : ''}`}>
+                                                    {link.label} <ArrowRight size={16} />
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        </article>
-                        <article className="publication-item">
-                            <div className="publication-year">2023</div>
-                            <div className="publication-content">
-                                <div className="publication-badges"><span>Journal Article</span></div>
-                                <h3>Detection of Face-Mask in Real Time: A Cascaded Bi-Level Feature Extraction Technique Approach</h3>
-                                <p className="publication-authors">Solomon Adelowo Adepoju, Enobong Thomas Adahada, Opeyemi Aderiike Abisoye and Abdumalik Danlami Mohammed</p>
-                                <p>International Journal of Applied Methods in Electronics and Computers, Volume 11, Issue 4, 186-196</p>
-                                <div className="publication-links">
-                                    <a href="https://ijamec.org/index.php/ijamec/article/view/376/357" target="_blank" rel="noreferrer" className="publication-link publication-link-primary">View on IJAMEC page <ArrowRight size={16} /></a>
-                                    <a href="https://www.researchgate.net/publication/377011936_Detection_of_Face-Mask_in_Real_Time_A_Cascaded_Bi-Level_Feature_Extraction_Technique_Approach" target="_blank" rel="noreferrer" className="publication-link">ResearchGate <ArrowRight size={16} /></a>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -231,17 +260,35 @@ function Research() {
             <section className="research-presentations">
                 <div className="container">
                     <div className="research-section-heading"><div><span className="section-kicker">Presentations</span><h2>Sharing the research.</h2></div><p>Research development presented through conferences and academic symposia.</p></div>
+                    <ContentStatus
+                        isLoading={presentations.isLoading}
+                        error={presentations.error}
+                        isEmpty={presentations.data?.length === 0}
+                        emptyText="Presentations will appear here soon."
+                        onRetry={() => presentations.refetch()}
+                        placeholders={1}
+                        height={360}
+                    />
                     <div className="presentation-grid">
-                        <article className="presentation-card"><div className="presentation-image">
-                            <img src={cedpsSymposium} alt="CEDPS Symposium 2025 research poster" />
-                        </div>
-                            <div className="presentation-content">
-                                <div className="presentation-icon"><FileText size={23} /></div>
-                                <span>Poster Presentation - 2025</span>
-                                <h3>Breast Cancer Image Segmentation using Multi-modal Transformers</h3>
-                                <p>Brunel College of Engineering, Design and Physical Sciences Symposium 2025.</p></div></article>
-                        <article className="presentation-card"><div className="presentation-image"><img src={brunelBioinformatics} alt="Brunel Bioinformatics Symposium 2025 presentation" /></div><div className="presentation-content"><div className="presentation-icon"><BrainCircuit size={23} /></div><span>Oral Presentation - 2025</span><h3>Unified Transformer Architecture for Breast Tumor Segmentation Across Multiple Modalities</h3><p>Brunel Bioinformatics Symposium 2025.</p></div></article>
-                        <article className="presentation-card"><div className="presentation-image"><img src={itedCertificate} alt="ITED 2022 conference presentation certificate" /></div><div className="presentation-content"><div className="presentation-icon"><FileText size={23} /></div><span>Conference Presentation - 2022</span><h3>Real-Time Face Mask Detection Using Cascaded Bi-Level Feature Extraction Techniques for Access Restriction in Public Buildings</h3><p>Presented at the 5th ITED 2022 Conference, Nile University of Nigeria, Abuja.</p></div></article>
+                        {presentations.data?.map(presentation => {
+                            const Icon = presentation.type === 'Oral' ? BrainCircuit : FileText;
+                            return (
+                                <article className="presentation-card" key={presentation.id}>
+                                    {presentation.image && (
+                                        <div className="presentation-image">
+                                            <ApiImage src={presentation.image.url} alt={presentation.image.altText}
+                                                      width={presentation.image.width} height={presentation.image.height} />
+                                        </div>
+                                    )}
+                                    <div className="presentation-content">
+                                        <div className="presentation-icon"><Icon size={23} /></div>
+                                        <span>{presentationTypeText[presentation.type]} - {presentation.year}</span>
+                                        <h3>{presentation.title}</h3>
+                                        <p>{presentation.eventName}</p>
+                                    </div>
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

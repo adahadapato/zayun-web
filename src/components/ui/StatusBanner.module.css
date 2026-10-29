@@ -1,0 +1,19 @@
+.banner {
+  padding: 12px 14px;
+  border-radius: var(--z-radius-field);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-line; /* the API's field errors arrive one per line */
+}
+
+.info {
+  color: var(--z-text);
+  background: var(--z-info-bg);
+  border: 1px solid rgba(16, 223, 244, 0.35);
+}
+
+.error {
+  color: #ffd2d2;
+  background: var(--z-danger-bg);
+  border: 1px solid rgba(255, 107, 107, 0.45);
+}

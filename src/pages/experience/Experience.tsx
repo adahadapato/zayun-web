@@ -1,61 +1,13 @@
-const experienceHighlights = [
-    {
-        number: '01',
-        title: 'Software Engineering',
-        description:
-            'Extensive experience designing, developing and supporting software systems for complex organisational environments, with a focus on reliability, automation and practical problem-solving.',
-        skills: [
-            'C#',
-            '.NET',
-            'ASP.NET Core',
-            'SQL Server',
-            'APIs',
-            'Enterprise Systems',
-        ],
-    },
-    {
-        number: '02',
-        title: 'Technical Leadership',
-        description:
-            'Experience leading software development initiatives, supporting technical teams and translating operational requirements into scalable digital solutions.',
-        skills: [
-            'Technical Leadership',
-            'System Design',
-            'Digital Transformation',
-            'Mentoring',
-            'Solution Architecture',
-        ],
-    },
-    {
-        number: '03',
-        title: 'Artificial Intelligence Research',
-        description:
-            'Research focused on multimodal artificial intelligence, computer vision, medical imaging and explainable AI, with particular interest in trustworthy systems for healthcare.',
-        skills: [
-            'Python',
-            'Deep Learning',
-            'Computer Vision',
-            'Multimodal AI',
-            'Explainable AI',
-            'Medical Imaging',
-        ],
-    },
-    {
-        number: '04',
-        title: 'Clinical AI Innovation',
-        description:
-            'Applying AI research and software engineering to real-world healthcare challenges, including evidence-grounded clinical decision support and semantic retrieval.',
-        skills: [
-            'Clinical Decision Support',
-            'Semantic Retrieval',
-            'Healthcare AI',
-            'Research',
-            'Prototyping',
-        ],
-    },
-];
+import { ContentStatus } from '../../components/ui/ContentStatus';
+import { useExperience } from '../../state/contentQueries';
 
 function Experience() {
+    const experience = useExperience();
+    const experienceHighlights = (experience.data ?? []).map((area, i) => ({
+        ...area,
+        number: String(i + 1).padStart(2, '0'),
+    }));
+
     return (
         <main className="experience-page">
             <section className="experience-hero">
@@ -104,10 +56,18 @@ function Experience() {
                         </p>
                     </div>
 
+                    <ContentStatus
+                        isLoading={experience.isLoading}
+                        error={experience.error}
+                        onRetry={() => experience.refetch()}
+                        placeholders={3}
+                        height={160}
+                    />
+
                     <div className="experience-list">
                         {experienceHighlights.map(item => (
                             <article
-                                key={item.number}
+                                key={item.id}
                                 className="experience-item"
                             >
                                 <div className="experience-number">

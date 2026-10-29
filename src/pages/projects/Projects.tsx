@@ -5,21 +5,12 @@ import {
     FaLock,
 } from 'react-icons/fa';
 
-import biometricSystemImage from '../../assets/projects/biometric-system.png';
-import cdxDevelopmentToolImage from '../../assets/projects/cdx-development-tool.png';
-import medCtxInputImage from '../../assets/research/med-ctx-input.png';
-import medCtxOutputImage from '../../assets/research/med-ctx-output.png';
-import necoOmrSystemImage from '../../assets/projects/neco-omr-system.png';
-import nvrSystemImage from '../../assets/projects/nvr-system.png';
-import rccgHopeHouseImage from '../../assets/projects/rccg-hope-house.png';
-import rccgHopeHouseAdminImage from '../../assets/projects/rccg-hope-house-admin.png';
-import timeAttendanceSystemImage from '../../assets/projects/time-attendance-system.png';
-import phloemMarketplaceImage from '../../assets/projects/phloem-marketplace.png';
-import phloemPlatformOverviewImage from '../../assets/projects/phloem-platform-overview.png';
-import phloemCrossBorderDeliveryImage from '../../assets/projects/phloem-cross-border-delivery.png';
-import phloemSellerDashboardImage from '../../assets/projects/phloem-seller-dashboard.png';
-import phloemAdminDashboardImage from '../../assets/projects/phloem-admin-dashboard.png';
+import type { ProjectDto } from '../../api/contracts/dtos';
+import { fileUrl } from '../../api/config';
+import { ContentStatus } from '../../components/ui/ContentStatus';
+import { useProjects } from '../../state/contentQueries';
 
+/** A project as the cards show it (made from the API's project). */
 type Project = {
     number: string;
     title: string;
@@ -44,261 +35,39 @@ type Project = {
     }[];
 };
 
-const featuredProjects: Project[] = [
-    {
-        number: '01',
-        title: 'GuidelineIQ™',
-        subtitle: 'AI Clinical Decision Support',
-        description:
-            'An AI-driven clinical decision support project exploring evidence-grounded intelligence and semantic retrieval for healthcare decision-making.',
-        tags: [
-            'Artificial Intelligence',
-            'Semantic Retrieval',
-            'Healthcare AI',
-            'Clinical Decision Support',
-        ],
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'AI Innovation',
-    },
-    {
-        number: '02',
-        title: 'CDx Development Tool',
-        subtitle: 'Scientific Software Modernisation',
-        description:
-            'Modernisation of a legacy MATLAB-based scientific application into Python, including conversion of computational logic and visualisations and development of a Django-based API to support distributed access.',
-        tags: [
-            'Python',
-            'Django',
-            'PyCharm',
-            'API Development',
-            'Data Visualisation',
-            'MATLAB Migration',
-        ],
-        image: cdxDevelopmentToolImage,
-        imageAlt:
-            'CDx Development Tool showing scientific modelling and data visualisations',
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Brunel University London',
-    },
-    {
-        number: '03',
-        title: 'RCCG Hope House',
-        subtitle: 'Full-Stack Digital Platform',
-        description:
-            'A production full-stack digital platform comprising a public-facing React website, a dedicated administrative application and an ASP.NET Core REST API backend. The platform supports ministries, events, devotionals, sermons, galleries, annual content, prayer and contact workflows, with CQRS/MediatR architecture, EF Core persistence and automated CI/CD deployment.',
-        tags: [
-            'React',
-            'TypeScript',
-            'ASP.NET Core',
-            'C#',
-            'REST API',
-            'CQRS',
-            'MediatR',
-            'EF Core',
-            'Admin Portal',
-            'CI/CD',
-        ],
-        image: rccgHopeHouseImage,
-        imageAlt:
-            'RCCG Hope House public-facing website',
-        secondaryImage: rccgHopeHouseAdminImage,
-        secondaryImageAlt:
-            'RCCG Hope House administration dashboard for managing website content and services',
-        imageLabel: 'Public Website',
-        secondaryImageLabel: 'Admin Platform',
-        visualLabel: 'Full-Stack Platform',
-        githubUrl: 'https://github.com/adahadapato/rccg-hope-house-web-api/',
-        liveUrl: 'https://rccghopehouse.org.uk/',
-        isPrivateRepo: false,
-        label: 'Full-Stack Engineering',
-    },
-    {
-        number: '04',
-        title: 'Phloem',
-        subtitle: 'Full-Stack Cross-Platform Mobile Platform',
-        description:
-            'A full-stack cross-platform marketplace developed for a client, connecting African food sellers with local and diaspora customers. Built with .NET MAUI and C#, with an ASP.NET Core REST API powering the backend, the platform integrates food discovery, seller onboarding and commerce, cross-border delivery, order management and administrative operations within a unified system.',
-        tags: [
-            '.NET MAUI',
-            'C#',
-            'ASP.NET Core',
-            'REST API',
-            'Full-Stack Development',
-            'Marketplace',
-            'Seller Management',
-            'Logistics',
-        ],
-        image: phloemMarketplaceImage,
-        imageAlt:
-            'Phloem mobile marketplace home screen showing food discovery and popular dishes',
-        gallery: [
-            { image: phloemMarketplaceImage, alt: 'Phloem mobile marketplace home screen showing food discovery and popular dishes', label: 'Marketplace' },
-            { image: phloemPlatformOverviewImage, alt: 'Phloem platform overview describing its African food marketplace and diaspora delivery mission', label: 'Platform' },
-            { image: phloemCrossBorderDeliveryImage, alt: 'Phloem cross-border delivery workflow for sending African food to the United Kingdom', label: 'Delivery' },
-            { image: phloemSellerDashboardImage, alt: 'Phloem seller dashboard showing orders, balance and product sales management', label: 'Seller' },
-            { image: phloemAdminDashboardImage, alt: 'Phloem admin dashboard showing seller approval and management controls', label: 'Admin' },
-        ],
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Client Mobile Application',
-    },
-    {
-        number: '05',
-        title: 'Med-CTX',
-        subtitle: 'Explainable Multimodal Medical AI',
-        description:
-            'A transformer-based multimodal AI framework combining breast ultrasound imaging with radiology reports for explainable breast cancer image segmentation and clinically interpretable model outputs.',
-        tags: [
-            'Multimodal AI',
-            'Transformers',
-            'Computer Vision',
-            'Medical Imaging',
-            'Explainable AI',
-        ],
-        image: medCtxInputImage,
-        imageAlt:
-            'Med-CTX clinical context input containing imaging and pathology information',
-        secondaryImage: medCtxOutputImage,
-        secondaryImageAlt:
-            'Med-CTX AI-generated clinical explanation showing assessment confidence and decision guidance',
-        visualLabel: 'Research Output',
-        githubUrl: 'https://github.com/adahadapato/med-ctx',
-        isPrivateRepo: false,
-        label: 'AI Research',
-    },
-];
+/**
+ * The API's project → the card's shape. Pictures: "Gallery" pictures show as the phone gallery; otherwise the
+ * "Primary" and "Secondary" pictures (or the first picture alone).
+ * @param project The project from the API.
+ * @param index   Its place on the page (numbers run on from Featured into Engineering).
+ */
+function toCard(project: ProjectDto, index: number): Project {
+    const gallery = project.images.filter(i => i.kind === 'Gallery');
+    const primary = project.images.find(i => i.kind === 'Primary') ?? (gallery.length ? undefined : project.images[0]);
+    const secondary = project.images.find(i => i.kind === 'Secondary');
 
-const engineeringProjects: Project[] = [
-    {
-        number: '06',
-        title: 'NECO Examination Data Processing',
-        subtitle: 'OMR Scanning & Monitoring',
-        description:
-            'A real-time examination data capture and monitoring solution supporting OMR data capture workflows, operator access, examination filtering, ' +
-            'progress monitoring and identification of missing records.',
-        tags: [
-            'C#',
-            '.NET',
-            'OMR',
-            'Data Processing',
-            'Real-Time Monitoring',
-            'Examination Management Systems',
-        ],
-        image: necoOmrSystemImage,
-        imageAlt:
-            'Examination OMR data capture and monitoring application',
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Enterprise Systems',
-    },
-    {
-        number: '07',
-        title: 'Multimodal Biometric Identity System',
-        subtitle: 'Fingerprint & Facial Identity Verification',
-        description:
-            'A multimodal biometric data capture and identity-management system combining fingerprint and facial features for identity verification. ' +
-            'The application supports data enrolment, biometric capture, verification, operator administration and integration with biometric capture devices.',
-        tags: [
-            'C#',
-            'Windows Forms',
-            'Multimodal Biometrics',
-            'Fingerprint Recognition',
-            'Facial Recognition',
-            'Identity Verification',
-            'Biometric Enrolment',
-            'Device Integration',
-        ],
-        image: biometricSystemImage,
-        imageAlt:
-            'Multimodal biometric identity capture and verification application',
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Identity Technology',
-    },
-    {
-        number: '08',
-        title: 'Network Video Surveillance',
-        subtitle: 'Multi-Camera Monitoring System',
-        description:
-            'A network video surveillance solution supporting multiple camera sources and configurable monitoring views within a central desktop environment.',
-        tags: [
-            'C#',
-            '.NET',
-            'NVR',
-            'Network Cameras',
-            'Video Monitoring',
-            'Desktop Software',
-            'Security Systems',
-        ],
-        image: nvrSystemImage,
-        imageAlt:
-            'Network video surveillance application with multi-camera monitoring grid',
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Security Technology',
-    },
-    {
-        number: '09',
-        title: 'Automated Operations System',
-        subtitle: 'Enterprise API & Process Automation',
-        description:
-            'An enterprise operations API developed to improve the provision and exchange of organisational data across departments while supporting more efficient digital workflows.',
-        tags: [
-            'C#',
-            'ASP.NET Core',
-            'REST API',
-            'Enterprise Systems',
-            'Process Automation',
-            'MS SQL',
-        ],
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Enterprise Software',
-    },
-    {
-        number: '10',
-        title: 'Digital Archiving System',
-        subtitle: 'Document & Script Tracking',
-        description:
-            'A digital archiving and tracking solution designed to improve document traceability and support faster investigation and resolution of operational enquiries.',
-        tags: [
-            'C#',
-            '.NET',
-            'ASP.NET Core',
-            'Document Management',
-            'Digital Transformation',
-        ],
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Enterprise Software',
-    },
-    {
-        number: '11',
-        title: 'Biometric Time, Attendance & Access Control',
-        subtitle: 'Real-Time Workforce & Security Management',
-        description:
-            'An integrated biometric time, attendance and access-control system using iClock 700, with real-time remote device monitoring and communication through HTTP sockets. The system supports personnel enrolment, attendance management, access control, device-status monitoring and remote operational oversight.',
-        tags: [
-            'C#',
-            'WPF',
-            'iClock 700',
-            'Biometrics',
-            'Time & Attendance',
-            'Access Control',
-            'HTTP Sockets',
-            'Real-Time Monitoring',
-            'Device Integration',
-        ],
-        image: timeAttendanceSystemImage,
-        imageAlt:
-            'Biometric time attendance and access control management dashboard',
-        githubUrl: '',
-        isPrivateRepo: true,
-        label: 'Biometric Systems',
-    },
-];
+    return {
+        number: String(index + 1).padStart(2, '0'),
+        title: project.title,
+        subtitle: project.subtitle,
+        description: project.description,
+        tags: project.tags,
+        label: project.label,
+        image: fileUrl(primary?.url),
+        imageAlt: primary?.altText,
+        imageLabel: primary?.label ?? undefined,
+        secondaryImage: fileUrl(secondary?.url),
+        secondaryImageAlt: secondary?.altText,
+        secondaryImageLabel: secondary?.label ?? undefined,
+        visualLabel: project.visualLabel ?? undefined,
+        githubUrl: project.githubUrl ?? '',
+        liveUrl: project.liveUrl ?? undefined,
+        isPrivateRepo: project.isPrivateRepo,
+        gallery: gallery.length
+            ? gallery.map((g, i) => ({ image: fileUrl(g.url) ?? '', alt: g.altText, label: g.label ?? `Screen ${i + 1}` }))
+            : undefined,
+    };
+}
 
 function ProjectVisual({
     project,
@@ -319,7 +88,7 @@ function ProjectVisual({
                     ))}
                 </div>
                 <div className="project-image-overlay" aria-hidden="true" />
-                <span className="project-image-label">Mobile application</span>
+                <span className="project-image-label">{project.visualLabel ?? 'Mobile application'}</span>
             </div>
         );
     }
@@ -396,7 +165,7 @@ function ProjectVisual({
                 />
 
                 <span className="project-image-label">
-                    Project interface
+                    {project.visualLabel ?? 'Project interface'}
                 </span>
             </div>
         );
@@ -612,6 +381,13 @@ function EngineeringProjectCard({
 }
 
 function Projects() {
+    const projects = useProjects();
+    const all = projects.data ?? [];
+    const featured = all.filter(p => p.category === 'Featured');
+    const engineering = all.filter(p => p.category === 'Engineering');
+    const featuredProjects = featured.map((p, i) => toCard(p, i));
+    const engineeringProjects = engineering.map((p, i) => toCard(p, featured.length + i));
+
     return (
         <main className="projects-page">
             <section className="projects-hero">
@@ -666,6 +442,13 @@ function Projects() {
                         </p>
                     </div>
 
+                    <ContentStatus
+                        isLoading={projects.isLoading}
+                        error={projects.error}
+                        onRetry={() => projects.refetch()}
+                        height={420}
+                    />
+
                     <div className="featured-project-list">
                         {featuredProjects.map(
                             project => (
@@ -702,6 +485,14 @@ function Projects() {
                             information management.
                         </p>
                     </div>
+
+                    <ContentStatus
+                        isLoading={projects.isLoading}
+                        error={null}
+                        onRetry={() => projects.refetch()}
+                        placeholders={1}
+                        height={320}
+                    />
 
                     <div className="engineering-project-grid">
                         {engineeringProjects.map(

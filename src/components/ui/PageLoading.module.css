@@ -1,0 +1,25 @@
+.wrap {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  min-height: 50vh;
+  align-content: center;
+  color: var(--z-text-muted);
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--z-border);
+  border-top-color: var(--z-cyan);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.label { font-size: 0.9rem; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 2.4s; }
+}

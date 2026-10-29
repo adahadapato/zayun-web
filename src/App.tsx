@@ -1,79 +1,31 @@
-import {
-    BrowserRouter,
-    Navigate,
-    Route,
-    Routes,
-} from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from 'react-router'
+import { ApiError } from './api/apiError'
+import { router } from './routes'
+import { SessionProvider } from './state/SessionContext'
 
-import MainLayout from './layouts/MainLayout';
+/**
+ * API data cache (React Query). Lists are kept fresh for 30 seconds. A failed load is tried once more, except for
+ * answers that won't change by trying again (wrong input, not found, not allowed).
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      refetchOnWindowFocus: false,
+      retry: (failureCount, error) =>
+        failureCount < 1 && !(error instanceof ApiError && error.status >= 400 && error.status < 500),
+    },
+  },
+})
 
-import Home from './pages/home/Home';
-import About from './pages/about/About';
-import Experience from './pages/experience/Experience';
-import Projects from './pages/projects/Projects';
-import Research from './pages/research/Research';
-import Skills from './pages/skills/Skills';
-import Awards from './pages/awards/Awards';
-import Contact from './pages/contact/Contact';
-
-function App() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route element={<MainLayout />}>
-                    <Route
-                        path="/"
-                        element={<Home />}
-                    />
-
-                    <Route
-                        path="/about"
-                        element={<About />}
-                    />
-
-                    <Route
-                        path="/experience"
-                        element={<Experience />}
-                    />
-
-                    <Route
-                        path="/projects"
-                        element={<Projects />}
-                    />
-
-                    <Route
-                        path="/research"
-                        element={<Research />}
-                    />
-
-                    <Route
-                        path="/skills"
-                        element={<Skills />}
-                    />
-
-                    <Route
-                        path="/awards"
-                        element={<Awards />}
-                    />
-
-                    <Route
-                        path="/contact"
-                        element={<Contact />}
-                    />
-
-                    <Route
-                        path="*"
-                        element={
-                            <Navigate
-                                to="/"
-                                replace
-                            />
-                        }
-                    />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+/** The whole website: data cache → signed-in admin → pages. */
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <RouterProvider router={router} />
+      </SessionProvider>
+    </QueryClientProvider>
+  )
 }
-
-export default App;

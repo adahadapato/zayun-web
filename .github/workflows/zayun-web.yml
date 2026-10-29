@@ -14,6 +14,11 @@ on:
 permissions:
   contents: read
 
+# One deployment at a time; a newer push waits for the running one to finish
+concurrency:
+  group: zayun-web-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build Zayun Web
@@ -35,8 +40,28 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      # The API's address comes from .env.production (VITE_API_BASE_URL = https://api.zayun.net).
+      # To build against another API without changing the repo, set the repository VARIABLE API_BASE_URL
+      # (Settings → Secrets and variables → Actions → Variables). Nothing secret ever goes into the website:
+      # everything in it is downloaded by every visitor's browser.
       - name: Build application
-        run: npm run build
+        shell: powershell
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:API_BASE_URL)) {
+              # Vite reads real environment variables before the .env files
+              $env:VITE_API_BASE_URL = $env:API_BASE_URL
+              Write-Host "Building against $env:API_BASE_URL"
+          }
+
+          npm run build
+          if ($LASTEXITCODE -ne 0) { throw "The build failed." }
+
+          # web.config (from public/) makes refreshes and links to pages like /admin/inbox work on IIS
+          foreach ($file in @("dist\index.html", "dist\web.config")) {
+              if (-not (Test-Path $file)) { throw "$file is missing from the build." }
+          }
 
       - name: Upload frontend artifact
         uses: actions/upload-artifact@v4

@@ -1,0 +1,50 @@
+/*
+  Zayun design tokens: the colours, shapes and sizes the admin area and the shared components use, taken from the
+  public site's look (global.css, home.css). Change a value here and everything built on the tokens follows.
+  Use the tokens, never raw colours, in new CSS.
+*/
+:root {
+  /* ── Surfaces (dark navy, like the site) ── */
+  --z-bg: #020c18;               /* page background (= --background) */
+  --z-bg-soft: #061525;          /* panels, cards (= --background-soft) */
+  --z-bg-raised: #0a1d31;        /* fields, rows on hover */
+  --z-bg-sunken: #01070f;        /* the admin menu */
+  --z-border: rgba(255, 255, 255, 0.11);
+  --z-border-strong: rgba(75, 137, 190, 0.38);
+
+  /* ── Text ── */
+  --z-text: #f5f8fc;
+  --z-text-muted: #aab6c5;
+  --z-text-faint: #6f7d8f;
+
+  /* ── Accents (the site's cyan → blue, plus purple) ── */
+  --z-cyan: #10dff4;
+  --z-blue: #1598ff;
+  --z-purple: #9564ff;
+  --z-gradient: linear-gradient(90deg, #10dff4, #18b9f7);
+  --z-glow: 0 0 35px rgba(16, 223, 244, 0.15);
+  --z-on-accent: #00101a;        /* text on the cyan gradient */
+
+  /* ── States ── */
+  --z-success: #2ed39a;
+  --z-success-bg: rgba(46, 211, 154, 0.12);
+  --z-warning: #f6b84b;
+  --z-warning-bg: rgba(246, 184, 75, 0.12);
+  --z-danger: #ff6b6b;
+  --z-danger-bg: rgba(255, 107, 107, 0.12);
+  --z-info-bg: rgba(16, 223, 244, 0.1);
+
+  /* ── Shape and depth ── */
+  --z-radius-field: 12px;
+  --z-radius-card: 16px;
+  --z-radius-pill: 999px;
+  --z-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  /* ── Type ── */
+  --z-font-body: 'DM Sans', system-ui, sans-serif;
+  --z-font-heading: 'Manrope', 'DM Sans', system-ui, sans-serif;
+
+  /* ── Sizes ── */
+  --z-control-height: 46px;
+  --z-control-height-sm: 36px;
+}

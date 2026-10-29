@@ -238,6 +238,8 @@ import {
     FaPhone,
 } from 'react-icons/fa';
 
+import { ContactForm } from './ContactForm';
+
 function Contact() {
     return (
         <main className="contact-page">
@@ -360,6 +362,8 @@ function Contact() {
                                                         </span>
                                                     </a>
                         </div>
+
+                        <ContactForm />
                     </div>
 
                     <aside className="contact-sidebar">
