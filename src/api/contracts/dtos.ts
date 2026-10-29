@@ -189,6 +189,14 @@ export interface TagDto {
   usedBy: number
 }
 
+/** One page of tags, plus the totals for the filter tabs. */
+export interface TagListDto {
+  tags: PagedResult<TagDto>
+  total: number
+  used: number
+  unused: number
+}
+
 /** The tag check while typing. */
 export interface TagCheckDto {
   status: TagCheckStatus

@@ -24,7 +24,7 @@ type Note = { text: string; tone: 'info' | 'warn' } | null
  * With `suggestions`, existing tags are offered as you type.
  */
 export function TagInput({ label, value, onChange, placeholder = 'Type and press Enter', hint, error, max = 30,
-                           check, suggestions }: {
+                           check, suggestions, onDraftChange }: {
   label: string
   value: string[]
   onChange: (value: string[]) => void
@@ -37,10 +37,16 @@ export function TagInput({ label, value, onChange, placeholder = 'Type and press
   check?: (name: string) => Promise<TagCheckResult | null>
   /** Names offered while typing. */
   suggestions?: readonly string[]
+  /** Called as the typed text changes (to look up suggestions). */
+  onDraftChange?: (draft: string) => void
 }) {
   const id = useId()
   const listId = `${id}-suggestions`
-  const [draft, setDraft] = useState('')
+  const [draft, setDraftState] = useState('')
+  const setDraft = (text: string) => {
+    setDraftState(text)
+    onDraftChange?.(text.split(',').pop()?.trim() ?? '')
+  }
   const [checking, setChecking] = useState(false)
   const [note, setNote] = useState<Note>(null)
   const [doubt, setDoubt] = useState<{ name: string; message: string; rest: string[] } | null>(null)

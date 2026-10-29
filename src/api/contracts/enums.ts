@@ -21,6 +21,12 @@ export type ContactTopic = 'Project' | 'Research' | 'Opportunity' | 'Speaking' |
 /** What a typed tag turned out to be: already a tag, a new one, or doubtful (the AI doesn't think it's a skill). */
 export type TagCheckStatus = 'Existing' | 'New' | 'Doubtful'
 
+/** Which tags Admin → Tags shows. */
+export type TagFilter = 'All' | 'Used' | 'Unused'
+
+/** How Admin → Tags is sorted. */
+export type TagSort = 'Name' | 'Usage'
+
 /** Where a Contact message is in the inbox. */
 export type ContactMessageStatus = 'New' | 'Replied' | 'Closed'
 

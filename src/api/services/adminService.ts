@@ -12,9 +12,9 @@ import type {
 import type {
   AdminOverviewDto, AwardDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
-  TagCheckDto, TagDto,
+  TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
-import type { ContactMessageStatus, DocumentCategory } from '../contracts/enums'
+import type { ContactMessageStatus, DocumentCategory, TagFilter, TagSort } from '../contracts/enums'
 
 // ───────────────────────────── Shared actions ─────────────────────────────
 
@@ -110,8 +110,10 @@ export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/imag
 
 // ───────────────────────────── Tags ─────────────────────────────
 
-/** Every tag, by name, with where it's used. */
-export const getTags = (signal?: AbortSignal) => get<TagDto[]>('api/admin/tags', signal)
+/** One page of tags (searched, filtered and sorted by the API), with where each is used. */
+export const getTags = (query: { search?: string; filter?: TagFilter; sort?: TagSort; page?: number; pageSize?: number },
+                        signal?: AbortSignal) =>
+  get<TagListDto>(withQuery('api/admin/tags', query), signal)
 
 /** Checks a typed tag (built-in rules, then the AI for unknown names). */
 export const checkTag = (name: string, signal?: AbortSignal) =>

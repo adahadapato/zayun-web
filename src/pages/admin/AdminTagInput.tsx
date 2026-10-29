@@ -1,13 +1,14 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useCallback, useEffect, useState } from 'react'
 import { unwrap } from '../../api/apiError'
 import { checkTag, getTags } from '../../api/services/adminService'
 import { TagInput, type TagCheckResult } from '../../components/ui/TagInput'
 import { tagsKey } from './tags/tagsKey'
 
 /**
- * The tag box for the admin area (project tags, experience skills, skill-group skills): offers the shared tags while
- * typing, and checks each new name with the API (built-in rules, then AI) before adding it.
+ * The tag box for the admin area (project tags, experience skills, skill-group skills). While typing it asks the API
+ * for the 8 best-matching tags (never the whole list), and checks each new name (built-in rules, then AI) before
+ * adding it.
  */
 export function AdminTagInput(props: {
   label: string
@@ -17,23 +18,30 @@ export function AdminTagInput(props: {
   error?: string
   max?: number
 }) {
-  const queryClient = useQueryClient()
-  const tags = useQuery({
-    queryKey: tagsKey,
-    queryFn: async ({ signal }) => unwrap(await getTags(signal)),
+  const [typed, setTyped] = useState('')
+  const [search, setSearch] = useState('')
+
+  // Look up a moment after typing stops
+  useEffect(() => {
+    const timer = setTimeout(() => setSearch(typed), 200)
+    return () => clearTimeout(timer)
+  }, [typed])
+
+  const matches = useQuery({
+    queryKey: [...tagsKey, 'suggest', search],
+    queryFn: async ({ signal }) => unwrap(await getTags({ search, sort: 'Usage', pageSize: 8 }, signal)),
+    enabled: search.length >= 1,
     staleTime: 60_000,
   })
 
   const check = useCallback(async (name: string): Promise<TagCheckResult | null> => {
     const result = await checkTag(name)
-    if (!result.ok) return null
-    // A new tag is added to the list when the item is saved; refresh the suggestions afterwards
-    if (result.value.status !== 'Existing') void queryClient.invalidateQueries({ queryKey: tagsKey })
-    return result.value
-  }, [queryClient])
+    return result.ok ? result.value : null
+  }, [])
 
   return (
-    <TagInput {...props} check={check} suggestions={tags.data?.map((t) => t.name)}
+    <TagInput {...props} check={check} onDraftChange={setTyped}
+              suggestions={search ? matches.data?.tags.items.map((t) => t.name) : undefined}
               placeholder="Type a tag and press Enter" />
   )
 }
