@@ -47,6 +47,10 @@ export const addProjectImage = (projectId: string, file: File, fields: ProjectIm
 export const updateProjectImage = (projectId: string, imageId: string, fields: ProjectImageFields) =>
   put<void>(`api/admin/projects/${projectId}/images/${imageId}`, fields)
 
+/** Swaps a picture's file; it keeps its place, description, caption and kind. */
+export const replaceProjectImageFile = (projectId: string, imageId: string, file: File) =>
+  upload<ProjectImageDto>('PUT', `api/admin/projects/${projectId}/images/${imageId}/file`, 'file', file)
+
 export const deleteProjectImage = (projectId: string, imageId: string) =>
   del(`api/admin/projects/${projectId}/images/${imageId}`)
 

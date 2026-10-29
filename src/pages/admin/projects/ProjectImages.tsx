@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
 import type { ApiError } from '../../../api/apiError'
 import type { ProjectImageFields } from '../../../api/contracts/commands'
 import type { ProjectDto, ProjectImageDto } from '../../../api/contracts/dtos'
 import type { ProjectImageKind } from '../../../api/contracts/enums'
 import {
-  addProjectImage, deleteProjectImage, reorderProjectImages, updateProjectImage,
+  addProjectImage, deleteProjectImage, reorderProjectImages, replaceProjectImageFile, updateProjectImage,
 } from '../../../api/services/adminService'
 import { ApiImage } from '../../../components/ui/ApiImage'
 import { Button } from '../../../components/ui/Button'
@@ -91,26 +91,90 @@ function ImageCard({ image, index, count, onMove, onDelete, onSaved, projectId }
 }) {
   const [editing, setEditing] = useState(false)
   const [fields, setFields] = useState<ProjectImageFields>({ altText: image.altText, label: image.label, kind: image.kind })
+  const [newFile, setNewFile] = useState<File | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<ApiError | null>(null)
+  const [problem, setProblem] = useState<string | null>(null)
+  const fileInputId = useId()
+
+  // A preview of the newly chosen picture (until it is saved or undone)
+  const preview = useMemo(() => (newFile ? URL.createObjectURL(newFile) : null), [newFile])
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview) }, [preview])
+
+  const pick = (file: File | undefined) => {
+    if (!file) return
+    if (file.size > MAX_BYTES) {
+      setProblem('This picture is too big. The maximum is 15 MB.')
+      return
+    }
+    setProblem(null)
+    setNewFile(file)
+  }
+
+  const cancel = () => {
+    setEditing(false)
+    setNewFile(null)
+    setProblem(null)
+    setError(null)
+    setFields({ altText: image.altText, label: image.label, kind: image.kind })
+  }
 
   const save = async () => {
     setBusy(true)
     setError(null)
     const body = { ...fields, label: fields.label?.trim() || null }
+
+    // 1. The words
     const result = await updateProjectImage(projectId, image.id, body)
-    setBusy(false)
     if (!result.ok) {
+      setBusy(false)
       setError(result.error)
       return
     }
-    onSaved({ ...image, ...body })
+    let saved: ProjectImageDto = { ...image, ...body }
+
+    // 2. The new picture, if one was chosen (it keeps its place, description, caption and kind)
+    if (newFile) {
+      const replaced = await replaceProjectImageFile(projectId, image.id, newFile)
+      if (!replaced.ok) {
+        setBusy(false)
+        onSaved(saved)
+        setError(replaced.error)
+        return
+      }
+      saved = { ...replaced.value, ...body }
+    }
+
+    setBusy(false)
+    onSaved(saved)
+    setNewFile(null)
     setEditing(false)
   }
 
   return (
     <article className={styles.imageCard}>
-      <ApiImage src={image.thumbnailUrl ?? image.url} alt={image.altText} />
+      {editing ? (
+        <div className={styles.picturePick}>
+          {preview
+            ? <img src={preview} alt="The new picture (not saved yet)" />
+            : <ApiImage src={image.thumbnailUrl ?? image.url} alt={image.altText} />}
+          {preview && <span className={styles.pictureNew}>New · not saved yet</span>}
+          <div className={styles.picturePickBar}>
+            <label htmlFor={fileInputId} className={styles.pictureButton}>
+              <input id={fileInputId} type="file" accept="image/*"
+                     onChange={(e) => { pick(e.target.files?.[0]); e.target.value = '' }} />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                   aria-hidden="true"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" /></svg>
+              {preview ? 'Choose another' : 'Change picture'}
+            </label>
+            {preview && (
+              <button type="button" className={styles.pictureButton} onClick={() => setNewFile(null)}>Undo</button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <ApiImage src={image.thumbnailUrl ?? image.url} alt={image.altText} />
+      )}
       {editing ? (
         <div className={styles.form} style={{ gap: 12 }}>
           <Field label="Description" value={fields.altText} maxLength={300}
@@ -119,10 +183,11 @@ function ImageCard({ image, index, count, onMove, onDelete, onSaved, projectId }
                  onChange={(e) => setFields({ ...fields, label: e.target.value })} error={error?.fieldError('label')} />
           <Select label="Used as" value={fields.kind} options={projectImageKinds}
                   onChange={(e) => setFields({ ...fields, kind: e.target.value as ProjectImageKind })} />
+          <StatusBanner message={problem} isError />
           {error && !Object.keys(error.fieldErrors).length && <StatusBanner message={error.displayMessage} isError />}
           <div className={styles.actions}>
-            <Button small busy={busy} busyText="Saving…" onClick={save}>Save</Button>
-            <Button small variant="plain" onClick={() => setEditing(false)}>Cancel</Button>
+            <Button small busy={busy} busyText={newFile ? 'Uploading…' : 'Saving…'} onClick={save}>Save</Button>
+            <Button small variant="plain" onClick={cancel}>Cancel</Button>
           </div>
         </div>
       ) : (
