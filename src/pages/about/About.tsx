@@ -4,17 +4,21 @@
 } from 'react-icons/fa';
 import { Link } from 'react-router';
 
-import { useAwards } from '../../state/contentQueries';
+import { ApiImage } from '../../components/ui/ApiImage';
+import { useAwards, useSiteImages } from '../../state/contentQueries';
 
 function About() {
     // The first featured award is the "Recognition" highlight (none: the highlight is left out)
     const awards = useAwards();
     const recognition = awards.data?.find(award => award.isFeatured);
+    // The photo from Admin → Photo (none: the hero has no photo)
+    const photo = useSiteImages().data?.find(image => image.slot === 'OwnerPhoto');
 
     return (
         <main className="about-page">
             <section className="about-hero">
-                <div className="container">
+                <div className={`container${photo ? ' about-hero-with-photo' : ''}`}>
+                    <div className="about-hero-copy">
                     <span className="section-kicker">
                         About
                     </span>
@@ -64,6 +68,18 @@ function About() {
                             <span>LinkedIn</span>
                         </a>
                     </div>
+                    </div>
+
+                    {photo && (
+                        <figure className="about-photo">
+                            <ApiImage
+                                src={photo.url}
+                                alt={photo.altText}
+                                width={photo.width}
+                                height={photo.height}
+                            />
+                        </figure>
+                    )}
                 </div>
             </section>
 

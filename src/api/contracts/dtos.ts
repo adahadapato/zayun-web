@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  ProfilePlatform, PublicationType, TagCheckStatus,
+  ProfilePlatform, PublicationType, SiteImageSlot, TagCheckStatus,
 } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
@@ -171,6 +171,18 @@ export interface AwardDto {
   image: AwardImageDto | null
   displayOrder: number
   isPublished: boolean
+}
+
+// ───────────────────────────── Site pictures ─────────────────────────────
+
+/** A named picture on the website, e.g. the owner's photo. */
+export interface SiteImageDto {
+  slot: SiteImageSlot
+  url: string
+  thumbnailUrl: string | null
+  width: number
+  height: number
+  altText: string
 }
 
 // ───────────────────────────── Profiles ─────────────────────────────

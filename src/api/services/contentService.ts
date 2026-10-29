@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, ProfileDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -34,3 +34,6 @@ export const getAwards = (signal?: AbortSignal) => get<AwardDto[]>('api/awards',
 
 /** Published online profiles in order (footer, Contact, Research, and the data for search engines). */
 export const getProfiles = (signal?: AbortSignal) => get<ProfileDto[]>('api/profiles', signal)
+
+/** Named pictures, e.g. the owner's photo on About (empty slots are left out). */
+export const getSiteImages = (signal?: AbortSignal) => get<SiteImageDto[]>('api/site-images', signal)

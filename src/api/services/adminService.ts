@@ -10,11 +10,11 @@ import type {
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, ProfileDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, ProfileDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
-import type { ContactMessageStatus, DocumentCategory, TagFilter, TagSort } from '../contracts/enums'
+import type { ContactMessageStatus, DocumentCategory, SiteImageSlot, TagFilter, TagSort } from '../contracts/enums'
 
 // ───────────────────────────── Shared actions ─────────────────────────────
 
@@ -107,6 +107,15 @@ export const updateAward = (id: string, command: UpdateAwardCommand) =>
 export const setAwardImage = (id: string, file: File, altText: string) =>
   upload<AwardDto>('PUT', `api/admin/awards/${id}/image`, 'file', file, { altText })
 export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/image`)
+
+// ───────────────────────────── Site pictures (the photo) ─────────────────────────────
+
+/** Uploads or replaces the picture in a slot, e.g. the owner's photo. */
+export const setSiteImage = (slot: SiteImageSlot, file: File, altText: string) =>
+  upload<SiteImageDto>('PUT', `api/admin/site-images/${slot}`, 'file', file, { altText })
+export const describeSiteImage = (slot: SiteImageSlot, altText: string) =>
+  put<SiteImageDto>(`api/admin/site-images/${slot}/description`, { altText })
+export const removeSiteImage = (slot: SiteImageSlot) => del(`api/admin/site-images/${slot}`)
 
 // ───────────────────────────── Profiles ─────────────────────────────
 

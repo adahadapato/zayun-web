@@ -711,3 +711,14 @@
 }
 
 .profileLink:hover { color: var(--z-cyan); }
+
+/* ── Photo ── */
+
+.ownerPhoto {
+  width: min(100%, 320px);
+  height: auto;
+  border-radius: var(--z-radius-card);
+  border: 1px solid var(--z-border-strong);
+  object-fit: cover;
+  aspect-ratio: 4 / 5 !important;
+}

@@ -28,6 +28,9 @@ export type ProfilePlatform =
   | 'LinkedIn' | 'GitHub' | 'HuggingFace' | 'Kaggle' | 'StackOverflow' | 'X' | 'YouTube' | 'Medium'
   | 'Website' | 'Other'
 
+/** A named picture on the website. */
+export type SiteImageSlot = 'OwnerPhoto'
+
 /** Which tags Admin → Tags shows. */
 export type TagFilter = 'All' | 'Used' | 'Unused'
 
