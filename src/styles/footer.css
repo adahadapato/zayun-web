@@ -144,3 +144,18 @@
         justify-content: center;
     }
 }
+
+/* The small "Admin sign in" link under the copyright */
+.footer-admin-link {
+    display: inline-block;
+    margin-top: 6px;
+    color: rgba(170, 182, 197, 0.55);
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: color 160ms ease;
+}
+
+.footer-admin-link:hover,
+.footer-admin-link:focus-visible {
+    color: var(--z-cyan);
+}

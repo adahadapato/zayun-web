@@ -5,6 +5,8 @@
 
 import { Link } from 'react-router';
 
+import { useSession } from '../../state/SessionContext';
+
 const currentYear = new Date().getFullYear();
 
 const socialLinks = [
@@ -21,6 +23,8 @@ const socialLinks = [
 ];
 
 function Footer() {
+    const { isAdmin } = useSession();
+
     return (
         <footer className="footer">
             <div className="container footer-content">
@@ -73,6 +77,14 @@ function Footer() {
                     <p>
                         All rights reserved.
                     </p>
+
+                    {/* A quiet way into the admin area (signed in: straight to the dashboard) */}
+                    <Link
+                        to={isAdmin ? '/admin' : '/login'}
+                        className="footer-admin-link"
+                    >
+                        {isAdmin ? 'Admin dashboard' : 'Admin sign in'}
+                    </Link>
                 </div>
             </div>
         </footer>
