@@ -11,10 +11,10 @@ import { Field, Select, TextArea, Toggle } from '../../../components/ui/Field'
 import { ListStatus } from '../../../components/ui/ListStatus'
 import { PageLoading } from '../../../components/ui/PageLoading'
 import { StatusBanner } from '../../../components/ui/StatusBanner'
-import { TagInput } from '../../../components/ui/TagInput'
 import { projectCategories } from '../../../components/ui/labels'
 import styles from '../Admin.module.css'
 import { AdminHead, PublishedChip } from '../AdminParts'
+import { AdminTagInput } from '../AdminTagInput'
 import { useSavedFlag } from '../useSavedFlag'
 import { ProjectImages } from './ProjectImages'
 import { projectsKey } from './projectKeys'
@@ -123,7 +123,7 @@ function ProjectEditor({ project }: { project?: ProjectDto }) {
         <TextArea label="Description" value={fields.description} maxLength={4000} rows={7}
                   onChange={(e) => set('description', e.target.value)} error={err('description')} />
 
-        <TagInput label="Tags" value={fields.tags} onChange={(tags) => set('tags', tags)} max={20}
+        <AdminTagInput label="Tags" value={fields.tags} onChange={(tags) => set('tags', tags)} max={20}
                   error={err('tags')} hint="Technologies, e.g. React, .NET, SQL Server." />
 
         <div className={styles.grid2}>

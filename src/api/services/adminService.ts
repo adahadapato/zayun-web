@@ -12,6 +12,7 @@ import type {
 import type {
   AdminOverviewDto, AwardDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
+  TagCheckDto, TagDto,
 } from '../contracts/dtos'
 import type { ContactMessageStatus, DocumentCategory } from '../contracts/enums'
 
@@ -106,6 +107,24 @@ export const updateAward = (id: string, command: UpdateAwardCommand) =>
 export const setAwardImage = (id: string, file: File, altText: string) =>
   upload<AwardDto>('PUT', `api/admin/awards/${id}/image`, 'file', file, { altText })
 export const removeAwardImage = (id: string) => del(`api/admin/awards/${id}/image`)
+
+// ───────────────────────────── Tags ─────────────────────────────
+
+/** Every tag, by name, with where it's used. */
+export const getTags = (signal?: AbortSignal) => get<TagDto[]>('api/admin/tags', signal)
+
+/** Checks a typed tag (built-in rules, then the AI for unknown names). */
+export const checkTag = (name: string, signal?: AbortSignal) =>
+  post<TagCheckDto>('api/admin/tags/check', { name }, signal)
+
+export const createTag = (name: string) => post<TagDto>('api/admin/tags', { name })
+
+/** Renames a tag everywhere it's used. */
+export const renameTag = (id: string, name: string) => put<TagDto>(`api/admin/tags/${id}`, { name })
+
+/** Merges a tag into another (everything using it uses the other). */
+export const mergeTag = (id: string, intoTagId: string) =>
+  post<TagDto>(`api/admin/tags/${id}/merge`, { intoTagId })
 
 // ───────────────────────────── Inbox ─────────────────────────────
 

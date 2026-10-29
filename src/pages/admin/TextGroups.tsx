@@ -12,9 +12,9 @@ import { Button } from '../../components/ui/Button'
 import { Field, TextArea, Toggle } from '../../components/ui/Field'
 import { ListStatus } from '../../components/ui/ListStatus'
 import { StatusBanner } from '../../components/ui/StatusBanner'
-import { TagInput } from '../../components/ui/TagInput'
 import styles from './Admin.module.css'
 import { ConfirmDelete, OrderButtons, PublishedChip } from './AdminParts'
+import { AdminTagInput } from './AdminTagInput'
 import type { AdminListActions } from './useAdminList'
 
 export interface TextGroupWords {
@@ -133,7 +133,7 @@ function TextGroupEditor({ item, words, queryKey, create, update, onDone }: {
              onChange={(e) => setFields({ ...fields, title: e.target.value })} />
       <TextArea label="Description" value={fields.description} maxLength={words.maxDescription} error={err('description')}
                 onChange={(e) => setFields({ ...fields, description: e.target.value })} />
-      <TagInput label="Skills" value={fields.skills} max={words.maxSkills} error={err('skills')}
+      <AdminTagInput label="Skills" value={fields.skills} max={words.maxSkills} error={err('skills')}
                 onChange={(skills) => setFields({ ...fields, skills })} hint="Press Enter after each, or paste a list with commas." />
       {!item && <Toggle label="Put it on the website now" checked={publishNow} onChange={setPublishNow} />}
       {error && <StatusBanner message={Object.keys(error.fieldErrors).length ? 'Please check the fields marked in red.'

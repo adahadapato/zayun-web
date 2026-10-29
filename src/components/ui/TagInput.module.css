@@ -68,3 +68,59 @@
 
 .hint { margin: 0; color: var(--z-text-faint); font-size: 0.8rem; }
 .error { margin: 0; color: var(--z-danger); font-size: 0.82rem; }
+
+.box { position: relative; }
+
+.checking {
+  align-self: center;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--z-border);
+  border-top-color: var(--z-cyan);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.note {
+  margin: 0;
+  color: var(--z-cyan);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.doubt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  color: var(--z-text);
+  background: var(--z-warning-bg);
+  border: 1px solid rgba(246, 184, 75, 0.45);
+  border-radius: var(--z-radius-field);
+  font-size: 0.84rem;
+}
+
+.doubtActions { display: inline-flex; gap: 8px; }
+
+.doubtActions button {
+  min-height: 30px;
+  padding: 0 12px;
+  color: var(--z-text);
+  background: transparent;
+  border: 1px solid var(--z-border-strong);
+  border-radius: var(--z-radius-pill);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.doubtActions button:first-child { color: var(--z-on-accent); background: var(--z-warning); border-color: var(--z-warning); }
+
+@media (prefers-reduced-motion: reduce) {
+  .checking { animation-duration: 2.4s; }
+}

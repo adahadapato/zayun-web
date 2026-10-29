@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  PublicationType,
+  PublicationType, TagCheckStatus,
 } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
@@ -171,6 +171,33 @@ export interface AwardDto {
   image: AwardImageDto | null
   displayOrder: number
   isPublished: boolean
+}
+
+// ───────────────────────────── Tags ─────────────────────────────
+
+/** A tag in the shared list (project tags, experience and skill-group skills), with where it's used. */
+export interface TagDto {
+  id: string
+  name: string
+  /** The UPPERCASE key used to spot duplicates. */
+  normalizedName: string
+  /** Other keys that mean this tag (old names). */
+  aliases: string[]
+  projects: number
+  experienceAreas: number
+  skillGroups: number
+  usedBy: number
+}
+
+/** The tag check while typing. */
+export interface TagCheckDto {
+  status: TagCheckStatus
+  /** The name to use: the existing tag's, or the usual spelling of a new one. */
+  name: string
+  tagId: string | null
+  /** A short line for the admin, e.g. "Same as \"REST API\"." */
+  message: string
+  checkedByAi: boolean
 }
 
 // ───────────────────────────── Inbox ─────────────────────────────

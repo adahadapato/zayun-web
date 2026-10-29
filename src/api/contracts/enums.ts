@@ -18,6 +18,9 @@ export type PresentationType = 'Poster' | 'Oral' | 'Conference' | 'InvitedTalk' 
 /** What a Contact message is about. */
 export type ContactTopic = 'Project' | 'Research' | 'Opportunity' | 'Speaking' | 'Other'
 
+/** What a typed tag turned out to be: already a tag, a new one, or doubtful (the AI doesn't think it's a skill). */
+export type TagCheckStatus = 'Existing' | 'New' | 'Doubtful'
+
 /** Where a Contact message is in the inbox. */
 export type ContactMessageStatus = 'New' | 'Replied' | 'Closed'
 
