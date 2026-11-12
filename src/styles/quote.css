@@ -37,6 +37,10 @@
     color: var(--z-cyan);
 }
 
+.quote-figure {
+    margin: 0;
+}
+
 .quote-text {
     margin: 0;
 }
@@ -110,6 +114,67 @@
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
+}
+
+/* With a picture or animation: picture beside the words on wide screens, above them on narrow ones */
+.quote-card-with-media {
+    display: grid;
+    grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 48px);
+    align-items: center;
+    max-width: 1080px;
+}
+
+.quote-media {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--z-border);
+    border-radius: var(--z-radius-card);
+    background: var(--z-bg-raised);
+}
+
+    .quote-media img,
+    .quote-media video {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+/* Pause / Play: always visible, large enough to tap, with the site's focus ring */
+.quote-media-toggle {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--z-border);
+    border-radius: var(--z-radius-pill);
+    color: var(--z-text);
+    background: rgba(2, 12, 24, 0.75);
+    cursor: pointer;
+}
+
+    .quote-media-toggle:hover {
+        border-color: var(--z-cyan);
+        color: var(--z-cyan);
+    }
+
+    .quote-media-toggle:focus-visible {
+        outline: 2px solid var(--z-cyan);
+        outline-offset: 2px;
+    }
+
+@media (max-width: 860px) {
+    .quote-card-with-media {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .quote-media {
+        max-width: 420px;
+    }
 }
 
 @media (max-width: 700px) {

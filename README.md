@@ -41,7 +41,7 @@ The structure follows the Phloem website (`adahadapato/Phloem-web`), so both pro
 | Page | Content | From |
 |---|---|---|
 | Home, About, Awards | Introduction, background, recognition | the page itself |
-| Quote of the day | A card on Home (below the hero) and a quiet line on About: the same quote for everyone all day, changing at UK midnight; left out when there's none | API |
+| Quote of the day | A card on Home (below the hero) and a quiet line on About: the same quote for everyone all day, changing at UK midnight; left out when there's none. The Home card shows the quote's picture, or plays its MP4 animation silently on a loop with a Pause / Play button (the still picture for visitors who ask for reduced motion) | API |
 | Projects | Featured and Engineering projects with pictures, tags and links | API |
 | Research | Research areas and the Med-CTX story (on the page), **publications** and **presentations** | page + API |
 | Experience | Experience areas with their skills | API |
@@ -159,7 +159,7 @@ src/
   components/
     layout/                Navbar, Footer, ProtectedRoute
     ui/                    Button, Field / TextArea / Select / Toggle, TagInput, StatusBanner, ListStatus,
-                           ContentStatus, Pager, ApiImage, PageLoading, QuoteOfTheDay (Home card / About line), labels.ts
+                           ContentStatus, Pager, ApiImage, PageLoading, QuoteOfTheDay (Home card / About line), QuoteMedia (picture / animation), labels.ts
   layouts/MainLayout.tsx   the public site's frame (navbar, footer, scroll to top)
   pages/
     home, about, awards    public pages written on the page

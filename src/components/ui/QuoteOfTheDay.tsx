@@ -2,8 +2,9 @@
  * Today's quote from the API (GET /api/quotes/today): the same quote for everyone all day, changing at UK midnight.
  *
  * Two looks:
- * - `card` (Home, below the hero): the quote, who said it, the source, a translation for proverbs, and the
- *   one-line story for illustrated series like "Nature first".
+ * - `card` (Home, below the hero): the quote, who said it, the source, a translation for proverbs, the one-line
+ *   story for illustrated series like "Nature first", and the picture or animation when the quote has one
+ *   (see QuoteMedia).
  * - `line` (About, under the intro): a quieter single line with the quote and who said it.
  *
  * Shows nothing while loading, when there's no quote (404) or when the API can't be reached: a missing quote should
@@ -14,6 +15,7 @@
  */
 import type { QuoteOfTheDayDto } from '../../api/contracts/dtos'
 import { useQuoteOfTheDay } from '../../state/contentQueries'
+import { QuoteMedia } from './QuoteMedia'
 
 /** Language names as typed in Admin → Quotes → their language codes (ISO 639), for the `lang` attribute. */
 const LANGUAGE_CODES: Record<string, string> = {
@@ -53,37 +55,44 @@ function QuoteCard({ quote }: { quote: QuoteOfTheDayDto }) {
   return (
     <section className="quote-section" aria-label="Quote of the day">
       <div className="container">
-        <figure className="quote-card">
-          <span className="section-kicker quote-kicker">{kicker}</span>
+        <div className={`quote-card${quote.media ? ' quote-card-with-media' : ''}`}>
+          {quote.media && <QuoteMedia media={quote.media} />}
 
-          <blockquote className="quote-text" lang={lang}>
-            <p>{quote.text}</p>
-          </blockquote>
+          <div className="quote-body">
+            <span className="section-kicker quote-kicker">{kicker}</span>
 
-          {quote.translation && (
-            <p className="quote-translation">
-              <span className="quote-language">In English:</span> {quote.translation}
-            </p>
-          )}
+            {/* The figure holds only the quote and its caption (a figcaption must be the figure's last child) */}
+            <figure className="quote-figure">
+              <blockquote className="quote-text" lang={lang}>
+                <p>{quote.text}</p>
+              </blockquote>
 
-          <figcaption className="quote-author">
-            <span className="quote-dash" aria-hidden="true">—</span>
-            <span>{quote.author}</span>
-            {quote.source && (
-              <>
-                <span className="quote-separator" aria-hidden="true">·</span>
-                <cite>{quote.source}</cite>
-              </>
+              {quote.translation && (
+                <p className="quote-translation">
+                  <span className="quote-language">In English:</span> {quote.translation}
+                </p>
+              )}
+
+              <figcaption className="quote-author">
+                <span className="quote-dash" aria-hidden="true">—</span>
+                <span>{quote.author}</span>
+                {quote.source && (
+                  <>
+                    <span className="quote-separator" aria-hidden="true">·</span>
+                    <cite>{quote.source}</cite>
+                  </>
+                )}
+              </figcaption>
+            </figure>
+
+            {quote.story && (
+              <p className="quote-story">
+                <span className="quote-story-label">The story</span>
+                {quote.story}
+              </p>
             )}
-          </figcaption>
-
-          {quote.story && (
-            <p className="quote-story">
-              <span className="quote-story-label">The story</span>
-              {quote.story}
-            </p>
-          )}
-        </figure>
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -264,6 +264,21 @@ export interface QuoteOfTheDayDto {
   series: string | null
   /** A one-line true story shown with it. */
   story: string | null
+  /** The picture (and animation), or null when there's none. */
+  media: QuoteMediaDto | null
+}
+
+/** A quote's picture, and its animation when there is one. */
+export interface QuoteMediaDto {
+  /** The still picture (WebP). Also what visitors who turn off motion see. */
+  pictureUrl: string
+  thumbnailUrl: string | null
+  width: number
+  height: number
+  /** The picture's description for screen readers (it tells the story). */
+  altText: string
+  /** The MP4 animation, or null for none. */
+  animationUrl: string | null
 }
 
 // ───────────────────────────── Tags ─────────────────────────────
