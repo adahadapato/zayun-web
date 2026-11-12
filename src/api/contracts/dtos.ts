@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  ProfilePlatform, PublicationType, QuoteKind, SiteImageSlot, TagCheckStatus,
+  ProfilePlatform, PublicationType, QuoteKind, QuotePickReason, SiteImageSlot, TagCheckStatus,
 } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
@@ -279,6 +279,40 @@ export interface QuoteMediaDto {
   altText: string
   /** The MP4 animation, or null for none. */
   animationUrl: string | null
+}
+
+/** A quote as Admin → Quotes shows it: everything, drafts included. */
+export interface QuoteDto {
+  id: string
+  kind: QuoteKind
+  text: string
+  author: string
+  source: string | null
+  language: string | null
+  translation: string | null
+  /** A series, e.g. "Nature first" (shown on Sundays). */
+  series: string | null
+  story: string | null
+  isSourceChecked: boolean
+  /** The month (1–12) it's pinned to, or null. */
+  pinnedMonth: number | null
+  pinnedDay: number | null
+  displayOrder: number
+  isPublished: boolean
+  /** True when the website may show it: published and its source checked. */
+  canBeShown: boolean
+  media: QuoteMediaDto | null
+}
+
+/** One day of Admin → Quotes → "Coming up". */
+export interface QuotePreviewDayDto {
+  /** The UK date, e.g. "2026-11-12". */
+  date: string
+  /** Why that quote was chosen; null when nothing can be shown that day. */
+  reason: QuotePickReason | null
+  quoteId: string | null
+  text: string | null
+  author: string | null
 }
 
 // ───────────────────────────── Tags ─────────────────────────────

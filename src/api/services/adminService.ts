@@ -5,12 +5,12 @@
 import { withQuery } from '../apiQuery'
 import { del, get, post, put, upload } from '../client'
 import type {
-  ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
+  ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateQuoteCommand, QuoteFields, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
   CreateTextGroupCommand, DocumentFields, ProfileFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePreviewDayDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
@@ -132,6 +132,24 @@ export const removeSiteImage = (slot: SiteImageSlot) => del(`api/admin/site-imag
 export const getAdminProfiles = (signal?: AbortSignal) => get<ProfileDto[]>('api/admin/profiles', signal)
 export const createProfile = (command: CreateProfileCommand) => post<ProfileDto>('api/admin/profiles', command)
 export const updateProfile = (id: string, fields: ProfileFields) => put<ProfileDto>(`api/admin/profiles/${id}`, fields)
+
+// ───────────────────────────── Quotes ─────────────────────────────
+
+export const getAdminQuotes = (signal?: AbortSignal) => get<QuoteDto[]>('api/admin/quotes', signal)
+export const createQuote = (command: CreateQuoteCommand) => post<QuoteDto>('api/admin/quotes', command)
+export const updateQuote = (id: string, fields: QuoteFields) => put<QuoteDto>(`api/admin/quotes/${id}`, fields)
+/** Sets or replaces the still picture (stored as WebP). */
+export const setQuotePicture = (id: string, file: File, altText: string) =>
+  upload<QuoteDto>('PUT', `api/admin/quotes/${id}/picture`, 'file', file, { altText })
+/** Removes the picture, and the animation with it. */
+export const removeQuotePicture = (id: string) => del(`api/admin/quotes/${id}/picture`)
+/** Sets or replaces the MP4 animation (needs the picture first). */
+export const setQuoteAnimation = (id: string, file: File) =>
+  upload<QuoteDto>('PUT', `api/admin/quotes/${id}/animation`, 'file', file)
+export const removeQuoteAnimation = (id: string) => del(`api/admin/quotes/${id}/animation`)
+/** "Coming up": the quote the website shows on each of the next days, and why. */
+export const getQuotePreview = (query: { from?: string; days?: number }, signal?: AbortSignal) =>
+  get<QuotePreviewDayDto[]>(withQuery('api/admin/quotes/preview', query), signal)
 
 // ───────────────────────────── Tags ─────────────────────────────
 

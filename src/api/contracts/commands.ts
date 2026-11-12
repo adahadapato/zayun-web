@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProfilePlatform, ProjectCategory,
-  ProjectImageKind, PublicationType,
+  ProjectImageKind, PublicationType, QuoteKind,
 } from './enums'
 import type { PublicationLinkDto } from './dtos'
 
@@ -159,4 +159,28 @@ export interface DocumentFields {
   title: string
   category: DocumentCategory
   notes: string | null
+}
+
+// ───────────────────────────── Quotes ─────────────────────────────
+
+/** A quote's editable fields. */
+export interface QuoteFields {
+  kind: QuoteKind
+  text: string
+  author: string
+  source: string | null
+  /** The language when it isn't English, e.g. "Annang". Needed when there's a translation. */
+  language: string | null
+  translation: string | null
+  /** A series, e.g. "Nature first". Series quotes are shown on Sundays. */
+  series: string | null
+  story: string | null
+  isSourceChecked: boolean
+  /** Pin to a day of the year: both or neither. */
+  pinnedMonth: number | null
+  pinnedDay: number | null
+}
+
+export interface CreateQuoteCommand extends QuoteFields {
+  isPublished: boolean
 }

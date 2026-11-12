@@ -58,6 +58,7 @@ The structure follows the Phloem website (`adahadapato/Phloem-web`), so both pro
 | Presentations | The same, with a poster or photo |
 | Experience | Areas with a description and skills |
 | Skills | Skill groups, and the core expertise list |
+| Quotes | Quote of the day: add, edit, publish / hide, put in order, delete; kind, source, language + translation, series + story, "source checked", pin to a day of the year; a picture and an MP4 animation; badges for why a quote isn't shown; "Coming up": the quote for each of the next 14 days and why |
 | Inbox | Messages from the Contact form: New / Replied / Closed, reply by email, a private note |
 | Documents | Private files (CV, certificates, transcripts…: PDF, Word, JPEG, PNG up to 20 MB). Never public: each opens through a link that works for a few minutes |
 | Account | Who is signed in, change password |
@@ -183,7 +184,7 @@ src/
 | `/login` | Sign in (`?returnTo=` goes back to the page that was asked for) | everyone |
 | `/admin` | Overview | admin |
 | `/admin/projects`, `/admin/projects/new`, `/admin/projects/{id}` | projects, new project, edit project | admin |
-| `/admin/publications`, `/admin/presentations`, `/admin/experience`, `/admin/skills` | lists with an editor (`?new=1`, `?edit={id}`) | admin |
+| `/admin/publications`, `/admin/presentations`, `/admin/experience`, `/admin/skills`, `/admin/quotes` | lists with an editor (`?new=1`, `?edit={id}`) | admin |
 | `/admin/inbox` | Contact messages (`?status=Replied&page=2&open={id}`) | admin |
 | `/admin/documents` | private documents (`?category=Cv`) | admin |
 | `/admin/account` | account and password | admin |

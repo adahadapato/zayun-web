@@ -50,6 +50,7 @@ export const router = createBrowserRouter([
           { path: 'experience', ...page(() => import('./pages/admin/experience/AdminExperiencePage')) },
           { path: 'skills', ...page(() => import('./pages/admin/skills/AdminSkillsPage')) },
           { path: 'awards', ...page(() => import('./pages/admin/awards/AdminAwardsPage')) },
+          { path: 'quotes', ...page(() => import('./pages/admin/quotes/AdminQuotesPage')) },
           { path: 'tags', ...page(() => import('./pages/admin/tags/AdminTagsPage')) },
           { path: 'profiles', ...page(() => import('./pages/admin/profiles/AdminProfilesPage')) },
           { path: 'inbox', ...page(() => import('./pages/admin/inbox/AdminInboxPage')) },

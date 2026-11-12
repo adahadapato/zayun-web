@@ -34,6 +34,9 @@ export type SiteImageSlot = 'OwnerPhoto'
 /** What kind of saying a quote is: someone else's words, a traditional proverb, or the owner's own saying. */
 export type QuoteKind = 'Quote' | 'Proverb' | 'OwnSaying'
 
+/** Why a quote was chosen for a day: pinned to it, the Sunday series quote, or its turn in the everyday rotation. */
+export type QuotePickReason = 'PinnedDay' | 'WeeklySeries' | 'Rotation'
+
 /** Which tags Admin → Tags shows. */
 export type TagFilter = 'All' | 'Used' | 'Unused'
 
