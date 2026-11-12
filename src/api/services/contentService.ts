@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, QuoteOfTheDayDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -41,3 +41,6 @@ export const getSiteImages = (signal?: AbortSignal) => get<SiteImageDto[]>('api/
 /** Name, headline, public email and the phone numbers / towns switched on for the website. */
 export const getPublicPersonalDetails = (signal?: AbortSignal) =>
   get<PublicPersonalDetailsDto>('api/personal-details', signal)
+
+/** Today's quote (UK date). 404 when no quote is published and source-checked. */
+export const getQuoteOfTheDay = (signal?: AbortSignal) => get<QuoteOfTheDayDto>('api/quotes/today', signal)

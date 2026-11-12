@@ -5,6 +5,7 @@
 import { Link } from 'react-router';
 
 import { ApiImage } from '../../components/ui/ApiImage';
+import { QuoteOfTheDay } from '../../components/ui/QuoteOfTheDay';
 import { useAwards, useSiteImages } from '../../state/contentQueries';
 
 function About() {
@@ -68,6 +69,8 @@ function About() {
                             <span>LinkedIn</span>
                         </a>
                     </div>
+
+                    <QuoteOfTheDay variant="line" />
                     </div>
 
                     {photo && (

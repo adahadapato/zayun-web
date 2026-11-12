@@ -1,0 +1,177 @@
+/* Quote of the day: the card on Home (below the hero) and the quiet line on About (under the intro). */
+
+/* ========================================
+   HOME: QUOTE CARD
+======================================== */
+
+.quote-section {
+    position: relative;
+    padding: 70px 0 90px;
+    background: var(--z-bg);
+}
+
+.quote-card {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: clamp(30px, 5vw, 56px) clamp(24px, 5vw, 64px);
+    border: 1px solid var(--z-border);
+    border-radius: var(--z-radius-card);
+    background: var(--z-bg-soft);
+    box-shadow: var(--z-glow);
+}
+
+    /* A thin cyan → blue bar down the left edge, like a quotation mark in the site's colours */
+    .quote-card::before {
+        position: absolute;
+        top: 28px;
+        bottom: 28px;
+        left: 0;
+        width: 3px;
+        border-radius: var(--z-radius-pill);
+        content: '';
+        background: linear-gradient(180deg, var(--z-cyan), var(--z-blue));
+    }
+
+.quote-kicker {
+    color: var(--z-cyan);
+}
+
+.quote-text {
+    margin: 0;
+}
+
+    .quote-text p {
+        margin: 0;
+        color: var(--z-text);
+        font-family: var(--z-font-heading);
+        font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+        font-weight: 600;
+        line-height: 1.35;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+    }
+
+        .quote-text p::before {
+            content: '\201C';   /* “ */
+        }
+
+        .quote-text p::after {
+            content: '\201D';   /* ” */
+        }
+
+.quote-translation {
+    margin: 18px 0 0;
+    color: var(--z-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.quote-language {
+    color: var(--z-text);
+    font-weight: 600;
+}
+
+.quote-author {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 24px;
+    color: var(--z-text);
+    font-weight: 600;
+}
+
+    .quote-author cite {
+        color: var(--z-text-muted);
+        font-style: italic;
+        font-weight: 400;
+    }
+
+.quote-dash,
+.quote-separator {
+    color: var(--z-cyan);
+}
+
+.quote-story {
+    margin: 26px 0 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--z-border);
+    color: var(--z-text-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.quote-story-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--z-text);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+    .quote-section {
+        padding: 50px 0 60px;
+    }
+
+    .quote-card::before {
+        top: 22px;
+        bottom: 22px;
+    }
+}
+
+
+/* ========================================
+   ABOUT: QUIET LINE
+======================================== */
+
+.about-quote {
+    max-width: 820px;
+    margin: 30px 0 0;
+    padding-left: 18px;
+    border-left: 2px solid var(--z-cyan);
+    border-radius: 0;
+}
+
+.about-quote-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--z-cyan);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.about-quote-text {
+    margin: 0;
+}
+
+    .about-quote-text p {
+        margin: 0;
+        color: var(--z-text);
+        font-size: 1.05rem;
+        font-style: italic;
+        line-height: 1.7;
+    }
+
+        .about-quote-text p::before {
+            content: '\201C';
+        }
+
+        .about-quote-text p::after {
+            content: '\201D';
+        }
+
+.about-quote-author {
+    margin-top: 6px;
+    color: var(--z-text-muted);
+    font-size: 0.95rem;
+}
+
+.about-quote-translation {
+    font-style: italic;
+}

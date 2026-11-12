@@ -10,6 +10,8 @@ import {
 
 import { Link } from 'react-router';
 
+import { QuoteOfTheDay } from '../../components/ui/QuoteOfTheDay';
+
 function SoftwareEngineeringIcon() {
     return (
         <svg
@@ -292,6 +294,8 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            <QuoteOfTheDay variant="card" />
 
             <section className="intro-section">
                 <div className="container intro-grid">

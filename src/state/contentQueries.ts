@@ -6,7 +6,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { unwrap } from '../api/apiError'
 import {
-  getAwards, getExperience, getProfiles, getPublicPersonalDetails, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
+  getAwards, getExperience, getProfiles, getPublicPersonalDetails, getQuoteOfTheDay, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
 } from '../api/services/contentService'
 
 const FIVE_MINUTES = 5 * 60_000
@@ -64,5 +64,15 @@ export const useSiteImages = () => useQuery({
 export const usePersonalDetails = () => useQuery({
   queryKey: ['content', 'personal-details'],
   queryFn: async ({ signal }) => unwrap(await getPublicPersonalDetails(signal)),
+  staleTime: FIVE_MINUTES,
+})
+
+/**
+ * Today's quote for the Home and About pages. Loaded once and shared by both pages. When there's no quote (404) or the
+ * API can't be reached, the pages simply leave the quote out.
+ */
+export const useQuoteOfTheDay = () => useQuery({
+  queryKey: ['content', 'quote-of-the-day'],
+  queryFn: async ({ signal }) => unwrap(await getQuoteOfTheDay(signal)),
   staleTime: FIVE_MINUTES,
 })

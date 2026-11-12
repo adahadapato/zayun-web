@@ -31,6 +31,9 @@ export type ProfilePlatform =
 /** A named picture on the website. */
 export type SiteImageSlot = 'OwnerPhoto'
 
+/** What kind of saying a quote is: someone else's words, a traditional proverb, or the owner's own saying. */
+export type QuoteKind = 'Quote' | 'Proverb' | 'OwnSaying'
+
 /** Which tags Admin → Tags shows. */
 export type TagFilter = 'All' | 'Used' | 'Unused'
 

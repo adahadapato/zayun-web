@@ -4,7 +4,7 @@
  */
 import type {
   ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  ProfilePlatform, PublicationType, SiteImageSlot, TagCheckStatus,
+  ProfilePlatform, PublicationType, QuoteKind, SiteImageSlot, TagCheckStatus,
 } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
@@ -240,6 +240,30 @@ export interface ProfileDto {
   showOnResearch: boolean
   displayOrder: number
   isPublished: boolean
+}
+
+// ───────────────────────────── Quote of the day ─────────────────────────────
+
+/** Today's quote (UK date): a quote pinned to today, otherwise the next one in the daily rotation. */
+export interface QuoteOfTheDayDto {
+  id: string
+  /** The UK date it's the quote for, e.g. "2026-11-12". */
+  date: string
+  kind: QuoteKind
+  /** The words, in their original language. */
+  text: string
+  /** Who said it, e.g. "Ada Lovelace", "Annang proverb" or "Enobong Adahada". */
+  author: string
+  /** Where it comes from, e.g. a book or paper with its year. */
+  source: string | null
+  /** The language when it isn't English, e.g. "Annang". */
+  language: string | null
+  /** The English translation when it isn't in English. */
+  translation: string | null
+  /** A series, e.g. "Nature first". */
+  series: string | null
+  /** A one-line true story shown with it. */
+  story: string | null
 }
 
 // ───────────────────────────── Tags ─────────────────────────────
