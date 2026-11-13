@@ -19,3 +19,13 @@
     .placeholder-page p {
         color: #657181;
     }
+
+    /* The outlined button on this light page (e.g. "Page not found"): dark words, no dark fill */
+    .placeholder-page .button-secondary {
+        color: #0b1726;
+        background: transparent;
+    }
+
+        .placeholder-page .button-secondary:hover {
+            background: rgba(16, 223, 244, 0.08);
+        }

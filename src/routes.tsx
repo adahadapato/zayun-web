@@ -4,7 +4,7 @@
  * Each page file has a default export.
  */
 import type { ComponentType } from 'react'
-import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
+import { createBrowserRouter, type RouteObject } from 'react-router'
 import { Roles } from './api/contracts/roles'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
 import MainLayout from './layouts/MainLayout'
@@ -27,6 +27,8 @@ export const router = createBrowserRouter([
       { path: 'skills', ...page(() => import('./pages/skills/Skills')) },
       { path: 'awards', ...page(() => import('./pages/awards/Awards')) },
       { path: 'contact', ...page(() => import('./pages/contact/Contact')) },
+      // Any other address: "Page not found" (not listed by search engines)
+      { path: '*', ...page(() => import('./pages/notfound/NotFound')) },
     ],
   },
 
@@ -60,7 +62,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-
-  // Anything else goes to the home page (as before)
-  { path: '*', element: <Navigate to="/" replace /> },
 ])

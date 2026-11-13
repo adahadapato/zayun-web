@@ -1,0 +1,7 @@
+# zayun.net: every public page may be listed by search engines.
+# The admin area and the sign-in page are private, so they are left out.
+User-agent: *
+Disallow: /admin
+Disallow: /login
+
+Sitemap: https://zayun.net/sitemap.xml

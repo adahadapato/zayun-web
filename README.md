@@ -188,7 +188,7 @@ src/
 | `/admin/inbox` | Contact messages (`?status=Replied&page=2&open={id}`) | admin |
 | `/admin/documents` | private documents (`?category=Cv`) | admin |
 | `/admin/account` | account and password | admin |
-| anything else | goes to the home page | |
+| anything else | Page not found (search engines are asked not to list it) | everyone |
 
 There's no link to the admin area on the public site; go to `/admin`. Admin pages ask search engines not to list them.
 
@@ -240,6 +240,21 @@ API for a signed link that works for a few minutes and opens it in a new tab.
 
 `POST api/contact/messages`. The message lands in the admin Inbox (and is emailed when the API's email is switched
 on). A hidden `website` field catches robots, and the API limits how often one visitor can send.
+
+### 8.6 Search engines and link previews
+
+- **Each public page has its own title, description and canonical address**, in one place: `src/seo/siteMeta.ts`.
+  `PageMetaTags` (in `MainLayout`) puts them in the page's `<head>`, with the Open Graph and Twitter tags used for link
+  previews on LinkedIn, WhatsApp and X.
+- **`index.html` holds the home page's words** for readers that don't run JavaScript. Keep them the same as the `/`
+  entry in `siteMeta.ts`. Until pages are prerendered (S3), a shared link to any page previews with the home page's words.
+- **The share picture** is `public/og-image.png` (1200 × 630).
+- **`public/robots.txt`** lets search engines in, keeps out `/admin` and `/login`, and points to the sitemap.
+- **`public/sitemap.xml`** lists the public pages. Adding a page means adding it to `siteMeta.ts` and to the sitemap.
+- **`PersonSchema`** tells search engines who the site is about (schema.org Person, with every published profile).
+- **Unknown addresses show "Page not found" marked `noindex`**, instead of quietly showing the home page.
+- Check a page with Google's [Rich Results Test](https://search.google.com/test/rich-results) and
+  [Search Console](https://search.google.com/search-console) → URL Inspection.
 
 ---
 

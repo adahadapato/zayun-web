@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The public pages of zayun.net, for search engines (submitted in Google Search Console).
+  Same list as src/seo/siteMeta.ts: add a page there → add it here too.
+  Later (S4) the API will build this list itself, including the quote pages.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://zayun.net/</loc></url>
+  <url><loc>https://zayun.net/about</loc></url>
+  <url><loc>https://zayun.net/experience</loc></url>
+  <url><loc>https://zayun.net/projects</loc></url>
+  <url><loc>https://zayun.net/research</loc></url>
+  <url><loc>https://zayun.net/skills</loc></url>
+  <url><loc>https://zayun.net/awards</loc></url>
+  <url><loc>https://zayun.net/contact</loc></url>
+</urlset>
