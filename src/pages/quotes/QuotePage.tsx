@@ -10,14 +10,15 @@ import { QuoteMedia } from '../../components/ui/QuoteMedia'
 import { NOT_FOUND_META } from '../../seo/siteMeta'
 import { useArchivedQuote, useQuoteArchive } from '../../state/contentQueries'
 import NotFound from '../notfound/NotFound'
-import { formatQuoteDate, quotationSchema, quotePageMeta, quotePath } from './quoteText'
+import { formatQuoteDate, quotationSchema, quotePageMeta, quotePath, relatedQuotes, themePath } from './quoteText'
 
-/** How many other quotes "More quotes" links to. */
+/** How many other quotes "Related quotes" / "More quotes" links to. */
 const MORE_COUNT = 3
 
 /**
- * One quote's own page (/quotes/{slug}): the quote with its picture or animation, when it was the quote of the day,
- * and links to a few more. It has its own title, description and share picture for Google and link previews, and is
+ * One quote's own page (/quotes/{slug}): the quote with its picture or animation, its themes (each opens the list
+ * filtered to that theme), when it was the quote of the day, and a few related quotes (sharing the most themes; the
+ * most recent ones when none share a theme). It has its own title, description and share picture for Google and link previews, and is
  * labelled as a quotation for Google.
  *
  * Drafts, unchecked quotes and pinned / series quotes before their day answer 404 from the API: the page then shows
@@ -37,7 +38,8 @@ function QuotePage() {
 
   if (notFound) return <NotFound />
 
-  const more = (archive.data ?? []).filter((q) => q.slug !== slug).slice(0, MORE_COUNT)
+  const more = data ? relatedQuotes(data, archive.data ?? [], MORE_COUNT) : []
+  const anyShared = more.some((m) => m.shared > 0)
 
   return (
     <div className="quote-page">
@@ -69,6 +71,14 @@ function QuotePage() {
                 </span>
                 <QuoteFigure quote={data} />
 
+                {data.themes.length > 0 && (
+                  <ul className="quote-page-themes" aria-label="Themes">
+                    {data.themes.map((theme) => (
+                      <li key={theme}><Link to={themePath(theme)}>{theme}</Link></li>
+                    ))}
+                  </ul>
+                )}
+
                 {data.lastShown && (
                   <p className="quote-page-shown">
                     Quote of the day on <time dateTime={data.lastShown}>{formatQuoteDate(data.lastShown)}</time>
@@ -81,9 +91,9 @@ function QuotePage() {
 
         {data && more.length > 0 && (
           <section className="quote-page-more" aria-labelledby="more-quotes">
-            <h2 id="more-quotes">More quotes</h2>
+            <h2 id="more-quotes">{anyShared ? 'Related quotes' : 'More quotes'}</h2>
             <ul>
-              {more.map((q) => (
+              {more.map(({ quote: q }) => (
                 <li key={q.id}>
                   <Link to={quotePath(q.slug)}>
                     <span className="quote-page-more-text">“{q.translation ?? q.text}”</span>

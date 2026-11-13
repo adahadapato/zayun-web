@@ -306,6 +306,15 @@ export interface QuoteDto {
   /** True when the website may show it: published and its source checked. */
   canBeShown: boolean
   media: QuoteMediaDto | null
+  /** What Google and link previews show; null = made from the words. */
+  searchDescription: string | null
+  themes: string[]
+}
+
+/** The AI helper's drafts (nothing is saved until the quote is). */
+export interface QuoteSuggestionDto {
+  searchDescription: string
+  themes: string[]
 }
 
 /**
@@ -326,6 +335,10 @@ export interface ArchivedQuoteDto {
   /** The last UK date it was the quote of the day, e.g. "2026-11-12"; null when it hasn't been yet. */
   lastShown: string | null
   media: QuoteMediaDto | null
+  /** What Google and link previews show; null = the website makes one from the words. */
+  searchDescription: string | null
+  /** Its themes, e.g. "Nature", "Flight": for related quotes and the theme filter. */
+  themes: string[]
 }
 
 /** One day of Admin → Quotes → "Coming up". */

@@ -257,6 +257,9 @@ on). A hidden `website` field catches robots, and the API limits how often one v
   up to date). A quote's page sets its own title, description and share picture (`usePageMeta` in
   `src/seo/usePageMeta.ts`, words from `src/pages/quotes/quoteText.ts`) and labels itself as a quotation for Google
   (schema.org Quotation). `PAGES_WITH_OWN_META` in `siteMeta.ts` lists the addresses that do this.
+- **Quote themes and the AI helper:** in Admin → Quotes, each quote can have a Google description and themes.
+  "Suggest with AI" drafts both (the API asks Claude; nothing is saved until you save). On the website, a quote's
+  themes link to `/quotes?theme=…`, and "Related quotes" are the ones sharing the most themes.
 - **`PersonSchema`** tells search engines who the site is about (schema.org Person, with every published profile).
 - **Unknown addresses show "Page not found" marked `noindex`**, instead of quietly showing the home page.
 - Check a page with Google's [Rich Results Test](https://search.google.com/test/rich-results) and

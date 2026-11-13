@@ -8,7 +8,7 @@ import type { QuoteDto, QuotePreviewDayDto } from '../../../api/contracts/dtos'
 import type { QuoteKind, QuotePickReason } from '../../../api/contracts/enums'
 import {
   createQuote, getAdminQuotes, getQuotePreview, removeQuoteAnimation, removeQuotePicture, setQuoteAnimation,
-  setQuotePicture, updateQuote,
+  setQuotePicture, suggestQuoteDetails, updateQuote,
 } from '../../../api/services/adminService'
 import { ApiImage } from '../../../components/ui/ApiImage'
 import { Button } from '../../../components/ui/Button'
@@ -23,6 +23,8 @@ const key = ['admin', 'quotes'] as const
 const previewKey = ['admin', 'quotes', 'preview'] as const
 const PICTURE_MAX_BYTES = 15 * 1024 * 1024
 const ANIMATION_MAX_BYTES = 8 * 1024 * 1024
+const SEARCH_DESCRIPTION_MAX = 160
+const MAX_THEMES = 5
 const PREVIEW_DAYS = 14
 
 const KINDS: { value: QuoteKind; label: string }[] = [
@@ -49,6 +51,29 @@ const pinnedLabel = (month: number, day: number) => `${day} ${MONTHS[month - 1].
 const dayLabel = (date: string) => {
   const [y, m, d] = date.split('-').map(Number)
   return new Date(y, m - 1, d).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+}
+
+/** Every theme the quotes use, most used first (the chips under Themes in the editor). */
+const allThemes = (quotes: QuoteDto[]) => {
+  const counts = new Map<string, { name: string; count: number }>()
+  for (const theme of quotes.flatMap((q) => q.themes)) {
+    const k = theme.toLowerCase()
+    const entry = counts.get(k) ?? { name: theme, count: 0 }
+    entry.count++
+    counts.set(k, entry)
+  }
+  return [...counts.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name)).map((e) => e.name)
+}
+
+/** "Nature, Flight" → ["Nature", "Flight"]: trimmed, no empties, no repeats (any letter case). */
+const parseThemes = (text: string) => {
+  const seen = new Set<string>()
+  return text.split(',').map((t) => t.trim()).filter((t) => {
+    const k = t.toLowerCase()
+    if (!t || seen.has(k)) return false
+    seen.add(k)
+    return true
+  })
 }
 
 /** Why a quote isn't shown on the website, in plain words; null when it can be shown. */
@@ -89,7 +114,7 @@ export default function AdminQuotesPage() {
       </AdminHead>
 
       {(isNew || editing) && (
-        <QuoteEditor key={editing?.id ?? 'new'} quote={editing} onDone={close}
+        <QuoteEditor key={editing?.id ?? 'new'} quote={editing} onDone={close} allThemes={allThemes(items)}
                      onCreated={(id) => setParams({ edit: id }, { replace: true })} />
       )}
 
@@ -208,15 +233,19 @@ interface Form {
   isSourceChecked: boolean
   pinnedMonth: string
   pinnedDay: string
+  searchDescription: string
+  /** Comma-separated, e.g. "Nature, Flight". */
+  themes: string
 }
 
 const toForm = (q?: QuoteDto): Form => q
   ? { kind: q.kind, text: q.text, author: q.author, source: q.source ?? '', language: q.language ?? '',
       translation: q.translation ?? '', series: q.series ?? '', story: q.story ?? '',
       isSourceChecked: q.isSourceChecked, pinnedMonth: q.pinnedMonth ? String(q.pinnedMonth) : '',
-      pinnedDay: q.pinnedDay ? String(q.pinnedDay) : '' }
+      pinnedDay: q.pinnedDay ? String(q.pinnedDay) : '', searchDescription: q.searchDescription ?? '',
+      themes: q.themes.join(', ') }
   : { kind: 'Quote', text: '', author: '', source: '', language: '', translation: '', series: '', story: '',
-      isSourceChecked: false, pinnedMonth: '', pinnedDay: '' }
+      isSourceChecked: false, pinnedMonth: '', pinnedDay: '', searchDescription: '', themes: '' }
 
 /** Empty → null, otherwise trimmed. */
 const orNull = (value: string) => value.trim() || null
@@ -233,10 +262,14 @@ const toFields = (f: Form): QuoteFields => ({
   isSourceChecked: f.isSourceChecked,
   pinnedMonth: f.pinnedMonth ? Number(f.pinnedMonth) : null,
   pinnedDay: f.pinnedMonth && f.pinnedDay ? Number(f.pinnedDay) : null,
+  searchDescription: orNull(f.searchDescription),
+  themes: parseThemes(f.themes),
 })
 
-function QuoteEditor({ quote, onDone, onCreated }: {
+function QuoteEditor({ quote, allThemes, onDone, onCreated }: {
   quote?: QuoteDto
+  /** Every theme the quotes use, most used first. */
+  allThemes: string[]
   onDone: () => void
   onCreated: (id: string) => void
 }) {
@@ -248,6 +281,8 @@ function QuoteEditor({ quote, onDone, onCreated }: {
   const [animation, setAnimation] = useState<File | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<ApiError | null>(null)
+  const [suggesting, setSuggesting] = useState(false)
+  const [suggestNote, setSuggestNote] = useState<{ message: string; isError: boolean } | null>(null)
 
   // The editor opens above the list: bring it into view (Edit may have been clicked far down the page) and move
   // the focus to its heading, so screen readers announce "Edit quote"
@@ -319,6 +354,37 @@ function QuoteEditor({ quote, onDone, onCreated }: {
     else refresh()
   }
 
+  // "Suggest with AI": drafts of the Google description and the themes, put into the form (nothing is saved)
+  const onSuggest = async () => {
+    setSuggestNote(null)
+    if (!form.text.trim() || !form.author.trim()) {
+      setSuggestNote({ message: 'Enter the words and who said it first.', isError: true })
+      return
+    }
+    setSuggesting(true)
+    const fields = toFields(form)
+    const result = await suggestQuoteDetails({
+      kind: fields.kind, text: fields.text, author: fields.author, source: fields.source, language: fields.language,
+      translation: fields.translation, story: fields.story,
+    })
+    setSuggesting(false)
+    if (!result.ok) {
+      setSuggestNote({ message: result.error.displayMessage, isError: true })
+      return
+    }
+    // The description is replaced; suggested themes are added to the ones already there
+    const themes = parseThemes([form.themes, ...result.value.themes].join(',')).slice(0, MAX_THEMES)
+    setForm((f) => ({ ...f, searchDescription: result.value.searchDescription, themes: themes.join(', ') }))
+    setSuggestNote({ message: 'AI drafts added below. Read them, change anything, then save.', isError: false })
+  }
+
+  const chosenThemes = parseThemes(form.themes)
+  const isChosen = (theme: string) => chosenThemes.some((t) => t.toLowerCase() === theme.toLowerCase())
+  const addTheme = (theme: string) => {
+    if (isChosen(theme) || chosenThemes.length >= MAX_THEMES) return
+    set('themes', [...chosenThemes, theme].join(', '))
+  }
+
   const fieldProblems = !!error && Object.keys(error.fieldErrors).length > 0
   const daysInMonth = form.pinnedMonth ? new Date(2024, Number(form.pinnedMonth), 0).getDate() : 31
 
@@ -374,6 +440,41 @@ function QuoteEditor({ quote, onDone, onCreated }: {
 
       <Toggle label="Source checked" checked={form.isSourceChecked} onChange={(v) => set('isSourceChecked', v)}
               hint="The wording and who said it are checked (e.g. on Wikiquote). Unchecked quotes are never shown." />
+
+      {/* For Google and the quote pages: the description and themes, with the AI helper's drafts */}
+      <fieldset className={styles.form} style={{ margin: 0, padding: 0, border: 0, gap: 14 }}>
+        <legend style={{ display: 'contents' }}>
+          <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>For Google and related quotes</span>
+        </legend>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
+          <Button variant="secondary" small busy={suggesting} busyText="Asking the AI…" onClick={onSuggest}>
+            Suggest with AI
+          </Button>
+          <span className={styles.muted} style={{ fontSize: '0.85rem' }}>
+            Drafts the description and themes from the fields above. Nothing is saved until you save.
+          </span>
+        </div>
+        {suggestNote && <StatusBanner message={suggestNote.message} isError={suggestNote.isError} />}
+
+        <TextArea label="Google description" optional rows={2} value={form.searchDescription}
+                  maxLength={SEARCH_DESCRIPTION_MAX} onChange={(e) => set('searchDescription', e.target.value)}
+                  error={err('searchDescription')}
+                  hint="Shown under the quote's page in Google and in link previews. Empty: made from the words." />
+
+        <Field label="Themes" optional value={form.themes} onChange={(e) => set('themes', e.target.value)}
+               error={err('themes')} placeholder="Nature, Flight"
+               hint={`Up to ${MAX_THEMES}, separated by commas. Quotes sharing a theme are shown as related.`} />
+        {allThemes.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }} aria-label="Themes other quotes use">
+            {allThemes.map((theme) => (
+              <Button key={theme} variant="plain" small onClick={() => addTheme(theme)}
+                      disabled={isChosen(theme) || chosenThemes.length >= MAX_THEMES}>
+                + {theme}
+              </Button>
+            ))}
+          </div>
+        )}
+      </fieldset>
 
       <div className={styles.grid2} style={{ alignItems: 'start' }}>
         <div style={{ display: 'grid', gap: 10 }}>

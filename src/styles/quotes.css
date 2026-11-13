@@ -295,3 +295,75 @@
         padding: 120px 0 80px;
     }
 }
+
+
+/* ========================================
+   THEMES
+======================================== */
+
+/* "Theme: Nature · Show all themes" above the list */
+.quotes-theme {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    margin: 0 0 30px;
+    color: var(--z-text-muted);
+}
+
+    .quotes-theme strong {
+        color: var(--z-text);
+    }
+
+.quotes-theme-clear {
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    color: var(--z-cyan);
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .quotes-theme-clear:hover,
+    .quotes-theme-clear:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+/* The themes under a quote in the list (plain text: the whole card is the link) */
+.quotes-item-themes {
+    margin: 10px 0 0;
+    color: var(--z-text-faint);
+    font-size: 0.88rem;
+}
+
+/* The themes on a quote's page: each opens the list for that theme */
+.quote-page-themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .quote-page-themes a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 1px solid var(--z-border);
+        border-radius: var(--z-radius-pill);
+        color: var(--z-text-muted);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .quote-page-themes a:hover,
+        .quote-page-themes a:focus-visible {
+            border-color: var(--z-cyan);
+            color: var(--z-cyan);
+        }

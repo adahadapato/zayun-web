@@ -179,6 +179,21 @@ export interface QuoteFields {
   /** Pin to a day of the year: both or neither. */
   pinnedMonth: number | null
   pinnedDay: number | null
+  /** What Google and link previews show (up to 160 characters); null = made from the words. */
+  searchDescription: string | null
+  /** Its themes, e.g. "Nature", "Flight" (up to 5), for related quotes and the theme filter. */
+  themes: string[]
+}
+
+/** Admin → Quotes → "Suggest with AI": the fields the AI helper reads. */
+export interface SuggestQuoteDetailsQuery {
+  kind: QuoteKind
+  text: string
+  author: string
+  source: string | null
+  language: string | null
+  translation: string | null
+  story: string | null
 }
 
 export interface CreateQuoteCommand extends QuoteFields {

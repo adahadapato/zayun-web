@@ -21,8 +21,8 @@ const isQuoteKind = (value: string | null): value is QuoteKind =>
 /**
  * All quotes (/quotes): every quote of the day so far, most recent first, then the everyday quotes still to come.
  * Pinned and "Nature first" quotes only appear once their day has come (the API decides). Each one links to its own
- * page. The filter is kept in the address (?kind=Proverb), so a filtered list can be shared; the buttons for kinds
- * with no quotes yet are left out.
+ * page. The filters are kept in the address (?kind=Proverb, ?theme=Nature from a theme on a quote's page), so a
+ * filtered list can be shared; the buttons for kinds with no quotes yet are left out.
  */
 function Quotes() {
   const archive = useQuoteArchive()
@@ -31,14 +31,26 @@ function Quotes() {
   const all = archive.data ?? []
   const kindParam = searchParams.get('kind')
   const kind = isQuoteKind(kindParam) ? kindParam : null
-  const items = kind ? all.filter((q) => q.kind === kind) : all
+  // ?theme=Nature (from a theme on a quote's page), any letter case
+  const theme = searchParams.get('theme')?.trim() || null
+  const themeKey = theme?.toLowerCase()
+  const inTheme = themeKey ? all.filter((q) => q.themes.some((t) => t.toLowerCase() === themeKey)) : all
+  const themeName = themeKey ? (inTheme[0]?.themes.find((t) => t.toLowerCase() === themeKey) ?? theme) : null
+  const items = kind ? inTheme.filter((q) => q.kind === kind) : inTheme
 
   const filters = FILTERS
-    .map((f) => ({ ...f, count: f.kind ? all.filter((q) => q.kind === f.kind).length : all.length }))
+    .map((f) => ({ ...f, count: f.kind ? inTheme.filter((q) => q.kind === f.kind).length : inTheme.length }))
     .filter((f) => f.kind === null || f.count > 0)
 
-  const choose = (next: QuoteKind | null) =>
-    setSearchParams(next ? { kind: next } : {}, { replace: true, preventScrollReset: true })
+  /** Changes one part of the filter (kind or theme), keeping the other. */
+  const update = (changes: { kind?: QuoteKind | null; theme?: string | null }) => {
+    const next = { kind, theme: themeName, ...changes }
+    const params: Record<string, string> = {}
+    if (next.kind) params.kind = next.kind
+    if (next.theme) params.theme = next.theme
+    setSearchParams(params, { replace: true, preventScrollReset: true })
+  }
+  const choose = (next: QuoteKind | null) => update({ kind: next })
 
   return (
     <div className="quotes-page">
@@ -77,11 +89,20 @@ function Quotes() {
             </div>
           )}
 
+          {themeName && (
+            <p className="quotes-theme">
+              <span>Theme: <strong>{themeName}</strong></span>
+              <button type="button" className="quotes-theme-clear" onClick={() => update({ theme: null })}>
+                Show all themes
+              </button>
+            </p>
+          )}
+
           <ContentStatus
             isLoading={archive.isLoading}
             error={archive.error}
             isEmpty={items.length === 0}
-            emptyText="Quotes will appear here soon."
+            emptyText={themeName ? `No quotes with the theme ${themeName} yet.` : 'Quotes will appear here soon.'}
             onRetry={() => archive.refetch()}
             placeholders={4}
             height={180}
@@ -113,6 +134,8 @@ function Quotes() {
                   </blockquote>
 
                   {q.translation && <p className="quotes-item-translation">In English: {q.translation}</p>}
+
+                  {q.themes.length > 0 && <p className="quotes-item-themes">{q.themes.join(' · ')}</p>}
 
                   <p className="quotes-item-author">
                     <span aria-hidden="true">— </span>{q.author}

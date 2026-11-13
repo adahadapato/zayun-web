@@ -5,12 +5,12 @@
 import { withQuery } from '../apiQuery'
 import { del, get, post, put, upload } from '../client'
 import type {
-  ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateQuoteCommand, QuoteFields, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
+  ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateQuoteCommand, QuoteFields, SuggestQuoteDetailsQuery, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
   CreateTextGroupCommand, DocumentFields, ProfileFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePreviewDayDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePreviewDayDto, QuoteSuggestionDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
@@ -138,6 +138,10 @@ export const updateProfile = (id: string, fields: ProfileFields) => put<ProfileD
 export const getAdminQuotes = (signal?: AbortSignal) => get<QuoteDto[]>('api/admin/quotes', signal)
 export const createQuote = (command: CreateQuoteCommand) => post<QuoteDto>('api/admin/quotes', command)
 export const updateQuote = (id: string, fields: QuoteFields) => put<QuoteDto>(`api/admin/quotes/${id}`, fields)
+
+/** AI drafts of the Google description and themes for the quote in the form (saves nothing). */
+export const suggestQuoteDetails = (query: SuggestQuoteDetailsQuery) =>
+  post<QuoteSuggestionDto>('api/admin/quotes/suggest', query)
 /** Sets or replaces the still picture (stored as WebP). */
 export const setQuotePicture = (id: string, file: File, altText: string) =>
   upload<QuoteDto>('PUT', `api/admin/quotes/${id}/picture`, 'file', file, { altText })

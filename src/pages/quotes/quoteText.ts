@@ -17,6 +17,23 @@ export function formatQuoteDate(isoDate: string): string {
 /** A quote's own address on the website. */
 export const quotePath = (slug: string) => `/quotes/${slug}`
 
+/** The /quotes list filtered to one theme. */
+export const themePath = (theme: string) => `/quotes?theme=${encodeURIComponent(theme)}`
+
+/**
+ * Up to `count` quotes to show under a quote: the ones sharing the most themes first, then the most recently shown
+ * (the list arrives most recent first, so for equal scores its order is kept).
+ */
+export function relatedQuotes(quote: ArchivedQuoteDto, all: ArchivedQuoteDto[], count: number) {
+  const themes = new Set(quote.themes.map((t) => t.toLowerCase()))
+  return all
+    .filter((q) => q.slug !== quote.slug)
+    .map((q, position) => ({ q, position, shared: q.themes.filter((t) => themes.has(t.toLowerCase())).length }))
+    .sort((a, b) => b.shared - a.shared || a.position - b.position)
+    .slice(0, count)
+    .map(({ q, shared }) => ({ quote: q, shared }))
+}
+
 /**
  * The title, description and share picture of a quote's page, e.g.
  * title "“Nothing in biology makes sense except in…” · Theodosius Dobzhansky | Zayun".
@@ -31,7 +48,8 @@ export function quotePageMeta(quote: ArchivedQuoteDto): PageMeta {
 
   return {
     title: `“${shorten(words, 48)}” · ${quote.author} | Zayun`,
-    description: shorten(description, 155),
+    // The description written (or drafted with AI) in Admin → Quotes, otherwise one made from the words
+    description: shorten(quote.searchDescription ?? description, 160),
     image: quote.media ? fileUrl(quote.media.pictureUrl) : undefined,
     imageAlt: quote.media?.altText,
   }
@@ -57,6 +75,7 @@ export function quotationSchema(quote: ArchivedQuoteDto): Record<string, unknown
     ...(quote.language ? { inLanguage: quote.language } : {}),
     ...(creator ? { creator } : {}),
     ...(quote.source ? { citation: quote.source } : {}),
+    ...(quote.themes.length ? { keywords: quote.themes.join(', ') } : {}),
     ...(quote.media ? { image: fileUrl(quote.media.pictureUrl) } : {}),
     url: `${SITE_URL}${quotePath(quote.slug)}`,
     isPartOf: { '@type': 'WebSite', name: 'Zayun', url: SITE_URL },
