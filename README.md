@@ -181,6 +181,8 @@ src/
 | Address | Page | Who |
 |---|---|---|
 | `/` `/about` `/experience` `/projects` `/research` `/skills` `/awards` `/contact` | public pages | everyone |
+| `/quotes` (`?kind=Quote` / `Proverb` / `OwnSaying`) | all quotes: every quote of the day so far, then everyday quotes still to come | everyone |
+| `/quotes/{slug}` | one quote's page (Page not found for drafts and for pinned / "Nature first" quotes before their day) | everyone |
 | `/login` | Sign in (`?returnTo=` goes back to the page that was asked for) | everyone |
 | `/admin` | Overview | admin |
 | `/admin/projects`, `/admin/projects/new`, `/admin/projects/{id}` | projects, new project, edit project | admin |
@@ -251,6 +253,10 @@ on). A hidden `website` field catches robots, and the API limits how often one v
 - **The share picture** is `public/og-image.png` (1200 × 630).
 - **`public/robots.txt`** lets search engines in, keeps out `/admin` and `/login`, and points to the sitemap.
 - **`public/sitemap.xml`** lists the public pages. Adding a page means adding it to `siteMeta.ts` and to the sitemap.
+- **The quote pages** are listed by the API at `https://api.zayun.net/sitemap-quotes.xml` (named in robots.txt; always
+  up to date). A quote's page sets its own title, description and share picture (`usePageMeta` in
+  `src/seo/usePageMeta.ts`, words from `src/pages/quotes/quoteText.ts`) and labels itself as a quotation for Google
+  (schema.org Quotation). `PAGES_WITH_OWN_META` in `siteMeta.ts` lists the addresses that do this.
 - **`PersonSchema`** tells search engines who the site is about (schema.org Person, with every published profile).
 - **Unknown addresses show "Page not found" marked `noindex`**, instead of quietly showing the home page.
 - Check a page with Google's [Rich Results Test](https://search.google.com/test/rich-results) and

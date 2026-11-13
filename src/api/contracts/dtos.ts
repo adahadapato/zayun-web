@@ -247,6 +247,8 @@ export interface ProfileDto {
 /** Today's quote (UK date): a quote pinned to today, otherwise the next one in the daily rotation. */
 export interface QuoteOfTheDayDto {
   id: string
+  /** Its web address: its own page is /quotes/{slug}. */
+  slug: string
   /** The UK date it's the quote for, e.g. "2026-11-12". */
   date: string
   kind: QuoteKind
@@ -284,6 +286,8 @@ export interface QuoteMediaDto {
 /** A quote as Admin → Quotes shows it: everything, drafts included. */
 export interface QuoteDto {
   id: string
+  /** Its web address (/quotes/{slug}); never changes. */
+  slug: string
   kind: QuoteKind
   text: string
   author: string
@@ -301,6 +305,26 @@ export interface QuoteDto {
   isPublished: boolean
   /** True when the website may show it: published and its source checked. */
   canBeShown: boolean
+  media: QuoteMediaDto | null
+}
+
+/**
+ * A quote on the quote pages (/quotes and /quotes/{slug}). The list has published, source-checked quotes; pinned and
+ * series quotes only once their day has come.
+ */
+export interface ArchivedQuoteDto {
+  id: string
+  slug: string
+  kind: QuoteKind
+  text: string
+  author: string
+  source: string | null
+  language: string | null
+  translation: string | null
+  series: string | null
+  story: string | null
+  /** The last UK date it was the quote of the day, e.g. "2026-11-12"; null when it hasn't been yet. */
+  lastShown: string | null
   media: QuoteMediaDto | null
 }
 

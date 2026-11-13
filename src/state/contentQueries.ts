@@ -6,7 +6,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { unwrap } from '../api/apiError'
 import {
-  getAwards, getExperience, getProfiles, getPublicPersonalDetails, getQuoteOfTheDay, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
+  getArchivedQuote, getAwards, getExperience, getQuoteArchive, getProfiles, getPublicPersonalDetails, getQuoteOfTheDay, getSiteImages, getProjects, getPublications, getPresentations, getSkills,
 } from '../api/services/contentService'
 
 const FIVE_MINUTES = 5 * 60_000
@@ -74,5 +74,19 @@ export const usePersonalDetails = () => useQuery({
 export const useQuoteOfTheDay = () => useQuery({
   queryKey: ['content', 'quote-of-the-day'],
   queryFn: async ({ signal }) => unwrap(await getQuoteOfTheDay(signal)),
+  staleTime: FIVE_MINUTES,
+})
+
+/** The quote pages' list (/quotes). */
+export const useQuoteArchive = () => useQuery({
+  queryKey: ['content', 'quotes'],
+  queryFn: async ({ signal }) => unwrap(await getQuoteArchive(signal)),
+  staleTime: FIVE_MINUTES,
+})
+
+/** One quote's page (/quotes/{slug}). A 404 isn't tried again (see App.tsx). */
+export const useArchivedQuote = (slug: string) => useQuery({
+  queryKey: ['content', 'quotes', slug],
+  queryFn: async ({ signal }) => unwrap(await getArchivedQuote(slug, signal)),
   staleTime: FIVE_MINUTES,
 })

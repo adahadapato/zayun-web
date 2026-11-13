@@ -19,6 +19,10 @@ export interface PageMeta {
   description: string
   /** true: ask search engines not to list this page (e.g. "page not found"). */
   noIndex?: boolean
+  /** The picture for link previews (full address); the Zayun share picture when left out. */
+  image?: string
+  /** What the picture shows, for screen readers in link previews. */
+  imageAlt?: string
 }
 
 /** Every public page, by its address. */
@@ -57,11 +61,25 @@ export const PAGE_META: Record<string, PageMeta> = {
     title: 'Awards · Recognition for Impact and Innovation | Zayun',
     description: 'Awards and recognition received by Enobong Adahada for impact and innovation in technology and research.',
   },
+  '/quotes': {
+    title: 'Quotes on Nature, Science and AI | Zayun',
+    description:
+      'Quotes, proverbs and sayings on nature, science, technology and AI: every quote of the day from zayun.net, with sources.',
+  },
   '/contact': {
     title: 'Contact Enobong Adahada | Zayun',
     description: 'Get in touch with Enobong Adahada about software engineering, AI research, speaking or collaboration.',
   },
 }
+
+/**
+ * Addresses whose page sets its own words (e.g. one quote's page, /quotes/{slug}): the layout leaves their tags to
+ * the page (see usePageMeta).
+ */
+export const PAGES_WITH_OWN_META = ['/quotes/']
+
+/** True when the page at this (normalised) address sets its own words. */
+export const hasOwnMeta = (path: string) => PAGES_WITH_OWN_META.some((prefix) => path.startsWith(prefix))
 
 /** Shown for any address that isn't a page. Not listed by search engines. */
 export const NOT_FOUND_META: PageMeta = {
@@ -74,4 +92,13 @@ export const NOT_FOUND_META: PageMeta = {
 export function normalisePath(pathname: string): string {
   const trimmed = pathname.replace(/\/+$/, '')
   return trimmed === '' ? '/' : trimmed.toLowerCase()
+}
+
+/** Cuts text to a length at a word, adding "…", for titles and descriptions. */
+export function shorten(text: string, maxLength: number): string {
+  const clean = text.replace(/\s+/g, ' ').trim()
+  if (clean.length <= maxLength) return clean
+  const cut = clean.slice(0, maxLength - 1)
+  const lastSpace = cut.lastIndexOf(' ')
+  return `${(lastSpace > maxLength / 2 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:.\u2013\u2014-]+$/, '')}…`
 }

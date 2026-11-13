@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, QuoteOfTheDayDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, ArchivedQuoteDto, QuoteOfTheDayDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -44,3 +44,10 @@ export const getPublicPersonalDetails = (signal?: AbortSignal) =>
 
 /** Today's quote (UK date). 404 when no quote is published and source-checked. */
 export const getQuoteOfTheDay = (signal?: AbortSignal) => get<QuoteOfTheDayDto>('api/quotes/today', signal)
+
+/** The quote pages' list: shown most recently first. */
+export const getQuoteArchive = (signal?: AbortSignal) => get<ArchivedQuoteDto[]>('api/quotes', signal)
+
+/** One quote's page by its web address (404 when hidden or unknown). */
+export const getArchivedQuote = (slug: string, signal?: AbortSignal) =>
+  get<ArchivedQuoteDto>(`api/quotes/${encodeURIComponent(slug)}`, signal)

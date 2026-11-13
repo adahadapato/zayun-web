@@ -27,6 +27,8 @@ export const router = createBrowserRouter([
       { path: 'skills', ...page(() => import('./pages/skills/Skills')) },
       { path: 'awards', ...page(() => import('./pages/awards/Awards')) },
       { path: 'contact', ...page(() => import('./pages/contact/Contact')) },
+      { path: 'quotes', ...page(() => import('./pages/quotes/Quotes')) },
+      { path: 'quotes/:slug', ...page(() => import('./pages/quotes/QuotePage')) },
       // Any other address: "Page not found" (not listed by search engines)
       { path: '*', ...page(() => import('./pages/notfound/NotFound')) },
     ],

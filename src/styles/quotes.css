@@ -1,0 +1,297 @@
+/* The quote pages: all quotes (/quotes) and one quote's page (/quotes/{slug}). The quote card itself is in quote.css. */
+
+/* ========================================
+   ALL QUOTES (/quotes)
+======================================== */
+
+.quotes-page {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.quotes-hero {
+    position: relative;
+    padding: 180px 0 90px;
+    border-bottom: 1px solid var(--z-border);
+}
+
+    .quotes-hero::before {
+        position: absolute;
+        top: -180px;
+        right: -150px;
+        width: 600px;
+        height: 600px;
+        content: '';
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(16, 223, 244, 0.12) 0%, rgba(116, 77, 255, 0.05) 40%, transparent 70%);
+    }
+
+    .quotes-hero .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .quotes-hero h1 {
+        max-width: 1000px;
+        margin: 20px 0 30px;
+        color: var(--z-text);
+        font-family: var(--z-font-heading);
+        font-size: clamp(3rem, 6vw, 5.8rem);
+        font-weight: 700;
+        line-height: 1.02;
+        letter-spacing: -0.045em;
+    }
+
+        .quotes-hero h1 span {
+            background: linear-gradient(90deg, var(--z-cyan), var(--z-blue), #a77cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+.quotes-intro {
+    max-width: 760px;
+    margin: 0;
+    color: var(--z-text-muted);
+    font-size: 1.2rem;
+    line-height: 1.85;
+}
+
+.quotes-content {
+    padding: 70px 0 120px;
+}
+
+/* Filter: All · Quotes · Proverbs · My sayings */
+.quotes-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.quotes-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--z-border);
+    border-radius: var(--z-radius-pill);
+    color: var(--z-text-muted);
+    background: transparent;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .quotes-filter:hover {
+        border-color: var(--z-cyan);
+        color: var(--z-text);
+    }
+
+    .quotes-filter[aria-pressed='true'] {
+        border-color: var(--z-cyan);
+        color: var(--z-on-accent);
+        background: var(--z-gradient);
+    }
+
+    .quotes-filter:focus-visible {
+        outline: 2px solid var(--z-cyan);
+        outline-offset: 2px;
+    }
+
+.quotes-filter-count {
+    font-size: 0.85em;
+    opacity: 0.75;
+}
+
+/* The list: two columns on wide screens, one on narrow */
+.quotes-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.quotes-item {
+    position: relative;
+    display: flex;
+    gap: 22px;
+    padding: 30px 30px 28px;
+    border: 1px solid var(--z-border);
+    border-radius: var(--z-radius-card);
+    background: var(--z-bg-soft);
+    transition: border-color 180ms ease, transform 180ms ease;
+}
+
+    .quotes-item:hover {
+        border-color: var(--z-border-strong);
+        transform: translateY(-2px);
+    }
+
+    /* The whole card opens the quote's page (the link itself is on the words, for screen readers) */
+    .quotes-item:focus-within {
+        border-color: var(--z-cyan);
+    }
+
+.quotes-item-picture {
+    flex: 0 0 96px;
+    width: 96px;
+    height: 96px;
+    border-radius: var(--z-radius-field);
+    object-fit: cover;
+}
+
+.quotes-item-body {
+    min-width: 0;
+}
+
+.quotes-item-meta {
+    margin: 0 0 12px;
+    color: var(--z-cyan);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.quotes-item-text {
+    margin: 0;
+}
+
+    .quotes-item-text p {
+        margin: 0;
+        font-family: var(--z-font-heading);
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.45;
+        letter-spacing: -0.01em;
+    }
+
+    .quotes-item-text a {
+        color: var(--z-text);
+        text-decoration: none;
+    }
+
+        /* Stretch the link over the whole card */
+        .quotes-item-text a::after {
+            position: absolute;
+            inset: 0;
+            content: '';
+            border-radius: inherit;
+        }
+
+        .quotes-item-text a:focus-visible {
+            outline: none;
+        }
+
+.quotes-item-translation {
+    margin: 10px 0 0;
+    color: var(--z-text-muted);
+    line-height: 1.6;
+}
+
+.quotes-item-author {
+    margin: 14px 0 0;
+    color: var(--z-text-muted);
+    font-weight: 600;
+}
+
+@media (max-width: 860px) {
+    .quotes-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .quotes-item {
+        flex-direction: column;
+        padding: 24px 22px;
+    }
+}
+
+
+/* ========================================
+   ONE QUOTE (/quotes/{slug})
+======================================== */
+
+.quote-page {
+    min-height: 80vh;
+    padding: 150px 0 110px;
+}
+
+.quote-page-back {
+    display: inline-flex;
+    gap: 8px;
+    margin-bottom: 30px;
+    color: var(--z-text-muted);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .quote-page-back:hover,
+    .quote-page-back:focus-visible {
+        color: var(--z-cyan);
+    }
+
+.quote-page-column {
+    max-width: 1080px;
+}
+
+.quote-page-card {
+    margin: 0;
+    max-width: none;
+}
+
+.quote-page-shown {
+    margin: 26px 0 0;
+    color: var(--z-text-faint);
+    font-size: 0.95rem;
+}
+
+.quote-page-more {
+    margin: 70px 0 0;
+}
+
+    .quote-page-more h2 {
+        margin: 0 0 20px;
+        color: var(--z-text);
+        font-family: var(--z-font-heading);
+        font-size: 1.4rem;
+    }
+
+    .quote-page-more ul {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .quote-page-more a {
+        display: grid;
+        gap: 6px;
+        padding: 18px 22px;
+        border: 1px solid var(--z-border);
+        border-radius: var(--z-radius-card);
+        color: var(--z-text);
+        text-decoration: none;
+    }
+
+        .quote-page-more a:hover,
+        .quote-page-more a:focus-visible {
+            border-color: var(--z-cyan);
+        }
+
+.quote-page-more-author {
+    color: var(--z-text-muted);
+    font-size: 0.92rem;
+}
+
+@media (max-width: 700px) {
+    .quote-page {
+        padding: 120px 0 80px;
+    }
+}

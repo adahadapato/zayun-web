@@ -240,3 +240,31 @@
 .about-quote-translation {
     font-style: italic;
 }
+
+
+/* ========================================
+   HOME CARD: LINKS TO THE QUOTE PAGES
+======================================== */
+
+.quote-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin: 26px 0 0;
+}
+
+    .quote-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+        color: var(--z-cyan);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .quote-links a:hover,
+        .quote-links a:focus-visible {
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
