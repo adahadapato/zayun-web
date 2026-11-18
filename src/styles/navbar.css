@@ -166,6 +166,11 @@
         box-shadow: 0 0 25px rgba(16, 223, 244, 0.25);
     }
 
+/* "Let's talk" inside the phone menu; hidden on desktop, where the button beside the menu is shown */
+.nav-contact-mobile {
+    display: none;
+}
+
 .mobile-menu-button {
     display: none;
     margin-left: auto;
@@ -243,6 +248,24 @@
     .nav-links-open .nav-dropdown-link {
         padding: 12px 14px;
     }
+
+    .nav-links-open .nav-contact-mobile {
+        display: block;
+        margin-top: 20px;
+        padding: 14px 25px;
+        border: 1px solid var(--cyan);
+        border-radius: 999px;
+        color: var(--cyan);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+        .nav-links-open .nav-contact-mobile:hover,
+        .nav-links-open .nav-contact-mobile.active {
+            background: var(--cyan);
+            color: #00101a;
+        }
 }
 
 /* ========================================

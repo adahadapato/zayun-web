@@ -24,7 +24,8 @@ type NavItem = NavPage | NavGroupItem;
 
 /**
  * The site's menu. Groups open a small list (on a phone, every group is listed open). Agreed 18 Nov 2026:
- * Home · About ▾ · Projects · Research · Quotes · CV ▾ · Contact, plus the "Let's talk" button.
+ * Home · About ▾ · Projects · Research · Quotes · CV ▾, plus the "Let's talk" button for the contact page (no separate
+ * "Contact" item: both went to the same page). On a phone, "Let's talk" is the last item of the ☰ menu.
  */
 const navigation: NavItem[] = [
     {
@@ -59,10 +60,6 @@ const navigation: NavItem[] = [
             { label: 'Work CV', path: '/cv/work' },
             { label: 'Academic CV', path: '/cv/academic' },
         ],
-    },
-    {
-        label: 'Contact',
-        path: '/contact',
     },
 ];
 
@@ -129,6 +126,15 @@ function Navbar() {
                             </NavLink>
                         )
                     )}
+
+                    {/* Phone menu only: the desktop "Let's talk" button is hidden there */}
+                    <NavLink
+                        to="/contact"
+                        className="nav-contact-mobile"
+                        onClick={closeMenu}
+                    >
+                        Let's talk
+                    </NavLink>
                 </nav>
 
                 <NavLink
