@@ -18,6 +18,7 @@ import { StatusBanner } from '../../../components/ui/StatusBanner'
 import styles from '../Admin.module.css'
 import { AdminHead, ConfirmDelete, FilePicker, OrderButtons, PublishedChip } from '../AdminParts'
 import { useAdminList } from '../useAdminList'
+import { QuoteSharePanel } from './QuoteSharePanel'
 
 const key = ['admin', 'quotes'] as const
 const previewKey = ['admin', 'quotes', 'preview'] as const
@@ -385,6 +386,9 @@ function QuoteEditor({ quote, allThemes, onDone, onCreated }: {
     set('themes', [...chosenThemes, theme].join(', '))
   }
 
+  // "Draft a post" uses the saved quote: tell the admin when the form has changes that aren't saved yet
+  const hasUnsavedChanges = !!quote && JSON.stringify(toFields(form)) !== JSON.stringify(toFields(toForm(quote)))
+
   const fieldProblems = !!error && Object.keys(error.fieldErrors).length > 0
   const daysInMonth = form.pinnedMonth ? new Date(2024, Number(form.pinnedMonth), 0).getDate() : 31
 
@@ -475,6 +479,9 @@ function QuoteEditor({ quote, allThemes, onDone, onCreated }: {
           </div>
         )}
       </fieldset>
+
+      {/* Sharing on LinkedIn, WhatsApp, X: AI drafts of the post (saved quotes only) */}
+      <QuoteSharePanel quoteId={quote?.id} hasUnsavedChanges={hasUnsavedChanges} />
 
       <div className={styles.grid2} style={{ alignItems: 'start' }}>
         <div style={{ display: 'grid', gap: 10 }}>

@@ -10,7 +10,7 @@ import type {
   UpdateAwardCommand, UpdatePresentationCommand,
 } from '../contracts/commands'
 import type {
-  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePreviewDayDto, QuoteSuggestionDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
+  AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePostDraftDto, QuotePreviewDayDto, QuoteSuggestionDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
   TagCheckDto, TagDto, TagListDto,
 } from '../contracts/dtos'
@@ -142,6 +142,8 @@ export const updateQuote = (id: string, fields: QuoteFields) => put<QuoteDto>(`a
 /** AI drafts of the Google description and themes for the quote in the form (saves nothing). */
 export const suggestQuoteDetails = (query: SuggestQuoteDetailsQuery) =>
   post<QuoteSuggestionDto>('api/admin/quotes/suggest', query)
+/** AI drafts of a LinkedIn post and a short post (WhatsApp / X) for a saved quote (saves and posts nothing). */
+export const draftQuotePost = (id: string) => post<QuotePostDraftDto>(`api/admin/quotes/${id}/post-draft`)
 /** Sets or replaces the still picture (stored as WebP). */
 export const setQuotePicture = (id: string, file: File, altText: string) =>
   upload<QuoteDto>('PUT', `api/admin/quotes/${id}/picture`, 'file', file, { altText })

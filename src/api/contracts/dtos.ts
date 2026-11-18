@@ -318,6 +318,23 @@ export interface QuoteSuggestionDto {
 }
 
 /**
+ * "Draft a post": ready-to-copy posts for sharing a quote (nothing is saved or posted). The AI wrote only the intros
+ * and hashtags; the quote's words, who said it and the link come from the saved quote.
+ */
+export interface QuotePostDraftDto {
+  /** Intro, the quote, who said it, the link, hashtags. */
+  linkedIn: string
+  /** For WhatsApp or X. */
+  short: string
+  /** Without "#". */
+  hashtags: string[]
+  /** The quote's page on the website. */
+  link: string
+  /** False while the page isn't on the website yet (draft, unchecked, or a pinned / series quote before its day). */
+  isOnWebsite: boolean
+}
+
+/**
  * A quote on the quote pages (/quotes and /quotes/{slug}). The list has published, source-checked quotes; pinned and
  * series quotes only once their day has come.
  */
