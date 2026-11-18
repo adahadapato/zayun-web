@@ -48,3 +48,6 @@ export type ContactMessageStatus = 'New' | 'Replied' | 'Closed'
 
 /** What kind of private document it is. */
 export type DocumentCategory = 'Cv' | 'Certificate' | 'Transcript' | 'Paper' | 'Identity' | 'Contract' | 'Other'
+
+/** What kind of role a career role is (Roles on the Experience page, and the CVs). */
+export type CareerRoleKind = 'Professional' | 'Research' | 'Teaching' | 'Other'

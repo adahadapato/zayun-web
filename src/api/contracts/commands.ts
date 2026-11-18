@@ -2,10 +2,7 @@
  * What the website sends, exactly as the Zayun API's commands and request bodies (camelCase JSON, enums as names).
  * Keep in step with Zayun.Application/Features/<Area>/Commands and Zayun.Presentation/Endpoints.
  */
-import type {
-  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProfilePlatform, ProjectCategory,
-  ProjectImageKind, PublicationType, QuoteKind,
-} from './enums'
+import type { ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProfilePlatform, ProjectCategory, ProjectImageKind, PublicationType, QuoteKind, CareerRoleKind } from './enums'
 import type { PublicationLinkDto } from './dtos'
 
 // ───────────────────────────── Sign-in ─────────────────────────────
@@ -197,5 +194,39 @@ export interface SuggestQuoteDetailsQuery {
 }
 
 export interface CreateQuoteCommand extends QuoteFields {
+  isPublished: boolean
+}
+
+// ───────────────────────────── Roles and education ─────────────────────────────
+
+/** A role's editable fields. No end year = current. */
+export interface CareerRoleFields {
+  kind: CareerRoleKind
+  title: string
+  organisation: string
+  location: string | null
+  startYear: number
+  startMonth: number | null
+  endYear: number | null
+  endMonth: number | null
+  summary: string | null
+  highlights: string[]
+}
+
+export interface CreateCareerRoleCommand extends CareerRoleFields {
+  isPublished: boolean
+}
+
+/** A qualification's editable fields. No year = in progress. */
+export interface QualificationFields {
+  degree: string
+  subject: string
+  institution: string
+  location: string | null
+  year: number | null
+  note: string | null
+}
+
+export interface CreateQualificationCommand extends QualificationFields {
   isPublished: boolean
 }

@@ -7,12 +7,13 @@ import { del, get, post, put, upload } from '../client'
 import type {
   ContactStatusCommand, CreateAwardCommand, CreateProfileCommand, CreateQuoteCommand, QuoteFields, SuggestQuoteDetailsQuery, CreateProjectCommand, CreatePresentationCommand, CreatePublicationCommand,
   CreateTextGroupCommand, DocumentFields, ProfileFields, ProjectFields, ProjectImageFields, PublicationFields, TextGroupFields,
-  UpdateAwardCommand, UpdatePresentationCommand,
+  UpdateAwardCommand, UpdatePresentationCommand, CareerRoleFields, CreateCareerRoleCommand, QualificationFields,
+  CreateQualificationCommand,
 } from '../contracts/commands'
 import type {
   AdminOverviewDto, AwardDto, PersonalDetailsDto, ProfileDto, QuoteDto, QuotePostDraftDto, QuotePreviewDayDto, QuoteSuggestionDto, SiteImageDto, ContactInboxDto, ContactMessageDto, CoreExpertiseDto, DocumentDto, DocumentLinkDto,
   ExperienceAreaDto, PresentationDto, ProjectDto, ProjectImageDto, PublicationDto, SkillGroupDto, SkillsPageDto,
-  TagCheckDto, TagDto, TagListDto,
+  TagCheckDto, TagDto, TagListDto, CareerRoleDto, QualificationDto,
 } from '../contracts/dtos'
 import type { ContactMessageStatus, DocumentCategory, SiteImageSlot, TagFilter, TagSort } from '../contracts/enums'
 
@@ -97,6 +98,22 @@ export const createCoreExpertise = (name: string, isPublished: boolean) =>
   post<CoreExpertiseDto>('api/admin/skills/expertise', { name, isPublished })
 export const renameCoreExpertise = (id: string, name: string) =>
   put<CoreExpertiseDto>(`api/admin/skills/expertise/${id}`, { name })
+
+// ───────────────────────────── Roles and education ─────────────────────────────
+// Publish and delete use the shared setPublished / remove with "career-roles" and "education". No reorder: both
+// lists are ordered by their dates.
+
+export const getAdminCareerRoles = (signal?: AbortSignal) => get<CareerRoleDto[]>('api/admin/career-roles', signal)
+export const createCareerRole = (command: CreateCareerRoleCommand) =>
+  post<CareerRoleDto>('api/admin/career-roles', command)
+export const updateCareerRole = (id: string, fields: CareerRoleFields) =>
+  put<CareerRoleDto>(`api/admin/career-roles/${id}`, fields)
+
+export const getAdminEducation = (signal?: AbortSignal) => get<QualificationDto[]>('api/admin/education', signal)
+export const createQualification = (command: CreateQualificationCommand) =>
+  post<QualificationDto>('api/admin/education', command)
+export const updateQualification = (id: string, fields: QualificationFields) =>
+  put<QualificationDto>(`api/admin/education/${id}`, fields)
 
 // ───────────────────────────── Awards ─────────────────────────────
 

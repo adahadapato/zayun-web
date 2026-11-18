@@ -2,10 +2,7 @@
  * What the API sends back, exactly as the Zayun API's DTOs (camelCase JSON, enums as names, dates as ISO strings).
  * Keep in step with Zayun.Application/Features/<Area>/Dtos.
  */
-import type {
-  ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind,
-  ProfilePlatform, PublicationType, QuoteKind, QuotePickReason, SiteImageSlot, TagCheckStatus,
-} from './enums'
+import type { ContactMessageStatus, ContactTopic, DocumentCategory, PresentationType, ProjectCategory, ProjectImageKind, ProfilePlatform, PublicationType, QuoteKind, QuotePickReason, SiteImageSlot, TagCheckStatus, CareerRoleKind } from './enums'
 
 // ───────────────────────────── Shared ─────────────────────────────
 
@@ -468,4 +465,37 @@ export interface AdminOverviewDto {
   awards: ContentCountDto
   newMessages: number
   documents: number
+}
+
+/** A role ("Roles" on the Experience page). No end year = current. */
+export interface CareerRoleDto {
+  id: string
+  kind: CareerRoleKind
+  title: string
+  organisation: string
+  location: string | null
+  startYear: number
+  /** 1–12, or null when only the year is shown. */
+  startMonth: number | null
+  /** null while current. */
+  endYear: number | null
+  endMonth: number | null
+  isCurrent: boolean
+  summary: string | null
+  highlights: string[]
+  isPublished: boolean
+}
+
+/** A qualification ("Education" on the Experience page). No year = in progress. */
+export interface QualificationDto {
+  id: string
+  degree: string
+  subject: string
+  institution: string
+  location: string | null
+  /** null while in progress. */
+  year: number | null
+  isInProgress: boolean
+  note: string | null
+  isPublished: boolean
 }

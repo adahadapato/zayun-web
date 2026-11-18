@@ -18,8 +18,8 @@ export default function AdminExperiencePage() {
 
   return (
     <>
-      <AdminHead eyebrow="Website" title="Experience"
-                 sub="The areas on the Experience page, in this order. Each lists the skills used there." />
+      <AdminHead eyebrow="Website" title="Areas of expertise"
+                 sub="The areas of expertise on the Experience page, in this order. Each lists the skills used there." />
       <TextGroupList items={experience.data ?? []} isLoading={experience.isLoading} error={experience.error}
                      onRetry={() => experience.refetch()} list={list} queryKey={key}
                      words={{ noun: 'experience area', maxSkills: 30, maxDescription: 2000 }}
