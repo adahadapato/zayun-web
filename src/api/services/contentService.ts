@@ -5,7 +5,7 @@
 import { withQuery } from '../apiQuery'
 import { get } from '../client'
 import type {
-  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, ArchivedQuoteDto, QuoteOfTheDayDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto,
+  AwardDto, ExperienceAreaDto, ProfileDto, PublicPersonalDetailsDto, ArchivedQuoteDto, QuoteOfTheDayDto, SiteImageDto, PresentationDto, ProjectDto, PublicationDto, SkillsPageDto, CareerRoleDto, QualificationDto,
 } from '../contracts/dtos'
 import type { ProjectCategory } from '../contracts/enums'
 
@@ -51,3 +51,9 @@ export const getQuoteArchive = (signal?: AbortSignal) => get<ArchivedQuoteDto[]>
 /** One quote's page by its web address (404 when hidden or unknown). */
 export const getArchivedQuote = (slug: string, signal?: AbortSignal) =>
   get<ArchivedQuoteDto>(`api/quotes/${encodeURIComponent(slug)}`, signal)
+
+/** Roles ("Roles" on the Experience page and the CVs): current first, then newest. */
+export const getCareerRoles = (signal?: AbortSignal) => get<CareerRoleDto[]>('api/career-roles', signal)
+
+/** Qualifications ("Education" on the Experience page and the CVs): in progress first, then newest. */
+export const getEducation = (signal?: AbortSignal) => get<QualificationDto[]>('api/education', signal)

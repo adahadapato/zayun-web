@@ -1,10 +1,17 @@
 import { Link } from 'react-router';
 
 import { ContentStatus } from '../../components/ui/ContentStatus';
-import { useAwards, useExperience } from '../../state/contentQueries';
+import { ROLE_KINDS, roleDates } from '../../components/ui/careerDates';
+import { useAwards, useCareerRoles, useEducation, useExperience } from '../../state/contentQueries';
 
 function Experience() {
     const experience = useExperience();
+    const roles = useCareerRoles();
+    const education = useEducation();
+    // Roles grouped by kind (Professional, Research, Teaching and mentoring, Other), each group in date order
+    const roleGroups = ROLE_KINDS
+        .map(kind => ({ ...kind, roles: (roles.data ?? []).filter(role => role.kind === kind.value) }))
+        .filter(group => group.roles.length > 0);
     // Featured awards fill "Recognition & Innovation"; GuidelineIQ stays as the last card
     const awards = useAwards();
     const featuredAwards = (awards.data ?? []).filter(award => award.isFeatured);
@@ -44,7 +51,7 @@ function Experience() {
                     <div className="experience-heading">
                         <div>
                             <span className="section-kicker">
-                                Professional Journey
+                                Areas of Expertise
                             </span>
 
                             <h2>
@@ -99,6 +106,141 @@ function Experience() {
                             </article>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            <section className="experience-content experience-roles" aria-labelledby="roles-heading">
+                <div className="container">
+                    <div className="experience-heading">
+                        <div>
+                            <span className="section-kicker">
+                                Roles
+                            </span>
+
+                            <h2 id="roles-heading">
+                                Where I have built,
+                                researched and taught.
+                            </h2>
+                        </div>
+
+                        <p>
+                            Current roles first, then the path
+                            that led here.
+                        </p>
+                    </div>
+
+                    <ContentStatus
+                        isLoading={roles.isLoading}
+                        error={roles.error}
+                        onRetry={() => roles.refetch()}
+                        placeholders={3}
+                        height={140}
+                    />
+
+                    {roleGroups.map(group => (
+                        <div key={group.value} className="roles-group">
+                            <h3 className="roles-group-title">
+                                {group.label}
+                            </h3>
+
+                            <ol className="roles-list">
+                                {group.roles.map(role => (
+                                    <li key={role.id} className="role-item">
+                                        <p className="role-dates">
+                                            {roleDates(role)}
+                                        </p>
+
+                                        <div className="role-body">
+                                            <h4>
+                                                {role.title}
+                                            </h4>
+
+                                            <p className="role-where">
+                                                {role.organisation}
+                                                {role.location && (
+                                                    <span>
+                                                        {role.location}
+                                                    </span>
+                                                )}
+                                            </p>
+
+                                            {role.summary && (
+                                                <p className="role-summary">
+                                                    {role.summary}
+                                                </p>
+                                            )}
+
+                                            {role.highlights.length > 0 && (
+                                                <ul className="role-highlights">
+                                                    {role.highlights.map(highlight => (
+                                                        <li key={highlight}>
+                                                            {highlight}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            <section className="experience-content experience-education" aria-labelledby="education-heading">
+                <div className="container">
+                    <div className="experience-heading">
+                        <div>
+                            <span className="section-kicker">
+                                Education
+                            </span>
+
+                            <h2 id="education-heading">
+                                The learning behind
+                                the work.
+                            </h2>
+                        </div>
+                    </div>
+
+                    <ContentStatus
+                        isLoading={education.isLoading}
+                        error={education.error}
+                        onRetry={() => education.refetch()}
+                        placeholders={2}
+                        height={110}
+                    />
+
+                    <ol className="roles-list education-list">
+                        {(education.data ?? []).map(qualification => (
+                            <li key={qualification.id} className="role-item">
+                                <p className="role-dates">
+                                    {qualification.year ?? 'In progress'}
+                                </p>
+
+                                <div className="role-body">
+                                    <h3>
+                                        {qualification.degree}, {qualification.subject}
+                                    </h3>
+
+                                    <p className="role-where">
+                                        {qualification.institution}
+                                        {qualification.location && (
+                                            <span>
+                                                {qualification.location}
+                                            </span>
+                                        )}
+                                    </p>
+
+                                    {qualification.note && (
+                                        <p className="role-summary">
+                                            {qualification.note}
+                                        </p>
+                                    )}
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </section>
 
