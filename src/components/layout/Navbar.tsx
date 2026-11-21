@@ -55,10 +55,9 @@ const navigation: NavItem[] = [
     },
     {
         label: 'CV',
-        hidden: true, // shown once the CV pages exist (CV1, CV2)
         children: [
             { label: 'Work CV', path: '/cv/work' },
-            { label: 'Academic CV', path: '/cv/academic' },
+            // { label: 'Academic CV', path: '/cv/academic' }, // added with CV2
         ],
     },
 ];

@@ -66,6 +66,11 @@ export const PAGE_META: Record<string, PageMeta> = {
     description:
       'Quotes, proverbs and sayings on nature, science, technology and AI: every quote of the day from zayun.net, with sources.',
   },
+  '/cv/work': {
+    title: 'Work CV · Enobong Adahada | Zayun',
+    description:
+      "Enobong Adahada's work CV: software engineering and AI experience, projects, education and awards. Always up to date; save it as a PDF.",
+  },
   '/contact': {
     title: 'Contact Enobong Adahada | Zayun',
     description: 'Get in touch with Enobong Adahada about software engineering, AI research, speaking or collaboration.',
